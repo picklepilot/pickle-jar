@@ -1,0 +1,91 @@
+<template>
+    <div :class="m('relative z-10 mx-auto', classes)">
+        <div class="flex space-x-1.5">
+            <SortableComponent
+                ref="sortableRef"
+                :classes="
+                    ['flex space-x-0.5', classic && 'px-6'].filter(Boolean)
+                "
+                :model-value="effectiveTabs"
+                @update:modelValue="onUpdateOrder"
+            >
+                <template v-slot:item="tab">
+                    <a
+                        href="#"
+                        @click.prevent="$emit('clicked', tab.id)"
+                        :class="
+                            m(
+                                'pj-tab flex cursor-pointer items-center rounded-t border-x border-t px-2 py-1.5 text-sm font-medium leading-none transition-all',
+                                classic
+                                    ? 'px-3 py-2 text-sm font-medium leading-none transition-all data-[active=false]:relative data-[active=false]:border-transparent data-[active=true]:border-zinc-200 data-[active=true]:bg-white data-[active=false]:hover:bg-zinc-900/5'
+                                    : 'flex cursor-pointer items-center rounded border-0 px-3 py-2.5 text-sm font-medium leading-none transition-all hover:no-underline data-[active=false]:relative data-[active=true]:bg-white data-[active=false]:text-zinc-500 data-[active=true]:shadow-sm data-[active=false]:hover:bg-zinc-900/5 data-[active=false]:hover:text-zinc-800',
+                                tab.classes || '',
+                                tabClasses,
+                                classes.tab
+                            )
+                        "
+                        :data-active="tab.active.toString()"
+                    >
+                        <slot name="left" v-bind="tab"></slot>
+                        <span v-html="tab.label" />
+                        <slot name="right" v-bind="tab"></slot>
+                    </a>
+                </template>
+            </SortableComponent>
+        </div>
+
+        <hr
+            v-if="classic && !disabled.includes('border')"
+            :class="m('-mt-px border-zinc-300', classes.line)"
+        />
+    </div>
+</template>
+
+<script setup lang="ts">
+import SortableComponent from './SortableComponent.vue'
+import { m } from '../utils'
+import { ref, watch } from 'vue'
+import { type Tab } from '../types'
+
+// define props using withDefaults from vue api
+const props = withDefaults(
+    defineProps<{
+        classes?: {
+            container?: string
+            line?: string
+            tab?: string
+        }
+        classic?: boolean
+        disabled?: string[]
+        tabClasses?: string[]
+        tabs: Tab[]
+    }>(),
+    {
+        classic: false,
+        classes: () => ({
+            container: '',
+            line: '',
+            tab: '',
+        }),
+        disabled: () => [],
+        tabClasses: () => [],
+    }
+)
+
+const emit = defineEmits(['clicked', 'update'])
+
+const effectiveTabs = ref(props.tabs)
+const sortableRef = ref()
+
+watch(
+    () => props.tabs,
+    (newTabs) => {
+        effectiveTabs.value = newTabs
+    }
+)
+
+function onUpdateOrder(newTabs: Tab[]) {
+    effectiveTabs.value = newTabs
+    emit('update', newTabs)
+}
+</script>
