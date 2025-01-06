@@ -3,13 +3,11 @@
         @click="handleClick"
         :class="
             m(
-                'flex items-center rounded-md font-medium leading-none',
-                disabled && 'pointer-events-none opacity-50',
-                bgClasses,
-                borderClasses,
-                colorClasses,
-                sizeClasses,
-                ...classes
+                componentJarTheme.themeParams.baseButton,
+                theme.baseButton,
+                disabled && componentJarTheme.themeParams.baseButtonDisabled,
+                disabled && theme.baseButtonDisabled,
+                classes
             )
         "
     >
@@ -36,70 +34,37 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { m } from '../utils'
-
-interface Props {
-    classes?: string[]
-    disabled?: boolean
-    size?: string
-    variant?: string
-    stop?: number
-    processing?: boolean
-}
+import { inject } from 'vue'
+import { m, ThemeConfigurator } from '../utils'
 
 const emit = defineEmits(['click'])
 
-const props = withDefaults(defineProps<Props>(), {
-    classes: () => [''],
-    disabled: false,
-    processing: false,
-    size: 'md',
-    stop: 500,
-    variant: 'zinc',
-})
-
-const bgClasses = computed(() => {
-    return {
-        'bg-blue-700': props.variant === 'blue',
-        'bg-green-700': props.variant === 'green',
-        'bg-red-700': props.variant === 'red',
-        'bg-yellow-700': props.variant === 'yellow',
-        'bg-zinc-900': props.variant === 'zinc',
+withDefaults(
+    defineProps<{
+        classes?: string[]
+        disabled?: boolean
+        processing?: boolean
+        theme?: {
+            baseButton?: string
+            baseButtonDisabled?: string
+        }
+    }>(),
+    {
+        classes: () => [''],
+        disabled: false,
+        processing: false,
+        theme: () => ({
+            baseButton: '',
+            baseButtonDisabled: '',
+        }),
     }
-})
-
-const borderClasses = computed(() => {
-    return {
-        'border border-blue-700': props.variant === 'blue',
-        'border border-green-700': props.variant === 'green',
-        'border border-red-700': props.variant === 'red',
-        'border border-yellow-700': props.variant === 'yellow',
-        'border border-zinc-700': props.variant === 'zinc',
-    }
-})
-
-const colorClasses = computed(() => {
-    return {
-        'text-blue-700': props.variant === 'blue',
-        'text-green-700': props.variant === 'green',
-        'text-red-700': props.variant === 'red',
-        'text-yellow-700': props.variant === 'yellow',
-        'text-white': props.variant === 'zinc',
-    }
-})
-
-const sizeClasses = computed(() => {
-    return {
-        'px-2 py-1 text-xs': props.size === 'xs',
-        'px-2.5 py-1.5 text-sm': props.size === 'sm',
-        'px-3 py-2.5 text-sm': props.size === 'md',
-        'px-4 py-2': props.size === 'lg',
-        'px-4 py-2 text-lg': props.size === 'xl',
-    }
-})
+)
 
 function handleClick(evt: any) {
     emit('click', evt)
 }
+
+const componentJarTheme = inject(
+    'componentJarTheme'
+) as unknown as ThemeConfigurator
 </script>

@@ -7,7 +7,10 @@
             :multiple="multiple"
         >
             <div class="relative">
-                <div v-if="activeItem.length" class="min-h-[37px] w-full p-1">
+                <div
+                    v-if="activeItem?.length && Array.isArray(activeItem)"
+                    class="min-h-[37px] w-full p-1"
+                >
                     <BaseBadge
                         v-for="(value, i) in activeItem"
                         :key="`query-value-${i}`"

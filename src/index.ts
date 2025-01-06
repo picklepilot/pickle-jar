@@ -20,3 +20,5 @@ export { default as TabsNav } from './components/TabsNav.vue'
 export type { ColumnGroupDefinition, DropdownItem, Tab } from './types'
 
 export { m } from './utils'
+
+export { ThemeConfigurator } from './utils'

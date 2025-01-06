@@ -1,10 +1,17 @@
 <template>
-    <div :class="m('flex h-full', classes.container)">
+    <div
+        :class="
+            m(
+                componentJarTheme.themeParams.columnManagerContainer,
+                theme.columnManagerContainer
+            )
+        "
+    >
         <div
             :class="
                 m(
-                    'h-full w-[350px] shrink-0 space-y-3 overflow-auto px-2',
-                    classes.groupsContainer
+                    componentJarTheme.themeParams.columnManagerGroupsContainer,
+                    theme.columnManagerGroupsContainer
                 )
             "
         >
@@ -13,16 +20,18 @@
                 :key="`column-management-group-${idx}`"
                 :class="
                     m(
-                        'rounded-xl border border-zinc-300/80 bg-zinc-50 shadow-sm',
-                        classes.groupContainer
+                        componentJarTheme.themeParams
+                            .columnManagerGroupContainer,
+                        theme.columnManagerGroupContainer
                     )
                 "
             >
                 <h2
                     :class="
                         m(
-                            'flex items-center justify-between rounded-t-xl border-b border-zinc-300/80 bg-zinc-50 px-4 py-3',
-                            classes.groupHeader
+                            componentJarTheme.themeParams
+                                .columnManagerGroupHeader,
+                            theme.columnManagerGroupHeader
                         )
                     "
                 >
@@ -59,7 +68,6 @@
                     <span v-if="groupMenuItems" class="text-sm">
                         <BaseDropdownMenu
                             :allowed-placements="['bottom-end']"
-                            :classes="classes.groupMenuClasses"
                             :items="[
                                 ...groupMenuItems,
                                 defaultGroupDropdownMenuItems,
@@ -201,10 +209,22 @@
                 </Sortable>
             </div>
 
-            <div :class="m('mt-4 flex shadow-sm', classes.newGroupContainer)">
+            <div
+                :class="
+                    m(
+                        componentJarTheme.themeParams
+                            .columnManagerNewGroupContainer,
+                        theme.columnManagerNewGroupContainer
+                    )
+                "
+            >
                 <InputText
                     :classes="[
-                        'grow focus-within:border-indigo-500 focus-within:ring-indigo-200/60 rounded-lg rounded-r-none py-2.5 bg-white',
+                        m(
+                            componentJarTheme.themeParams
+                                .columnManagerNewGroupInput,
+                            theme.columnManagerNewGroupInput
+                        ),
                     ]"
                     id="column-manager-new-group-name"
                     name="column-manager-new-group-name"
@@ -212,12 +232,11 @@
                     v-model="newGroupName"
                 />
                 <BaseButton
-                    :classes="[
-                        'px-3 py-2.5 rounded-lg rounded-l-none shrink-0 justify-center border-y border-r border-solid border-l-0 border-zinc-300/80 hover:bg-zinc-100 bg-white',
-                        !newGroupName
-                            ? 'pointer-events-none text-zinc-400'
-                            : 'text-zinc-700 hover:text-zinc-900',
-                    ]"
+                    :theme="{
+                        baseButton:
+                            componentJarTheme.themeParams
+                                .columnManagerNewGroupInputButton,
+                    }"
                     @click="addGroup()"
                 >
                     <i class="fa-regular fa-plus" aria-hidden="true"></i>
@@ -229,8 +248,8 @@
 </template>
 
 <script setup lang="ts">
-import { m } from '../utils'
-import { ref, watch } from 'vue'
+import { m, type ThemeConfigurator } from '../utils'
+import { inject, ref, watch } from 'vue'
 import { Sortable } from 'sortablejs-vue3'
 // @ts-ignore
 import { default as realSortable } from 'sortablejs'
@@ -241,6 +260,7 @@ import BasePopover from './BasePopover.vue'
 import BaseTypeahead from './BaseTypeahead.vue'
 import ColorPicker from './ColorPicker.vue'
 import EmptyState from './EmptyState.vue'
+import InputText from './InputText.vue'
 
 // @ts-ignore
 import { ComboboxOption } from '@headlessui/vue'
@@ -255,6 +275,15 @@ const emit = defineEmits(['update:existingColumns'])
 
 const props = withDefaults(
     defineProps<{
+        theme?: {
+            columnManagerContainer?: string
+            columnManagerGroupContainer?: string
+            columnManagerGroupHeader?: string
+            columnManagerGroupsContainer?: string
+            columnManagerNewGroupContainer?: string
+            columnManagerNewGroupInput?: string
+            columnManagerNewGroupInputButton?: string
+        }
         classes?: {
             container?: string
             groupContainer?: string
@@ -310,8 +339,21 @@ const props = withDefaults(
         groupMenuItems: () => [],
         groupConfiguration: () => ({}),
         defaultGroupColor: '#e7e5e4',
+        theme: () => ({
+            columnManagerContainer: '',
+            columnManagerGroupContainer: '',
+            columnManagerGroupHeader: '',
+            columnManagerGroupsContainer: '',
+            columnManagerNewGroupContainer: '',
+            columnManagerNewGroupInput: '',
+            columnManagerNewGroupInputButton: '',
+        }),
     }
 )
+
+const componentJarTheme = inject(
+    'componentJarTheme'
+) as unknown as ThemeConfigurator
 
 const editableColumns = ref<{ [key: string]: any }>(
     groupColumns(props.existingColumns)

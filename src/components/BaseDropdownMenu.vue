@@ -1,7 +1,24 @@
 <template>
-    <Menu as="div" :class="m('relative inline-block text-left', classes.menu)">
+    <Menu
+        as="div"
+        :class="
+            m(
+                componentJarTheme.themeParams.baseDropdownMenuContainer,
+                theme.baseDropdownMenuContainer
+            )
+        "
+    >
         <div>
-            <MenuButton ref="reference" :class="m('', classes.menuButton)">
+            <MenuButton
+                ref="reference"
+                :class="
+                    m(
+                        componentJarTheme.themeParams
+                            .baseDropdownMenuTriggerButton,
+                        theme.baseDropdownMenuTriggerButton
+                    )
+                "
+            >
                 <slot name="trigger"></slot>
             </MenuButton>
         </div>
@@ -18,8 +35,8 @@
                 ref="floating"
                 :class="
                     m(
-                        'fixed left-0 z-10 overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
-                        classes.menuItems
+                        componentJarTheme.themeParams.baseDropdownMenuItems,
+                        theme.baseDropdownMenuItems
                     )
                 "
                 :style="floatingStyles"
@@ -35,28 +52,31 @@
                         v-slot="{ active }"
                     >
                         <button
-                            :class="[
+                            :class="
                                 m(
-                                    active
-                                        ? 'bg-violet-500 text-white'
-                                        : 'text-gray-900',
-                                    'group flex w-full items-center space-x-2 rounded-md border-none bg-transparent px-2.5 py-2.5 leading-none text-zinc-700 hover:bg-zinc-100 hover:text-zinc-900',
+                                    componentJarTheme.themeParams
+                                        .baseDropdownMenuItemButton,
+                                    theme.baseDropdownMenuItemButton,
+                                    active &&
+                                        componentJarTheme.themeParams
+                                            .baseDropdownMenuItemActiveButton,
                                     item.classes?.button
-                                ),
-                            ]"
+                                )
+                            "
                             @click="handleClick(item, $event)"
                         >
                             <span
                                 v-if="item.icon"
                                 :class="
                                     m(
-                                        'inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full bg-zinc-900/10 leading-none group-hover:bg-indigo-400',
-                                        classes.menuItemIcon,
+                                        componentJarTheme.themeParams
+                                            .baseDropdownMenuItemIcon,
+                                        theme.baseDropdownMenuItemIcon,
                                         item.classes?.buttonIcon
                                     )
                                 "
                             >
-                                <i :class="['fa-regular', item.icon]"></i>
+                                <i :class="m('fa-regular', item.icon)"></i>
                             </span>
                             <span class="grow text-left">{{ item.label }}</span>
                         </button>
@@ -75,9 +95,9 @@ import {
     size,
     useFloating,
 } from '@floating-ui/vue'
-import { m } from '../utils'
+import { m, type ThemeConfigurator } from '../utils'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { onMounted, ref, watch } from 'vue'
+import { inject, onMounted, ref, watch } from 'vue'
 import { type DropdownItem } from '../types'
 
 type AllowedPlacement =
@@ -109,6 +129,15 @@ const props = withDefaults(
         }
         context?: any
         items: DropdownItem[][]
+        theme?: {
+            baseDropdownMenuContainer?: string
+            baseDropdownMenuHeader?: string
+            baseDropdownMenuItem?: string
+            baseDropdownMenuItemButton?: string
+            baseDropdownMenuItemIcon?: string
+            baseDropdownMenuItems?: string
+            baseDropdownMenuTriggerButton?: string
+        }
     }>(),
     {
         allowedPlacements: () => ['top-start', 'bottom-start'],
@@ -123,8 +152,21 @@ const props = withDefaults(
         }),
         context: () => ({}),
         offset: 8,
+        theme: () => ({
+            baseDropdownMenuContainer: '',
+            baseDropdownMenuHeader: '',
+            baseDropdownMenuItem: '',
+            baseDropdownMenuItemButton: '',
+            baseDropdownMenuItemIcon: '',
+            baseDropdownMenuItems: '',
+            baseDropdownMenuTriggerButton: '',
+        }),
     }
 )
+
+const componentJarTheme = inject(
+    'componentJarTheme'
+) as unknown as ThemeConfigurator
 
 const reference = ref()
 const floating = ref()
