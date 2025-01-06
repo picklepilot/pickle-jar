@@ -20,7 +20,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/picklepilot/pickle-jar">
-    <img src="./public/Logo.svg" alt="Logo" width="80" height="80">
+    <img src="https://github.com/picklepilot/pickle-jar/raw/main/public/Logo.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Component Jar</h3>
