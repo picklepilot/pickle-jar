@@ -1,0 +1,15 @@
+.demo-container {
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
+.vp-doc:not(.not-vp-doc) h1,
+.vp-doc:not(.not-vp-doc) h2,
+.vp-doc:not(.not-vp-doc) h3,
+.vp-doc:not(.not-vp-doc) h4,
+.vp-doc:not(.not-vp-doc) h5,
+.vp-doc:not(.not-vp-doc) h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+}
