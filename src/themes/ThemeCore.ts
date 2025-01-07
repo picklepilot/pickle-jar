@@ -6,6 +6,7 @@ export const ThemeCore: any = {
     baseDropdownMenuItem: '',
     baseDropdownMenuItemActiveButton: '',
     baseDropdownMenuItemButton: '',
+    baseDropdownMenuItemGroup: '',
     baseDropdownMenuItemIcon: '',
     baseDropdownMenuItems: '',
     baseDropdownMenuTriggerButton: '',
@@ -16,4 +17,5 @@ export const ThemeCore: any = {
     columnManagerNewGroupContainer: '',
     columnManagerNewGroupInput: '',
     columnManagerNewGroupInputButton: '',
+    columnManagerItem: 'group flex w-full [&.selected]:bg-blue-100',
 }

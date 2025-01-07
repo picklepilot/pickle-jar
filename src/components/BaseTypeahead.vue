@@ -38,16 +38,18 @@
                     ref="reference"
                     :class="
                         m(
-                            'relative w-full cursor-default overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-left ring-2 ring-transparent focus-within:border-indigo-500 focus-within:ring-indigo-200/60 hover:bg-zinc-50 focus:bg-white focus:shadow focus:outline-none sm:text-sm',
-                            classes.inputContainer
+                            componentJarTheme.themeParams
+                                .baseDropdownInputContainer,
+                            theme.baseDropdownInputContainer
                         )
                     "
                 >
                     <ComboboxInput
                         :class="
                             m(
-                                'w-full rounded-lg border-none bg-zinc-50 py-2.5 pl-3 pr-10 text-sm leading-5 text-zinc-900 focus-within:border-none',
-                                classes.inputElement
+                                componentJarTheme.themeParams
+                                    .baseDropdownInputText,
+                                theme.baseDropdownInputText
                             )
                         "
                         :displayValue="displayProperty"
@@ -57,13 +59,23 @@
                     />
                     <ComboboxButton
                         :class="[
-                            'absolute inset-y-0 right-0 flex items-center pr-2',
+                            'absolute inset-y-0 right-0 flex items-center pr-2 text-zinc-400',
                         ]"
                     >
-                        <i
-                            class="fa-regular fa-angle-down h-5 w-5 text-center text-zinc-400"
-                            aria-hidden="true"
-                        />
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-4"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                            />
+                        </svg>
                     </ComboboxButton>
                 </div>
                 <transition
@@ -122,8 +134,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
-import { m } from '../utils'
+import { inject, ref, watch } from 'vue'
+import { m, type ThemeConfigurator } from '../utils'
 import { autoPlacement, autoUpdate, size, useFloating } from '@floating-ui/vue'
 import {
     Combobox,
@@ -139,6 +151,10 @@ const emit = defineEmits(['update:modelValue'])
 
 const props = withDefaults(
     defineProps<{
+        theme?: {
+            baseDropdownInputContainer?: string
+            baseDropdownInputText?: string
+        }
         classes?: {
             comboboxOptionsContainer?: string
             container?: string
@@ -175,8 +191,16 @@ const props = withDefaults(
         searcher: undefined,
         uidProperty: 'id',
         valueProperty: 'value',
+        theme: () => ({
+            baseDropdownInputContainer: '',
+            baseDropdownInputText: '',
+        }),
     }
 )
+
+const componentJarTheme = inject(
+    'componentJarTheme'
+) as unknown as ThemeConfigurator
 
 const activeItem = ref<any>(props.modelValue)
 const BUFFER = 20

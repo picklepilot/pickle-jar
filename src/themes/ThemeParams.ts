@@ -6,6 +6,7 @@ export type ThemeParam =
     | 'baseDropdownMenuItem'
     | 'baseDropdownMenuItemActiveButton'
     | 'baseDropdownMenuItemButton'
+    | 'baseDropdownMenuItemGroup'
     | 'baseDropdownMenuItemIcon'
     | 'baseDropdownMenuItems'
     | 'baseDropdownMenuTriggerButton'
@@ -13,9 +14,12 @@ export type ThemeParam =
     | 'columnManagerGroupContainer'
     | 'columnManagerGroupHeader'
     | 'columnManagerGroupsContainer'
+    | 'columnManagerItem'
     | 'columnManagerNewGroupContainer'
     | 'columnManagerNewGroupInput'
     | 'columnManagerNewGroupInputButton'
+    | 'baseDropdownInputText'
+    | 'baseDropdownInputContainer'
 
 export type ThemeParams = {
     baseButton: string
@@ -24,7 +28,9 @@ export type ThemeParams = {
     baseDropdownMenuHeader: string
     baseDropdownMenuItem: string
     baseDropdownMenuItemActiveButton: string
+    baseDropdownInputContainer: string
     baseDropdownMenuItemButton: string
+    baseDropdownMenuItemGroup: string
     baseDropdownMenuItemIcon: string
     baseDropdownMenuItems: string
     baseDropdownMenuTriggerButton: string
@@ -32,7 +38,9 @@ export type ThemeParams = {
     columnManagerGroupContainer: string
     columnManagerGroupHeader: string
     columnManagerGroupsContainer: string
+    columnManagerItem: string
     columnManagerNewGroupContainer: string
     columnManagerNewGroupInput: string
     columnManagerNewGroupInputButton: string
+    baseDropdownInputText: string
 }

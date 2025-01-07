@@ -1,7 +1,7 @@
 {
     "name": "component-jar",
     "private": false,
-    "version": "0.0.8",
+    "version": "0.0.9",
     "type": "module",
     "main": "./dist/component-jar.umd.cjs",
     "module": "./dist/component-jar.js",
@@ -20,7 +20,10 @@
     "scripts": {
         "dev": "vite",
         "build": "vue-tsc -b && vite build",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "docs:dev": "vitepress dev docs",
+        "docs:build": "vitepress build docs",
+        "docs:preview": "vitepress preview docs"
     },
     "dependencies": {
         "@floating-ui/vue": "^1.1.5",
@@ -42,11 +45,19 @@
         "prettier-plugin-tailwindcss": "^0.6.9",
         "tailwind-merge": "^2.6.0",
         "tailwindcss": "^3.4.17",
+        "ts-node": "^10.9.2",
         "typescript": "~5.6.2",
         "url": "^0.11.4",
         "vite": "^6.0.5",
         "vite-plugin-dts": "^4.4.0",
+        "vitepress": "^1.5.0",
         "vue-tsc": "^2.2.0"
+    },
+    "postcss": {
+        "plugins": {
+            "tailwindcss": {},
+            "autoprefixer": {}
+        }
     },
     "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

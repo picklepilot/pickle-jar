@@ -26,7 +26,7 @@
                     )
                 "
             >
-                <h2
+                <div
                     :class="
                         m(
                             componentJarTheme.themeParams
@@ -39,7 +39,7 @@
                         class="flex items-center space-x-2 text-base font-semibold"
                     >
                         <BasePopover
-                            v-if="editableGroupConfiguration[groupName]"
+                            v-if="editableGroupConfiguration[idx]"
                             :classes="{
                                 menu: 'leading-none',
                                 menuButton: 'rounded p-1 hover:bg-zinc-200/80',
@@ -48,17 +48,14 @@
                             <template #trigger>
                                 <span
                                     class="block h-3 w-3 rounded-full"
-                                    :style="`background-color: ${editableGroupConfiguration[groupName].color || defaultGroupColor};`"
+                                    :style="`background-color: ${editableGroupConfiguration[idx].color || defaultGroupColor};`"
                                 ></span>
                             </template>
                             <ColorPicker
-                                v-model="
-                                    editableGroupConfiguration[groupName].color
-                                "
+                                v-model="editableGroupConfiguration[idx].color"
                                 @update:modelValue="
-                                    editableGroupConfiguration[
-                                        groupName
-                                    ].color = $event
+                                    editableGroupConfiguration[idx].color =
+                                        $event
                                 "
                             />
                         </BasePopover>
@@ -75,15 +72,28 @@
                             :context="{ groupName }"
                         >
                             <template #trigger>
-                                <i class="fa-regular fa-ellipsis-v"></i>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="size-4"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+                                    />
+                                </svg>
                             </template>
                         </BaseDropdownMenu>
                     </span>
-                </h2>
+                </div>
 
                 <div
                     v-if="addingColumnToGroup === groupName"
-                    class="group flex items-center justify-end space-x-2 border-b border-zinc-200 p-2"
+                    class="group flex items-center justify-end space-x-2 p-2"
                 >
                     <BaseTypeahead
                         :classes="dropDownClasses"
@@ -130,10 +140,23 @@
                     <BaseButton
                         @click="addingColumnToGroup = ''"
                         :classes="[
-                            'text-sm flex items-center justify-center w-10 h-10 rounded-lg border-none bg-transparent hover:bg-zinc-100 text-zinc-400 group-hover:text-zinc-500 group-hover:hover:text-zinc-800',
+                            'text-sm flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border-none bg-transparent hover:bg-zinc-100 text-zinc-400 hover:text-zinc-500',
                         ]"
                     >
-                        <i class="fa-regular fa-xmark"></i>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-4"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M6 18 18 6M6 6l12 12"
+                            />
+                        </svg>
                     </BaseButton>
                 </div>
 
@@ -175,6 +198,13 @@
                     <template #item="{ element, index }">
                         <div
                             class="group flex w-full [&.selected]:bg-blue-100"
+                            :class="
+                                m(
+                                    componentJarTheme.themeParams
+                                        .columnManagerItem,
+                                    theme.columnManagerItem
+                                )
+                            "
                             :key="element.id"
                             :data-sortable-item-id="element.id"
                             @click="onClickedListItem"
@@ -192,16 +222,40 @@
                                     "
                                     class="flex h-6 w-6 items-center justify-center rounded text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
                                 >
-                                    <i class="fa-regular fa-minus-circle"></i>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke-width="1.5"
+                                        stroke="currentColor"
+                                        class="size-4"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                        />
+                                    </svg>
                                 </button>
                                 <button
                                     @click.prevent.stop="
                                         focusedColumn =
                                             editableColumns[groupName][index]
                                     "
-                                    class="flex h-6 w-6 items-center justify-center rounded text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:text-zinc-700 hover:shadow-md hover:ring-zinc-200 group-hover:bg-white group-hover:shadow-sm group-hover:ring-zinc-300/80"
+                                    class="flex h-6 w-6 items-center justify-center rounded text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
                                 >
-                                    <i class="fa-regular fa-cog"></i>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 16 16"
+                                        fill="currentColor"
+                                        class="size-4"
+                                    >
+                                        <path
+                                            fill-rule="evenodd"
+                                            d="M6.455 1.45A.5.5 0 0 1 6.952 1h2.096a.5.5 0 0 1 .497.45l.186 1.858a4.996 4.996 0 0 1 1.466.848l1.703-.769a.5.5 0 0 1 .639.206l1.047 1.814a.5.5 0 0 1-.14.656l-1.517 1.09a5.026 5.026 0 0 1 0 1.694l1.516 1.09a.5.5 0 0 1 .141.656l-1.047 1.814a.5.5 0 0 1-.639.206l-1.703-.768c-.433.36-.928.649-1.466.847l-.186 1.858a.5.5 0 0 1-.497.45H6.952a.5.5 0 0 1-.497-.45l-.186-1.858a4.993 4.993 0 0 1-1.466-.848l-1.703.769a.5.5 0 0 1-.639-.206l-1.047-1.814a.5.5 0 0 1 .14-.656l1.517-1.09a5.033 5.033 0 0 1 0-1.694l-1.516-1.09a.5.5 0 0 1-.141-.656L2.46 3.593a.5.5 0 0 1 .639-.206l1.703.769c.433-.36.928-.65 1.466-.848l.186-1.858Zm-.177 7.567-.022-.037a2 2 0 0 1 3.466-1.997l.022.037a2 2 0 0 1-3.466 1.997Z"
+                                            clip-rule="evenodd"
+                                        />
+                                    </svg>
                                 </button>
                             </div>
                         </div>
@@ -239,7 +293,20 @@
                     }"
                     @click="addGroup()"
                 >
-                    <i class="fa-regular fa-plus" aria-hidden="true"></i>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-4"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="M12 4.5v15m7.5-7.5h-15"
+                        />
+                    </svg>
                 </BaseButton>
             </div>
         </div>
@@ -280,6 +347,7 @@ const props = withDefaults(
             columnManagerGroupContainer?: string
             columnManagerGroupHeader?: string
             columnManagerGroupsContainer?: string
+            columnManagerItem?: string
             columnManagerNewGroupContainer?: string
             columnManagerNewGroupInput?: string
             columnManagerNewGroupInputButton?: string
@@ -344,6 +412,7 @@ const props = withDefaults(
             columnManagerGroupContainer: '',
             columnManagerGroupHeader: '',
             columnManagerGroupsContainer: '',
+            columnManagerItem: '',
             columnManagerNewGroupContainer: '',
             columnManagerNewGroupInput: '',
             columnManagerNewGroupInputButton: '',

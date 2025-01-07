@@ -44,7 +44,13 @@
                 <div
                     v-for="(group, i) in items"
                     :key="`dropdown-menu-${i}`"
-                    class="px-1 py-1"
+                    :class="
+                        m(
+                            componentJarTheme.themeParams
+                                .baseDropdownMenuItemGroup,
+                            theme.baseDropdownMenuItemGroup
+                        )
+                    "
                 >
                     <MenuItem
                         v-for="(item, j) in group"
@@ -134,6 +140,7 @@ const props = withDefaults(
             baseDropdownMenuHeader?: string
             baseDropdownMenuItem?: string
             baseDropdownMenuItemButton?: string
+            baseDropdownMenuItemGroup?: string
             baseDropdownMenuItemIcon?: string
             baseDropdownMenuItems?: string
             baseDropdownMenuTriggerButton?: string
@@ -157,6 +164,7 @@ const props = withDefaults(
             baseDropdownMenuHeader: '',
             baseDropdownMenuItem: '',
             baseDropdownMenuItemButton: '',
+            baseDropdownMenuItemGroup: '',
             baseDropdownMenuItemIcon: '',
             baseDropdownMenuItems: '',
             baseDropdownMenuTriggerButton: '',

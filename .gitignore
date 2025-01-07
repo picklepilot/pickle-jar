@@ -25,3 +25,7 @@ dist-ssr
 
 # tsbuild
 *.tsbuildinfo
+
+# vitepress
+**/.vitepress/cache
+**/.vitepress/dist

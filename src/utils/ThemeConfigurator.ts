@@ -18,12 +18,5 @@ export default class ThemeConfigurator {
 
         this.themeParams = finalConfig
         return this
-
-        /* (finalConfig: any, key: ThemeParam): Partial<ThemeParams> => {
-                finalConfig[key] = m(ThemeCore[key], defaults[key] || '')
-                return finalConfig
-            },
-            ThemeCore
-        ) */
     }
 }
