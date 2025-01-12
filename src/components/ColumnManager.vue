@@ -8,6 +8,7 @@
         "
     >
         <div
+            :id="`column-manager-groups-container-${uniqueId}`"
             :class="
                 m(
                     componentJarTheme.themeParams.columnManagerGroupsContainer,
@@ -35,11 +36,9 @@
                         )
                     "
                 >
-                    <span
-                        class="flex items-center space-x-2 text-base font-semibold"
-                    >
+                    <div class="flex items-center space-x-2 text-base">
                         <BasePopover
-                            v-if="editableGroupConfiguration[idx]"
+                            v-if="editableGroupConfiguration[groupName]"
                             :classes="{
                                 menu: 'leading-none',
                                 menuButton: 'rounded p-1 hover:bg-zinc-200/80',
@@ -48,23 +47,71 @@
                             <template #trigger>
                                 <span
                                     class="block h-3 w-3 rounded-full"
-                                    :style="`background-color: ${editableGroupConfiguration[idx].color || defaultGroupColor};`"
+                                    :style="`background-color: ${editableGroupConfiguration[groupName].color || defaultGroupColor};`"
                                 ></span>
                             </template>
-                            <ColorPicker
-                                v-model="editableGroupConfiguration[idx].color"
-                                @update:modelValue="
-                                    editableGroupConfiguration[idx].color =
-                                        $event
-                                "
-                            />
+
+                            <div class="flex flex-col space-y-4">
+                                <div class="space-y-2">
+                                    <div
+                                        class="block text-sm font-medium text-zinc-900"
+                                    >
+                                        Group name
+                                    </div>
+                                    <input
+                                        type="text"
+                                        :class="
+                                            componentJarTheme.themeParams
+                                                .inputText
+                                        "
+                                        v-model="
+                                            editableGroupConfiguration[
+                                                groupName
+                                            ].name
+                                        "
+                                        @update:modelValue="
+                                            editableGroupConfiguration = {
+                                                ...editableGroupConfiguration,
+                                                [groupName]: {
+                                                    ...editableGroupConfiguration[
+                                                        groupName
+                                                    ],
+                                                    name: $event,
+                                                },
+                                            }
+                                        "
+                                    />
+                                </div>
+                                <div class="space-y-2">
+                                    <div
+                                        class="block text-sm font-medium text-zinc-900"
+                                    >
+                                        Group color
+                                    </div>
+                                    <ColorPicker
+                                        :model-value="
+                                            editableGroupConfiguration[
+                                                groupName
+                                            ].color
+                                        "
+                                        @update:modelValue="
+                                            onUpdateGroupColor(
+                                                groupName,
+                                                $event
+                                            )
+                                        "
+                                    />
+                                </div>
+                            </div>
                         </BasePopover>
 
-                        <span>{{ groupName }}</span>
-                    </span>
-                    <span v-if="groupMenuItems" class="text-sm">
+                        <span class="font-semibold">{{
+                            editableGroupConfiguration[groupName].name
+                        }}</span>
+                    </div>
+                    <span v-if="groupMenuItems" class="shrink-0 text-sm">
                         <BaseDropdownMenu
-                            :allowed-placements="['bottom-end']"
+                            :allowed-placements="['bottom-end', 'top-end']"
                             :items="[
                                 ...groupMenuItems,
                                 defaultGroupDropdownMenuItems,
@@ -78,7 +125,7 @@
                                     viewBox="0 0 24 24"
                                     stroke-width="1.5"
                                     stroke="currentColor"
-                                    class="size-4"
+                                    class="h-5 w-5"
                                 >
                                     <path
                                         stroke-linecap="round"
@@ -92,8 +139,8 @@
                 </div>
 
                 <div
-                    v-if="addingColumnToGroup === groupName"
-                    class="group flex items-center justify-end space-x-2 p-2"
+                    v-if="addingColumnToGroups.includes(groupName as string)"
+                    class="group flex items-center justify-end space-x-2 p-2 px-4"
                 >
                     <BaseTypeahead
                         :classes="dropDownClasses"
@@ -104,7 +151,7 @@
                         :searcher="searcher"
                         placeholder="Add a column to group"
                         @update:modelValue="
-                            onPickedNewColumn(groupName, $event)
+                            onPickedNewColumn(groupName as string, $event)
                         "
                     >
                         <template #empty>
@@ -138,7 +185,14 @@
                     </BaseTypeahead>
 
                     <BaseButton
-                        @click="addingColumnToGroup = ''"
+                        @click="
+                            addingColumnToGroups.splice(
+                                addingColumnToGroups.indexOf(
+                                    groupName as string
+                                ),
+                                1
+                            )
+                        "
                         :classes="[
                             'text-sm flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border-none bg-transparent hover:bg-zinc-100 text-zinc-400 hover:text-zinc-500',
                         ]"
@@ -149,7 +203,7 @@
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="currentColor"
-                            class="size-4"
+                            class="h-5 w-5"
                         >
                             <path
                                 stroke-linecap="round"
@@ -166,7 +220,7 @@
                 >
                     <EmptyState
                         title="No columns"
-                        description="There are no columns here yet. Use the picker below to add the first column."
+                        description="There are no columns here yet. Use the picker above to add the first column."
                         :classes="{
                             container:
                                 'flex flex-col items-center justify-center border-2 border-dashed border-zinc-300/60 rounded-xl p-6',
@@ -228,7 +282,7 @@
                                         viewBox="0 0 24 24"
                                         stroke-width="1.5"
                                         stroke="currentColor"
-                                        class="size-4"
+                                        class="h-4 w-4"
                                     >
                                         <path
                                             stroke-linecap="round"
@@ -248,7 +302,7 @@
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 16 16"
                                         fill="currentColor"
-                                        class="size-4"
+                                        class="h-4 w-4"
                                     >
                                         <path
                                             fill-rule="evenodd"
@@ -264,6 +318,7 @@
             </div>
 
             <div
+                class="sticky bottom-0 z-10"
                 :class="
                     m(
                         componentJarTheme.themeParams
@@ -299,7 +354,7 @@
                         viewBox="0 0 24 24"
                         stroke-width="1.5"
                         stroke="currentColor"
-                        class="size-4"
+                        class="h-6 w-6"
                     >
                         <path
                             stroke-linecap="round"
@@ -316,7 +371,7 @@
 
 <script setup lang="ts">
 import { m, type ThemeConfigurator } from '../utils'
-import { inject, ref, watch } from 'vue'
+import { inject, ref, toRef, watch } from 'vue'
 import { Sortable } from 'sortablejs-vue3'
 // @ts-ignore
 import { default as realSortable } from 'sortablejs'
@@ -334,11 +389,14 @@ import { ComboboxOption } from '@headlessui/vue'
 
 import {
     groupColumns,
-    mergeColumnGroupsWithDefaults,
+    // mergeColumnGroupsWithDefaults,
     ungroupColumns,
 } from '../utils/ColumnManagerUtils'
 
-const emit = defineEmits(['update:existingColumns'])
+const emit = defineEmits([
+    'update:existingColumns',
+    'update:groupConfiguration',
+])
 
 const props = withDefaults(
     defineProps<{
@@ -429,10 +487,10 @@ const editableColumns = ref<{ [key: string]: any }>(
 )
 const focusedColumn = ref<any>()
 const newGroupName = ref<string>('')
-const addingColumnToGroup = ref<string>('')
-const editableGroupConfiguration = ref<any>(
-    mergeColumnGroupsWithDefaults(props.groupConfiguration)
-)
+// const addingColumnToGroup = ref<string>('')
+const addingColumnToGroups = ref<string[]>([])
+const editableGroupConfiguration = toRef(props, 'groupConfiguration')
+const uniqueId = ref((Math.random() + 1).toString(36).substring(7))
 
 watch(
     () => props.existingColumns,
@@ -442,7 +500,7 @@ watch(
     { immediate: false }
 )
 
-watch(
+/* watch(
     () => props.groupConfiguration,
     () => {
         editableGroupConfiguration.value = mergeColumnGroupsWithDefaults(
@@ -450,6 +508,18 @@ watch(
         )
     },
     { immediate: false }
+) */
+
+watch(
+    () => editableGroupConfiguration.value,
+    () => {
+        console.log(
+            'GROUP CONFIG UPDATED IN COL MAN',
+            editableGroupConfiguration.value
+        )
+        emit('update:groupConfiguration', editableGroupConfiguration.value)
+    },
+    { deep: false }
 )
 
 function onClickedListItem(evt: any) {
@@ -458,6 +528,20 @@ function onClickedListItem(evt: any) {
     } else {
         realSortable.utils.select(evt.currentTarget)
     }
+}
+
+function onUpdateGroupColor(groupName: string | number, hexColor: string) {
+    editableGroupConfiguration.value[groupName].color = hexColor
+    /* editableGroupConfiguration.value = {
+        ...editableGroupConfiguration.value,
+        [groupName]: {
+            ...editableGroupConfiguration.value[groupName],
+            color: hexColor,
+        },
+    } */
+
+    console.log('COLOR', hexColor, editableGroupConfiguration.value)
+    emit('update:groupConfiguration', editableGroupConfiguration.value)
 }
 
 /**
@@ -480,6 +564,27 @@ function addGroup() {
         ...editableColumns.value,
         [newGroupName.value]: [],
     }
+
+    editableGroupConfiguration.value[newGroupName.value] = {
+        name: newGroupName.value,
+        color: props.defaultGroupColor,
+    }
+
+    newGroupName.value = ''
+
+    setTimeout(() => {
+        const objDiv = document.getElementById(
+            `column-manager-groups-container-${uniqueId.value}`
+        )
+
+        if (objDiv) {
+            // objDiv.scrollTop = objDiv.scrollHeight
+            objDiv.scrollTo({
+                top: objDiv.scrollHeight,
+                behavior: 'smooth',
+            })
+        }
+    }, 250)
 }
 
 /**
@@ -499,6 +604,10 @@ function clearAllColumns(groupName: string) {
     editableColumns.value = {
         ...editableColumns.value,
         [groupName]: [],
+    }
+
+    if (!addingColumnToGroups.value.includes(groupName)) {
+        addingColumnToGroups.value.push(groupName)
     }
 }
 
@@ -636,12 +745,13 @@ const defaultGroupDropdownMenuItems = [
         icon: 'fa-plus',
         label: 'Add column to group',
         onClick: (context: any) => {
-            addingColumnToGroup.value = context.groupName
+            // addingColumnToGroup.value = context.groupName
+            addingColumnToGroups.value.push(context.groupName)
         },
     },
     {
         icon: 'fa-empty-set',
-        label: 'Clear all columns',
+        label: 'Empty group',
         onClick: (context: any) => {
             clearAllColumns(context.groupName)
         },

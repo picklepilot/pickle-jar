@@ -21,12 +21,19 @@
                                     : 'flex cursor-pointer items-center rounded border-0 px-3 py-2.5 text-sm font-medium leading-none transition-all hover:no-underline data-[active=false]:relative data-[active=true]:bg-white data-[active=false]:text-zinc-500 data-[active=true]:shadow-sm data-[active=false]:hover:bg-zinc-900/5 data-[active=false]:hover:text-zinc-800',
                                 tab.classes || '',
                                 tabClasses,
-                                classes.tab
+                                classes.tab,
+                                componentJarTheme.themeParams.tabsNavTab,
+                                theme.tabsNavTab
                             )
                         "
                         :data-active="tab.active.toString()"
                     >
                         <slot name="left" v-bind="tab"></slot>
+                        <i
+                            v-if="tab.icon"
+                            class="fa-regular"
+                            :class="tab.icon"
+                        />
                         <span v-html="tab.label" />
                         <slot name="right" v-bind="tab"></slot>
                     </a>
@@ -36,7 +43,7 @@
 
         <hr
             v-if="classic && !disabled.includes('border')"
-            :class="m('-mt-px border-zinc-300', classes.line)"
+            :class="componentJarTheme.themeParams.tabsNavLine"
         />
     </div>
 </template>
@@ -46,6 +53,7 @@ import SortableComponent from './SortableComponent.vue'
 import { m } from '../utils'
 import { ref, watch } from 'vue'
 import { type Tab } from '../types'
+import { useThemeConfigurator } from '../composables'
 
 // define props using withDefaults from vue api
 const props = withDefaults(
@@ -59,6 +67,9 @@ const props = withDefaults(
         disabled?: string[]
         tabClasses?: string[]
         tabs: Tab[]
+        theme?: {
+            tabsNavTab?: string
+        }
     }>(),
     {
         classic: false,
@@ -69,6 +80,9 @@ const props = withDefaults(
         }),
         disabled: () => [],
         tabClasses: () => [],
+        theme: () => ({
+            tabsNavTab: '',
+        }),
     }
 )
 
@@ -76,6 +90,7 @@ const emit = defineEmits(['clicked', 'update'])
 
 const effectiveTabs = ref(props.tabs)
 const sortableRef = ref()
+const { componentJarTheme } = useThemeConfigurator()
 
 watch(
     () => props.tabs,

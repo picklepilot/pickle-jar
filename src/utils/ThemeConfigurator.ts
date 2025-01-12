@@ -13,7 +13,13 @@ export default class ThemeConfigurator {
         const finalConfig: ThemeParams = ThemeCore
         const themeParamNames = Object.keys(defaults) as ThemeParam[]
         themeParamNames.forEach((key: ThemeParam): void => {
-            finalConfig[key] = m(ThemeCore[key], defaults[key] || '')
+            // @ts-ignore
+            finalConfig[key] =
+                typeof finalConfig[key] === 'string'
+                    ? (m(ThemeCore[key], defaults[key] || '') as string)
+                    : Object.prototype.hasOwnProperty.call(defaults, key)
+                      ? defaults[key]
+                      : finalConfig[key]
         })
 
         this.themeParams = finalConfig

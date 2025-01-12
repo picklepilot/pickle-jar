@@ -6,7 +6,9 @@
                 :class="
                     m(
                         'relative w-full cursor-default overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-left ring-2 ring-transparent focus-within:border-indigo-500 focus-within:ring-indigo-200/60 hover:bg-zinc-50 focus:bg-white focus:shadow focus:outline-none sm:text-sm',
-                        classes.inputContainer
+                        componentJarTheme.themeParams
+                            .baseDropdownInputContainer,
+                        theme.comboboxInputTextContainer
                     )
                 "
             >
@@ -14,7 +16,8 @@
                     :class="
                         m(
                             'w-full rounded-lg border-none bg-zinc-50 py-2.5 pl-3 pr-10 text-sm leading-5 text-zinc-900 focus-within:border-none',
-                            classes.inputElement
+                            componentJarTheme.themeParams.baseDropdownInputText,
+                            theme.comboboxInputText
                         )
                     "
                     :displayValue="displayValue"
@@ -22,12 +25,24 @@
                 />
                 <ComboboxButton
                     ref="comboboxButton"
-                    class="absolute inset-y-0 right-0 flex items-center pr-2"
+                    :class="[
+                        'absolute inset-y-0 right-0 flex items-center pr-2 text-zinc-400',
+                    ]"
                 >
-                    <i
-                        class="fa-regular fa-angle-down h-5 w-5 text-center text-zinc-400"
-                        aria-hidden="true"
-                    />
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="h-4 w-4"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                        />
+                    </svg>
                 </ComboboxButton>
             </div>
             <transition
@@ -43,7 +58,10 @@
                     :class="
                         m(
                             'absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
-                            classes.comboboxOptionsContainer
+                            componentJarTheme.themeParams
+                                .comboboxFloatingPanelContainer,
+                            componentJarTheme.themeParams
+                                .generalFloatingPanelContainer
                         )
                     "
                 >
@@ -65,7 +83,7 @@
                             v-if="$slots.option"
                             name="option"
                             v-bind="{ item, selected, active }"
-                        ></slot>
+                        />
 
                         <li
                             v-else
@@ -99,10 +117,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { m } from '../utils'
 import { autoPlacement, size, useFloating } from '@floating-ui/vue'
-
+import { useThemeConfigurator } from '../composables'
 import {
     Combobox,
     ComboboxInput,
@@ -111,7 +129,7 @@ import {
     ComboboxOption,
 } from '@headlessui/vue'
 
-const emit = defineEmits(['change'])
+const emit = defineEmits(['change', 'update:modelValue'])
 
 const props = withDefaults(
     defineProps<{
@@ -126,6 +144,19 @@ const props = withDefaults(
         items?: any[]
         nullable?: boolean
         immediate?: boolean
+        theme?: {
+            comboboxInputTextContainer?: string
+            comboboxInputText?: string
+        }
+        middlewareOptions?: {
+            autoPlacement?: {
+                allowedPlacements?: string[]
+            }
+            size?: {
+                minWidth?: number
+                maxWidth?: number
+            }
+        }
     }>(),
     {
         classes: () => ({
@@ -139,8 +170,20 @@ const props = withDefaults(
         modelValue: null,
         nullable: false,
         immediate: false,
+        theme: () => ({
+            comboboxInputTextContainer: '',
+            comboboxInputText: '',
+        }),
+        middlewareOptions: () => ({
+            autoPlacement: {
+                allowedPlacements: ['top-start', 'bottom-start'],
+            },
+            size: {},
+        }),
     }
 )
+
+const { componentJarTheme } = useThemeConfigurator()
 
 const reference = ref()
 const floating = ref()
@@ -151,8 +194,14 @@ useFloating(reference, floating, {
         autoPlacement(),
         size({
             apply({ availableWidth, availableHeight, elements }) {
-                // Change styles, e.g.
+                const referenceWidth =
+                    elements.reference.getBoundingClientRect().width
+
+                const minWidth =
+                    props.middlewareOptions.size?.minWidth || referenceWidth
+
                 Object.assign(elements.floating.style, {
+                    minWidth: `${minWidth}px`,
                     maxWidth: `${availableWidth - BUFFER}px`,
                     maxHeight: `${availableHeight - BUFFER}px`,
                 })
@@ -162,18 +211,16 @@ useFloating(reference, floating, {
 })
 
 const comboboxButton = ref()
-let selected = ref(null)
+const filteredItems = ref<any[]>([])
 let query = ref('')
 
-const filteredItems = ref<any[]>([])
-
-watch(
-    () => props.modelValue,
-    (value) => {
-        selected.value = value || !props.nullable ? props.items[0] : null
+const selected = computed({
+    get: () => props.modelValue || (!props.nullable ? props.items[0] : null),
+    set: (value) => {
+        emit('update:modelValue', value)
+        emit('change', value)
     },
-    { immediate: true }
-)
+})
 
 watch(
     () => query.value,
@@ -199,12 +246,5 @@ watch(
         // selected.value = !props.nullable ? props.items[0] : null
     },
     { deep: true }
-)
-
-watch(
-    () => selected.value,
-    () => {
-        emit('change', selected.value)
-    }
 )
 </script>

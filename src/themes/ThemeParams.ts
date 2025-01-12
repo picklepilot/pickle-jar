@@ -1,6 +1,8 @@
 export type ThemeParam =
     | 'baseButton'
     | 'baseButtonDisabled'
+    | 'baseDropdownInputContainer'
+    | 'baseDropdownInputText'
     | 'baseDropdownMenuContainer'
     | 'baseDropdownMenuHeader'
     | 'baseDropdownMenuItem'
@@ -10,6 +12,9 @@ export type ThemeParam =
     | 'baseDropdownMenuItemIcon'
     | 'baseDropdownMenuItems'
     | 'baseDropdownMenuTriggerButton'
+    | 'baseTypeaheadContainer'
+    | 'buttonComboDropdownPrimaryButton'
+    | 'buttonComboDropdownTriggerButton'
     | 'columnManagerContainer'
     | 'columnManagerGroupContainer'
     | 'columnManagerGroupHeader'
@@ -18,22 +23,43 @@ export type ThemeParam =
     | 'columnManagerNewGroupContainer'
     | 'columnManagerNewGroupInput'
     | 'columnManagerNewGroupInputButton'
-    | 'baseDropdownInputText'
-    | 'baseDropdownInputContainer'
+    | 'comboboxFloatingPanelContainer'
+    | 'generalFloatingPanelContainer'
+    | 'inputText'
+    | 'modalMainContainer'
+    | 'modalMainContentContainer'
+    | 'modalScrollContainer'
+    | 'settingsMainContentContainer'
+    | 'settingsMenuContainer'
+    | 'settingsMenuGroupContainer'
+    | 'settingsMenuItem'
+    | 'settingsMenuItemActive'
+    | 'settingsMenuItemIcon'
+    | 'tabsNavLine'
+    | 'tabsNavTab'
+    | 'uiWindowToolbarTopMenuEnabled'
+    | 'uiWindowToolbarWindowCloseButton'
+    | 'uiWindowToolbarWindowContainer'
+    | 'uiWindowToolbarWindowTopMenu'
+    | 'uiWindowToolbarWindowTopMenuTitle'
 
 export type ThemeParams = {
     baseButton: string
     baseButtonDisabled: string
+    baseDropdownInputContainer: string
+    baseDropdownInputText: string
     baseDropdownMenuContainer: string
     baseDropdownMenuHeader: string
     baseDropdownMenuItem: string
     baseDropdownMenuItemActiveButton: string
-    baseDropdownInputContainer: string
     baseDropdownMenuItemButton: string
     baseDropdownMenuItemGroup: string
     baseDropdownMenuItemIcon: string
     baseDropdownMenuItems: string
     baseDropdownMenuTriggerButton: string
+    baseTypeaheadContainer: string
+    buttonComboDropdownPrimaryButton: string
+    buttonComboDropdownTriggerButton: string
     columnManagerContainer: string
     columnManagerGroupContainer: string
     columnManagerGroupHeader: string
@@ -42,5 +68,23 @@ export type ThemeParams = {
     columnManagerNewGroupContainer: string
     columnManagerNewGroupInput: string
     columnManagerNewGroupInputButton: string
-    baseDropdownInputText: string
+    comboboxFloatingPanelContainer: string
+    generalFloatingPanelContainer: string
+    inputText: string
+    modalMainContainer: string
+    modalMainContentContainer: string
+    modalScrollContainer: string
+    settingsMainContentContainer: string
+    settingsMenuContainer: string
+    settingsMenuGroupContainer: string
+    settingsMenuItem: string
+    settingsMenuItemActive: string
+    settingsMenuItemIcon: string
+    tabsNavLine: string
+    tabsNavTab: string
+    uiWindowToolbarTopMenuEnabled: boolean
+    uiWindowToolbarWindowCloseButton: string
+    uiWindowToolbarWindowContainer: string
+    uiWindowToolbarWindowTopMenu: string
+    uiWindowToolbarWindowTopMenuTitle: string
 }

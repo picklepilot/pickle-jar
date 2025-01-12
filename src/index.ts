@@ -7,6 +7,8 @@ export { default as BaseDropdownMenu } from './components/BaseDropdownMenu.vue'
 export { default as BasePopover } from './components/BasePopover.vue'
 export { default as BaseToolbar } from './components/BaseToolbar.vue'
 export { default as BaseTypeahead } from './components/BaseTypeahead.vue'
+export { default as ButtonComboDropdown } from './components/ButtonComboDropdown.vue'
+export { default as ButtonGroup } from './components/ButtonGroup.vue'
 export { default as ColorPicker } from './components/ColorPicker.vue'
 export { default as ColumnManager } from './components/ColumnManager.vue'
 export { default as EmptyState } from './components/EmptyState.vue'
@@ -17,8 +19,18 @@ export { default as ModalComponent } from './components/ModalComponent.vue'
 export { default as SortableComponent } from './components/SortableComponent.vue'
 export { default as TabsNav } from './components/TabsNav.vue'
 
+export { SettingsCore, type SettingsConfiguration } from './modules/settings'
+
+export {
+    UiWindow,
+    UiWindowResizer,
+    UiWindowToolbar,
+} from './modules/ui-window-toolbar'
+
 export type { ColumnGroupDefinition, DropdownItem, Tab } from './types'
 
 export { m } from './utils'
 
 export { ThemeConfigurator } from './utils'
+
+export { useThemeConfigurator } from './composables/useThemeConfigurator'

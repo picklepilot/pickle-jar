@@ -7,7 +7,7 @@
             :multiple="multiple"
         >
             <div class="relative">
-                <div
+                <!--div
                     v-if="activeItem?.length && Array.isArray(activeItem)"
                     class="min-h-[37px] w-full p-1"
                 >
@@ -29,10 +29,23 @@
                                 'ml-1.5 rounded-full h-5 w-5 flex items-center justify-center p-0 bg-zinc-200 hover:bg-zinc-50 border-none text-zinc-700 hover:text-zinc-900',
                             ]"
                         >
-                            <i class="fa-regular fa-xmark text-[10px]"></i>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-4 w-4"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M6 18 18 6M6 6l12 12"
+                                />
+                            </svg>
                         </BaseButton>
                     </BaseBadge>
-                </div>
+                </div-->
 
                 <div
                     ref="reference"
@@ -47,6 +60,7 @@
                     <ComboboxInput
                         :class="
                             m(
+                                componentJarTheme.themeParams.inputText,
                                 componentJarTheme.themeParams
                                     .baseDropdownInputText,
                                 theme.baseDropdownInputText
@@ -68,7 +82,7 @@
                             viewBox="0 0 24 24"
                             stroke-width="1.5"
                             stroke="currentColor"
-                            class="size-4"
+                            class="h-4 w-4"
                         >
                             <path
                                 stroke-linecap="round"
@@ -91,15 +105,71 @@
                         :class="
                             m(
                                 'fixed left-0 z-10 overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
-                                classes.comboboxOptionsContainer
+                                componentJarTheme.themeParams
+                                    .comboboxFloatingPanelContainer,
+                                componentJarTheme.themeParams
+                                    .generalFloatingPanelContainer
                             )
                         "
                         :style="floatingStyles"
                     >
-                        <div v-if="filteredItems.length === 0 && query === ''">
+                        <div v-if="$slots.static">
+                            <slot
+                                name="static"
+                                v-bind="{ query, searching }"
+                            ></slot>
+                        </div>
+
+                        <div v-if="searching">
+                            <slot name="searching"> </slot>
+                        </div>
+
+                        <div v-if="filteredItems.length === 0 && !searching">
                             <slot v-if="$slots.empty" name="empty"></slot>
                             <span v-else>No results</span>
                         </div>
+
+                        <div v-if="groupBy">
+                            <div
+                                v-for="(group, groupName) in groupByFnc(
+                                    filteredItems,
+                                    (item) => item[groupBy as string]
+                                )"
+                            >
+                                <div class="p-3 text-base font-medium">
+                                    {{ groupName }}
+                                </div>
+                                <div class="grid grid-cols-2">
+                                    <ComboboxOption
+                                        v-if="!searching"
+                                        v-for="item in group"
+                                        :key="item[uidProperty]"
+                                        :value="item"
+                                        v-slot="{ active, selected }"
+                                    >
+                                        <slot
+                                            v-if="$slots.item"
+                                            name="item"
+                                            v-bind="{ item, active, selected }"
+                                        />
+                                    </ComboboxOption>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ComboboxOption
+                            v-else-if="!searching"
+                            v-for="item in filteredItems"
+                            :key="item[uidProperty]"
+                            :value="item"
+                            v-slot="{ active, selected }"
+                        >
+                            <slot
+                                v-if="$slots.item"
+                                name="item"
+                                v-bind="{ item, active, selected }"
+                            />
+                        </ComboboxOption>
 
                         <slot
                             v-if="$slots.options"
@@ -107,7 +177,7 @@
                             v-bind="{ filteredItems }"
                         ></slot>
 
-                        <div v-else>
+                        <!--div v-else>
                             <ComboboxOption
                                 v-for="item in filteredItems"
                                 :key="item[uidProperty]"
@@ -125,7 +195,7 @@
                                     {{ selected ? '✓' : '' }}
                                 </div>
                             </ComboboxOption>
-                        </div>
+                        </div-->
                     </ComboboxOptions>
                 </transition>
             </div>
@@ -134,7 +204,7 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { m, type ThemeConfigurator } from '../utils'
 import { autoPlacement, autoUpdate, size, useFloating } from '@floating-ui/vue'
 import {
@@ -144,8 +214,8 @@ import {
     ComboboxOptions,
     ComboboxOption,
 } from '@headlessui/vue'
-import BaseBadge from './BaseBadge.vue'
-import BaseButton from './BaseButton.vue'
+// import BaseBadge from './BaseBadge.vue'
+// import BaseButton from './BaseButton.vue'
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -169,9 +239,23 @@ const props = withDefaults(
         multiple?: boolean
         nullable?: boolean
         placeholder?: string
-        searcher?: (query: string) => Promise<any[]>
+        groupBy?: string
+        searcher?: (
+            query: string,
+            controller?: AbortController
+        ) => Promise<any[]>
         uidProperty?: string
         valueProperty?: string
+        middlewareOptions?: {
+            autoPlacement?: {
+                allowedPlacements?: string[]
+            }
+            buffer?: number
+            size?: {
+                minWidth?: number
+                maxWidth?: number
+            }
+        }
     }>(),
     {
         classes: () => ({
@@ -191,6 +275,13 @@ const props = withDefaults(
         searcher: undefined,
         uidProperty: 'id',
         valueProperty: 'value',
+        middlewareOptions: () => ({
+            autoPlacement: {
+                allowedPlacements: ['top-start', 'bottom-start'],
+            },
+            buffer: 20,
+            size: {},
+        }),
         theme: () => ({
             baseDropdownInputContainer: '',
             baseDropdownInputText: '',
@@ -202,12 +293,19 @@ const componentJarTheme = inject(
     'componentJarTheme'
 ) as unknown as ThemeConfigurator
 
-const activeItem = ref<any>(props.modelValue)
-const BUFFER = 20
+// const activeItem = ref<any>(props.modelValue)
 const filteredItems = ref<any[]>([])
 const floating = ref()
 const query = ref<string>('')
 const reference = ref()
+const searching = ref(false)
+
+const activeItem = computed({
+    get: () => props.modelValue,
+    set: (value) => {
+        emit('update:modelValue', value)
+    },
+})
 
 const { floatingStyles } = useFloating(reference, floating, {
     strategy: 'fixed',
@@ -218,13 +316,19 @@ const { floatingStyles } = useFloating(reference, floating, {
         }),
         size({
             apply({ availableHeight, elements }) {
-                const minMaxWidth =
+                const referenceWidth =
                     elements.reference.getBoundingClientRect().width
 
+                const minWidth =
+                    props.middlewareOptions.size?.minWidth || referenceWidth
+
+                // const maxWidth = Math.
+
                 Object.assign(elements.floating.style, {
-                    minWidth: `${minMaxWidth}px`,
-                    maxWidth: `${minMaxWidth - BUFFER}px`,
-                    maxHeight: `${availableHeight - BUFFER}px`,
+                    width: `${minWidth}px`,
+                    minWidth: `${minWidth}px`,
+                    maxWidth: `${minWidth - (props.middlewareOptions.buffer || 20)}px`,
+                    maxHeight: `${availableHeight - (props.middlewareOptions.buffer || 20)}px`,
                 })
             },
         }),
@@ -232,18 +336,27 @@ const { floatingStyles } = useFloating(reference, floating, {
     whileElementsMounted: autoUpdate,
 })
 
-watch(
+/* watch(
     () => props.modelValue,
     (value) => {
+        console.log('BaseTypeahead: watch(props.modelValue)', value)
         activeItem.value = value
-    }
-)
+    },
+    { immediate: true }
+) */
 
 watch(
     () => query.value,
     async () => {
+        const abortController = new AbortController()
         if (props.searcher) {
-            filteredItems.value = await props.searcher(query.value)
+            searching.value = true
+            filteredItems.value = await props.searcher(
+                query.value,
+                abortController
+            )
+
+            searching.value = false
         } else {
             filteredItems.value = []
         }
@@ -259,11 +372,20 @@ watch(
     { immediate: true }
 )
 
-watch(
+/* watch(
     () => activeItem.value,
     (item) => {
         emit('update:modelValue', item)
     },
     { immediate: false }
-)
+) */
+
+const groupByFnc = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
+    arr.reduce(
+        (groups, item) => {
+            ;(groups[key(item)] ||= []).push(item)
+            return groups
+        },
+        {} as Record<K, T[]>
+    )
 </script>

@@ -101,10 +101,11 @@ import {
     size,
     useFloating,
 } from '@floating-ui/vue'
-import { m, type ThemeConfigurator } from '../utils'
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
-import { inject, onMounted, ref, watch } from 'vue'
+import { m } from '../utils'
+import { onMounted, ref, watch } from 'vue'
 import { type DropdownItem } from '../types'
+import { useThemeConfigurator } from '../composables'
 
 type AllowedPlacement =
     | 'top'
@@ -172,9 +173,7 @@ const props = withDefaults(
     }
 )
 
-const componentJarTheme = inject(
-    'componentJarTheme'
-) as unknown as ThemeConfigurator
+const { componentJarTheme } = useThemeConfigurator()
 
 const reference = ref()
 const floating = ref()

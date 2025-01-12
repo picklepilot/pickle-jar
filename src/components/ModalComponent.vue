@@ -23,13 +23,15 @@
                 m(
                     'fixed inset-0 z-[9998] w-screen overflow-y-auto p-10',
                     ...containerClasses,
-                    !showModal && 'pointer-events-none'
+                    !showModal && 'pointer-events-none',
+                    componentJarTheme.themeParams.modalScrollContainer
                 )
             "
             @click="$emit('close', false)"
         >
             <div
                 class="flex min-h-full items-center justify-center p-4 sm:items-center sm:p-0"
+                :class="componentJarTheme.themeParams.modalMainContainer"
             >
                 <transition
                     enter-from-class="duration-300 ease-out opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -43,7 +45,9 @@
                         :class="
                             m(
                                 'relative h-auto w-full transform rounded-xl border border-zinc-100/50 bg-white p-5 shadow-xl transition-all sm:max-w-lg',
-                                classes
+                                classes,
+                                componentJarTheme.themeParams
+                                    .modalMainContentContainer
                             )
                         "
                         @click.stop
@@ -51,7 +55,7 @@
                         <button
                             v-if="!disabled.includes('close-button')"
                             @click="$emit('close', false)"
-                            class="absolute right-4 top-4 text-zinc-400 hover:text-zinc-800"
+                            class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -85,6 +89,7 @@
 import clsx from 'clsx'
 import { watch } from 'vue'
 import { m } from '../utils'
+import { useThemeConfigurator } from '../composables'
 
 interface Props {
     classes?: string[]
@@ -113,6 +118,8 @@ const props = withDefaults(defineProps<Props>(), {
     containerClasses: () => [],
     disabled: () => [],
 })
+
+const { componentJarTheme } = useThemeConfigurator()
 
 watch(
     () => props.showModal,
