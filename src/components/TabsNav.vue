@@ -39,6 +39,8 @@
                     </a>
                 </template>
             </SortableComponent>
+
+            <slot name="after" />
         </div>
 
         <hr

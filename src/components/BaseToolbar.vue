@@ -36,6 +36,7 @@
                 />
             </span>
         </div>
+        <slot name="center" />
         <div
             v-if="groupedToolbarItemGroups.right.length"
             :class="

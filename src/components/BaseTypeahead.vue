@@ -7,46 +7,6 @@
             :multiple="multiple"
         >
             <div class="relative">
-                <!--div
-                    v-if="activeItem?.length && Array.isArray(activeItem)"
-                    class="min-h-[37px] w-full p-1"
-                >
-                    <BaseBadge
-                        v-for="(value, i) in activeItem"
-                        :key="`query-value-${i}`"
-                        :classes="[
-                            'group text-xs pl-2.5 pr-1 py-1 m-1 bg-zinc-200',
-                        ]"
-                    >
-                        {{ displayProperty(value) }}
-                        <BaseButton
-                            @click="
-                                activeItem = activeItem.filter(
-                                    (_: any, index: number) => index !== i
-                                )
-                            "
-                            :classes="[
-                                'ml-1.5 rounded-full h-5 w-5 flex items-center justify-center p-0 bg-zinc-200 hover:bg-zinc-50 border-none text-zinc-700 hover:text-zinc-900',
-                            ]"
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke-width="1.5"
-                                stroke="currentColor"
-                                class="h-4 w-4"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M6 18 18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </BaseButton>
-                    </BaseBadge>
-                </div-->
-
                 <div
                     ref="reference"
                     :class="
@@ -69,6 +29,7 @@
                         :displayValue="displayProperty"
                         :placeholder="placeholder"
                         autoComplete="off"
+                        @focus="open = true"
                         @change="query = $event.target.value"
                     />
                     <ComboboxButton
@@ -92,14 +53,14 @@
                         </svg>
                     </ComboboxButton>
                 </div>
-                <transition
-                    enter-active-class="transition duration-100 ease-out"
-                    enter-from-class="transform scale-95 opacity-0"
-                    enter-to-class="transform scale-100 opacity-100"
-                    leave-active-class="transition duration-75 ease-out"
-                    leave-from-class="transform scale-100 opacity-100"
-                    leave-to-class="transform scale-95 opacity-0"
-                >
+
+                <!--TransitionRoot
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                    @after-leave="query = ''"
+                -->
+                <Teleport to="body" :disabled="isStatic">
                     <ComboboxOptions
                         ref="floating"
                         :class="
@@ -112,34 +73,41 @@
                             )
                         "
                         :style="floatingStyles"
+                        :static="isStatic"
                     >
                         <div v-if="$slots.static">
-                            <slot
-                                name="static"
-                                v-bind="{ query, searching }"
-                            ></slot>
+                            <slot name="static" v-bind="{ query, searching }" />
                         </div>
 
                         <div v-if="searching">
-                            <slot name="searching"> </slot>
+                            <slot name="searching" />
                         </div>
 
                         <div v-if="filteredItems.length === 0 && !searching">
-                            <slot v-if="$slots.empty" name="empty"></slot>
+                            <slot v-if="$slots.empty" name="empty" />
                             <span v-else>No results</span>
                         </div>
 
                         <div v-if="groupBy">
                             <div
                                 v-for="(group, groupName) in groupByFnc(
-                                    filteredItems,
+                                    [...prependItems, ...filteredItems],
                                     (item) => item[groupBy as string]
                                 )"
+                                class="border-t border-zinc-300/60 px-2 first:border-t-0"
                             >
-                                <div class="p-3 text-base font-medium">
-                                    {{ groupName }}
+                                <div class="p-3 pb-0 text-base font-medium">
+                                    {{
+                                        ![
+                                            'undefined',
+                                            null,
+                                            undefined,
+                                        ].includes(groupName)
+                                            ? groupName
+                                            : 'Uncategorized'
+                                    }}
                                 </div>
-                                <div class="grid grid-cols-2">
+                                <div class="-mx-3 grid grid-cols-2 p-3">
                                     <ComboboxOption
                                         v-if="!searching"
                                         v-for="item in group"
@@ -150,7 +118,11 @@
                                         <slot
                                             v-if="$slots.item"
                                             name="item"
-                                            v-bind="{ item, active, selected }"
+                                            v-bind="{
+                                                item,
+                                                active,
+                                                selected,
+                                            }"
                                         />
                                     </ComboboxOption>
                                 </div>
@@ -175,29 +147,10 @@
                             v-if="$slots.options"
                             name="options"
                             v-bind="{ filteredItems }"
-                        ></slot>
-
-                        <!--div v-else>
-                            <ComboboxOption
-                                v-for="item in filteredItems"
-                                :key="item[uidProperty]"
-                                :value="item[valueProperty]"
-                                v-slot="{ active, selected }"
-                            >
-                                <div
-                                    class="rounded-lg p-2"
-                                    :class="{
-                                        'bg-blue-500 text-white': active,
-                                        'bg-white text-black': !active,
-                                    }"
-                                >
-                                    {{ displayProperty(item) }}
-                                    {{ selected ? '✓' : '' }}
-                                </div>
-                            </ComboboxOption>
-                        </div-->
+                        />
                     </ComboboxOptions>
-                </transition>
+                </Teleport>
+                <!--/TransitionRoot-->
             </div>
         </Combobox>
     </div>
@@ -213,9 +166,8 @@ import {
     ComboboxInput,
     ComboboxOptions,
     ComboboxOption,
+    // TransitionRoot,
 } from '@headlessui/vue'
-// import BaseBadge from './BaseBadge.vue'
-// import BaseButton from './BaseButton.vue'
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -231,6 +183,8 @@ const props = withDefaults(
             inputContainer?: string
             inputElement?: string
         }
+        disabled?: string[]
+        prependItems?: any[]
         defaultItems?: any[]
         displayProperty?: (item: any) => string
         immediate?: boolean
@@ -238,6 +192,7 @@ const props = withDefaults(
         modelValue?: any
         multiple?: boolean
         nullable?: boolean
+        isStatic?: boolean
         placeholder?: string
         groupBy?: string
         searcher?: (
@@ -265,16 +220,11 @@ const props = withDefaults(
             inputeElement: '',
         }),
         defaultItems: () => [],
+        disabled: () => [],
         displayProperty: (item: any) => item.name,
         immediate: false,
+        isStatic: false,
         items: () => [],
-        modelValue: undefined,
-        multiple: false,
-        nullable: false,
-        placeholder: 'Search...',
-        searcher: undefined,
-        uidProperty: 'id',
-        valueProperty: 'value',
         middlewareOptions: () => ({
             autoPlacement: {
                 allowedPlacements: ['top-start', 'bottom-start'],
@@ -282,10 +232,18 @@ const props = withDefaults(
             buffer: 20,
             size: {},
         }),
+        modelValue: undefined,
+        multiple: false,
+        nullable: false,
+        placeholder: 'Search...',
+        prependItems: () => [],
+        searcher: undefined,
         theme: () => ({
             baseDropdownInputContainer: '',
             baseDropdownInputText: '',
         }),
+        uidProperty: 'id',
+        valueProperty: 'value',
     }
 )
 
@@ -293,12 +251,12 @@ const componentJarTheme = inject(
     'componentJarTheme'
 ) as unknown as ThemeConfigurator
 
-// const activeItem = ref<any>(props.modelValue)
 const filteredItems = ref<any[]>([])
 const floating = ref()
 const query = ref<string>('')
 const reference = ref()
 const searching = ref(false)
+const open = ref(false)
 
 const activeItem = computed({
     get: () => props.modelValue,
@@ -308,7 +266,8 @@ const activeItem = computed({
 })
 
 const { floatingStyles } = useFloating(reference, floating, {
-    strategy: 'fixed',
+    // open: open.value,
+    strategy: props.isStatic ? 'absolute' : 'fixed',
     transform: false,
     middleware: [
         autoPlacement({
@@ -322,28 +281,24 @@ const { floatingStyles } = useFloating(reference, floating, {
                 const minWidth =
                     props.middlewareOptions.size?.minWidth || referenceWidth
 
-                // const maxWidth = Math.
-
                 Object.assign(elements.floating.style, {
                     width: `${minWidth}px`,
                     minWidth: `${minWidth}px`,
                     maxWidth: `${minWidth - (props.middlewareOptions.buffer || 20)}px`,
                     maxHeight: `${availableHeight - (props.middlewareOptions.buffer || 20)}px`,
                 })
+
+                /* console.log('availableHeight', availableHeight)
+
+                elements.floating.style.maxHeight =
+                    availableHeight >= elements.floating.scrollHeight
+                        ? ''
+                        : `${availableHeight}px` */
             },
         }),
     ],
     whileElementsMounted: autoUpdate,
 })
-
-/* watch(
-    () => props.modelValue,
-    (value) => {
-        console.log('BaseTypeahead: watch(props.modelValue)', value)
-        activeItem.value = value
-    },
-    { immediate: true }
-) */
 
 watch(
     () => query.value,
@@ -361,7 +316,6 @@ watch(
             filteredItems.value = []
         }
     }
-    // { immediate: true }
 )
 
 watch(
@@ -372,14 +326,6 @@ watch(
     { immediate: true }
 )
 
-/* watch(
-    () => activeItem.value,
-    (item) => {
-        emit('update:modelValue', item)
-    },
-    { immediate: false }
-) */
-
 const groupByFnc = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
     arr.reduce(
         (groups, item) => {
@@ -388,4 +334,8 @@ const groupByFnc = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
         },
         {} as Record<K, T[]>
     )
+
+defineExpose({
+    query,
+})
 </script>

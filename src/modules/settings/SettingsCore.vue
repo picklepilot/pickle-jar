@@ -1,7 +1,7 @@
 <template>
     <div class="flex">
         <div :class="componentJarTheme.themeParams.settingsMenuContainer">
-            <nav class="flex flex-1 flex-col">
+            <nav class="flex min-h-full flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
                     <li class="text-base font-medium">Settings</li>
                     <li
@@ -47,6 +47,9 @@
                                 <span>{{ item.label }}</span>
                             </li>
                         </ul>
+                    </li>
+                    <li class="mt-auto">
+                        <slot name="nav-bottom" />
                     </li>
                 </ul>
             </nav>

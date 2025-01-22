@@ -7,18 +7,18 @@
         </div>
 
         <transition
-            enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0"
-            enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-in"
-            leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0"
+            enter-active-class="transition duration-200 ease-out"
+            enter-from-class="translate-y-1 opacity-0"
+            enter-to-class="translate-y-0 opacity-100"
+            leave-active-class="transition duration-150 ease-in"
+            leave-from-class="translate-y-0 opacity-100"
+            leave-to-class="translate-y-1 opacity-0"
         >
             <PopoverPanel
                 ref="floating"
                 :class="
                     m(
-                        'fixed left-0 z-10 overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
+                        'fixed z-10 transform overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
                         classes.menuItems
                     )
                 "
@@ -34,7 +34,13 @@
 import { ref } from 'vue'
 import { m } from '../utils'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
-import { autoPlacement, autoUpdate, size, useFloating } from '@floating-ui/vue'
+import {
+    autoPlacement,
+    autoUpdate,
+    offset,
+    size,
+    useFloating,
+} from '@floating-ui/vue'
 
 type AllowedPlacement =
     | 'top-start'
@@ -56,6 +62,17 @@ const props = withDefaults(
         }
         context?: any
         allowedPlacements?: AllowedPlacement[]
+        middlewareOptions?: {
+            autoPlacement?: {
+                allowedPlacements?: string[]
+            }
+            buffer?: number
+            offset?: number
+            size?: {
+                minWidth?: number
+                maxWidth?: number
+            }
+        }
     }>(),
     {
         buffer: 20,
@@ -68,6 +85,14 @@ const props = withDefaults(
         }),
         context: () => ({}),
         allowedPlacements: () => ['top-start', 'bottom-start'],
+        middlewareOptions: () => ({
+            autoPlacement: {
+                allowedPlacements: ['top-start', 'bottom-start'],
+            },
+            buffer: 20,
+            offset: 10,
+            size: {},
+        }),
     }
 )
 
@@ -82,6 +107,7 @@ const { floatingStyles } = useFloating(reference, floating, {
         autoPlacement({
             allowedPlacements: props.allowedPlacements,
         }),
+        offset(props.middlewareOptions.offset),
         size({
             apply({ availableHeight, elements }) {
                 const minMaxWidth =

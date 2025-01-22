@@ -3,8 +3,9 @@
         v-if="!item.children"
         :classes="[
             m(
-                'h-9 w-9 border-none flex items-center justify-center rounded-lg font-medium p-2 text-xs leading-none bg-transparent text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 relative',
-                item.classes?.button || ''
+                'h-8 w-8 border-none flex items-center justify-center rounded-md font-medium p-2 text-xs leading-none bg-transparent text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 relative',
+                item.classes?.button || '',
+                componentJarTheme.themeParams.baseButton
             ),
         ]"
         :disabled="item.disabled"
@@ -55,9 +56,10 @@
 <script setup lang="ts">
 import BaseButton from './BaseButton.vue'
 import BaseDropdownMenu from './BaseDropdownMenu.vue'
-import { type DropdownItem, type ToolbarItem } from '../types'
 import { computed } from 'vue'
 import { m } from '../utils'
+import { type DropdownItem, type ToolbarItem } from '../types'
+import { useThemeConfigurator } from '../composables'
 
 const props = withDefaults(
     defineProps<{
@@ -65,6 +67,8 @@ const props = withDefaults(
     }>(),
     {}
 )
+
+const { componentJarTheme } = useThemeConfigurator()
 
 const items = computed<DropdownItem[][]>(() => props.item.children || [])
 </script>

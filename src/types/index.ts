@@ -1,5 +1,5 @@
 export { type ColumnGroupDefinition } from './ColumnGroupDefinition'
 export { type DropdownItem } from './DropdownItem'
 export { type Tab } from './Tab'
-export { type ToolbarItem } from './ToolbarItem'
+export { type ToolbarItem, type ToolbarItemGroup } from './ToolbarItem'
 export { type AllowedPlacement } from './AllowedPlacement'

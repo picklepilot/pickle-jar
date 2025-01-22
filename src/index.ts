@@ -27,7 +27,12 @@ export {
     UiWindowToolbar,
 } from './modules/ui-window-toolbar'
 
-export type { ColumnGroupDefinition, DropdownItem, Tab } from './types'
+export type {
+    ColumnGroupDefinition,
+    DropdownItem,
+    Tab,
+    ToolbarItemGroup,
+} from './types'
 
 export { m } from './utils'
 

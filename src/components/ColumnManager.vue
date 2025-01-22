@@ -166,7 +166,8 @@
                                 }"
                             />
                         </template>
-                        <template #options="{ filteredItems }">
+
+                        <!--template #options="{ filteredItems }">
                             <div class="grid grid-cols-1 gap-2">
                                 <ComboboxOption
                                     v-for="item in filteredItems"
@@ -175,12 +176,16 @@
                                     :value="item"
                                     v-slot="{ selected, active }"
                                 >
-                                    <slot
-                                        name="option"
-                                        v-bind="{ item, selected, active }"
-                                    />
+
                                 </ComboboxOption>
                             </div>
+                        </template-->
+
+                        <template #item="{ item, selected, active }">
+                            <slot
+                                name="option"
+                                v-bind="{ item, selected, active }"
+                            />
                         </template>
                     </BaseTypeahead>
 

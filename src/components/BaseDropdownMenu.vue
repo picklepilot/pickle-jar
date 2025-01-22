@@ -18,6 +18,7 @@
                         theme.baseDropdownMenuTriggerButton
                     )
                 "
+                @click.stop.prevent
             >
                 <slot name="trigger"></slot>
             </MenuButton>
@@ -41,6 +42,7 @@
                 "
                 :style="floatingStyles"
             >
+                <slot name="top" />
                 <div
                     v-for="(group, i) in items"
                     :key="`dropdown-menu-${i}`"
