@@ -15,6 +15,7 @@ export type ThemeParam =
     | 'baseTypeaheadContainer'
     | 'buttonComboDropdownPrimaryButton'
     | 'buttonComboDropdownTriggerButton'
+    | 'buttonComboDropdownTriggerButtonIcon'
     | 'columnManagerContainer'
     | 'columnManagerGroupContainer'
     | 'columnManagerGroupHeader'
@@ -60,6 +61,7 @@ export type ThemeParams = {
     baseTypeaheadContainer: string
     buttonComboDropdownPrimaryButton: string
     buttonComboDropdownTriggerButton: string
+    buttonComboDropdownTriggerButtonIcon: string
     columnManagerContainer: string
     columnManagerGroupContainer: string
     columnManagerGroupHeader: string

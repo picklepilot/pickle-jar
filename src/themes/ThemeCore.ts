@@ -17,6 +17,7 @@ export const ThemeCore: ThemeParams = {
     baseTypeaheadContainer: '',
     buttonComboDropdownPrimaryButton: '',
     buttonComboDropdownTriggerButton: '',
+    buttonComboDropdownTriggerButtonIcon: '',
     columnManagerContainer: 'flex h-full',
     columnManagerGroupContainer: '',
     columnManagerGroupHeader: '',
