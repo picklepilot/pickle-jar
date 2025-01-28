@@ -13,13 +13,19 @@ export { default as ColorPicker } from './components/ColorPicker.vue'
 export { default as ColumnManager } from './components/ColumnManager.vue'
 export { default as EmptyState } from './components/EmptyState.vue'
 export { default as InputLabel } from './components/InputLabel.vue'
+export { default as InputSwitch } from './components/InputSwitch.vue'
 export { default as InputText } from './components/InputText.vue'
 export { default as InputTextarea } from './components/InputTextarea.vue'
 export { default as ModalComponent } from './components/ModalComponent.vue'
 export { default as SortableComponent } from './components/SortableComponent.vue'
 export { default as TabsNav } from './components/TabsNav.vue'
+export { default as TipsPanel } from './components/TipsPanel.vue'
 
 export { SettingsCore, type SettingsConfiguration } from './modules/settings'
+export {
+    ConfirmationDialog,
+    useConfirmationDialogStore,
+} from './modules/confirmation-dialog'
 
 export {
     UiWindow,
