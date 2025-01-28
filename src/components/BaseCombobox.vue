@@ -5,7 +5,7 @@
                 ref="reference"
                 :class="
                     m(
-                        'relative w-full cursor-default overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-left ring-2 ring-transparent focus-within:border-indigo-500 focus-within:ring-indigo-200/60 hover:bg-zinc-50 focus:bg-white focus:shadow focus:outline-none sm:text-sm',
+                        'relative w-full cursor-default overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-left ring-2 ring-transparent focus-within:border-indigo-500 focus-within:ring-indigo-200/60 hover:bg-zinc-50 focus:bg-white focus:shadow-sm focus:outline-hidden sm:text-sm',
                         componentJarTheme.themeParams
                             .baseDropdownInputContainer,
                         theme.comboboxInputTextContainer
@@ -57,7 +57,7 @@
                     ref="floating"
                     :class="
                         m(
-                            'absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
+                            'absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm',
                             componentJarTheme.themeParams
                                 .comboboxFloatingPanelContainer,
                             componentJarTheme.themeParams

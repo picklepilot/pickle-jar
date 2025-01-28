@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex items-center rounded-md shadow-sm">
+    <div class="relative flex items-center rounded-md shadow-xs">
         <BaseButton
             :theme="{
                 baseButton: m(
@@ -29,6 +29,13 @@
         >
             <template #trigger>
                 <svg
+                    :class="
+                        m(
+                            componentJarTheme.themeParams
+                                .buttonComboDropdownTriggerButtonIcon,
+                            theme.buttonComboDropdownTriggerButtonIcon
+                        )
+                    "
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
                     viewBox="0 0 24 24"
@@ -61,6 +68,7 @@ withDefaults(
         theme?: {
             buttonComboDropdownPrimaryButton?: string
             buttonComboDropdownTriggerButton?: string
+            buttonComboDropdownTriggerButtonIcon?: string
         }
     }>(),
     {
@@ -68,6 +76,7 @@ withDefaults(
         theme: () => ({
             buttonComboDropdownPrimaryButton: '',
             buttonComboDropdownTriggerButton: '',
+            buttonComboDropdownTriggerButtonIcon: '',
         }),
     }
 )

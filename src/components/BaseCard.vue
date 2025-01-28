@@ -2,7 +2,7 @@
     <div
         :class="
             m(
-                'space-y-5 rounded-lg border border-zinc-300/80 px-4 py-5 shadow-sm sm:px-6',
+                'space-y-5 rounded-lg border border-zinc-300/80 px-4 py-5 shadow-xs sm:px-6',
                 classes
             )
         "

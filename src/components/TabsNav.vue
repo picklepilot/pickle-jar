@@ -4,7 +4,9 @@
             <SortableComponent
                 ref="sortableRef"
                 :classes="
-                    ['flex space-x-0.5', classic && 'px-6'].filter(Boolean)
+                    ['flex flex-wrap space-x-0.5', classic && 'px-6'].filter(
+                        Boolean
+                    )
                 "
                 :model-value="effectiveTabs"
                 @update:modelValue="onUpdateOrder"
@@ -18,7 +20,7 @@
                                 'pj-tab flex cursor-pointer items-center rounded-t border-x border-t px-2 py-1.5 text-sm font-medium leading-none transition-all',
                                 classic
                                     ? 'px-3 py-2 text-sm font-medium leading-none transition-all data-[active=false]:relative data-[active=false]:border-transparent data-[active=true]:border-zinc-200 data-[active=true]:bg-white data-[active=false]:hover:bg-zinc-900/5'
-                                    : 'flex cursor-pointer items-center rounded border-0 px-3 py-2.5 text-sm font-medium leading-none transition-all hover:no-underline data-[active=false]:relative data-[active=true]:bg-white data-[active=false]:text-zinc-500 data-[active=true]:shadow-sm data-[active=false]:hover:bg-zinc-900/5 data-[active=false]:hover:text-zinc-800',
+                                    : 'flex cursor-pointer items-center rounded-sm border-0 px-3 py-2.5 text-sm font-medium leading-none transition-all hover:no-underline data-[active=false]:relative data-[active=true]:bg-white data-[active=false]:text-zinc-500 data-[active=true]:shadow-xs data-[active=false]:hover:bg-zinc-900/5 data-[active=false]:hover:text-zinc-800',
                                 tab.classes || '',
                                 tabClasses,
                                 classes.tab,

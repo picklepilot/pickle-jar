@@ -3,7 +3,7 @@
         ref="uiWindow"
         :class="
             m(
-                'ui-window-container resize-container fixed z-[9997] flex flex-col overflow-hidden',
+                'ui-window-container resize-container fixed z-9997 flex flex-col overflow-hidden',
                 componentJarTheme.themeParams.uiWindowToolbarWindowContainer,
                 fullscreen && 'rounded-0'
             )
@@ -149,7 +149,7 @@ const viewportSizes = ref({
 const resizerConfig = ref<{ direction: string; classes?: string }[]>([
     {
         direction: '*',
-        classes: 'bottom-0 right-0 z-[11] h-4 w-4 cursor-se-resize',
+        classes: 'bottom-0 right-0 z-11 h-4 w-4 cursor-se-resize',
     },
 
     {
@@ -174,17 +174,17 @@ const resizerConfig = ref<{ direction: string; classes?: string }[]>([
 
     {
         direction: 'sw',
-        classes: 'bottom-0 left-0 z-[11] h-4 w-4 cursor-sw-resize',
+        classes: 'bottom-0 left-0 z-11 h-4 w-4 cursor-sw-resize',
     },
 
     {
         direction: 'nw',
-        classes: 'left-0 top-0 z-[11] h-4 w-4 cursor-nw-resize',
+        classes: 'left-0 top-0 z-11 h-4 w-4 cursor-nw-resize',
     },
 
     {
         direction: 'ne',
-        classes: 'right-0 top-0 z-[11] h-4 w-4 cursor-ne-resize',
+        classes: 'right-0 top-0 z-11 h-4 w-4 cursor-ne-resize',
     },
 ])
 

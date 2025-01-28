@@ -3,7 +3,9 @@
         <div :class="componentJarTheme.themeParams.settingsMenuContainer">
             <nav class="flex min-h-full flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                    <li class="text-base font-medium">Settings</li>
+                    <li class="text-base font-medium">
+                        {{ title || 'Settings' }}
+                    </li>
                     <li
                         v-for="(
                             configGroup, groupName
@@ -70,6 +72,7 @@ import { useThemeConfigurator } from '../../composables'
 withDefaults(
     defineProps<{
         settingsConfiguration?: SettingsConfiguration
+        title?: string
     }>(),
     {
         settingsConfiguration: () => ({}),

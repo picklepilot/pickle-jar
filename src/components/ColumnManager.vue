@@ -41,7 +41,7 @@
                             v-if="editableGroupConfiguration[groupName]"
                             :classes="{
                                 menu: 'leading-none',
-                                menuButton: 'rounded p-1 hover:bg-zinc-200/80',
+                                menuButton: 'rounded-sm p-1 hover:bg-zinc-200/80',
                             }"
                         >
                             <template #trigger>
@@ -279,7 +279,7 @@
                                     @click.prevent.stop="
                                         removeColumn(groupName as string, index)
                                     "
-                                    class="flex h-6 w-6 items-center justify-center rounded text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                    class="flex h-6 w-6 items-center justify-center rounded-sm text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -301,7 +301,7 @@
                                         focusedColumn =
                                             editableColumns[groupName][index]
                                     "
-                                    class="flex h-6 w-6 items-center justify-center rounded text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                    class="flex h-6 w-6 items-center justify-center rounded-sm text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"

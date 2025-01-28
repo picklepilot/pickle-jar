@@ -8,7 +8,7 @@
                 classes,
                 [
                     bordered
-                        ? '!ring-1 ring-[color-mix(in_srgb,_currentColor_20%,_transparent)]'
+                        ? 'ring-1! ring-[color-mix(in_srgb,_currentColor_20%,_transparent)]'
                         : '',
                 ]
             )

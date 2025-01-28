@@ -20,7 +20,7 @@
                 ...inputClasses,
             ]"
             :readonly="readonly"
-            @blur="$emit('blur', $event)"
+            @blur="$emit('blur-sm', $event)"
             @focus="$emit('focus', $event)"
         />
     </div>
@@ -42,7 +42,7 @@ interface Props {
     rows?: string | number
 }
 
-const emit = defineEmits(['blur', 'focus', 'update:modelValue'])
+const emit = defineEmits(['blur-sm', 'focus', 'update:modelValue'])
 
 const props = withDefaults(defineProps<Props>(), {
     autocomplete: 'off',

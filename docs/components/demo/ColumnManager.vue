@@ -3,7 +3,7 @@
         <ColumnManager
             ref="columnManager"
             :drop-down-classes="{
-                comboboxOptionsContainer: 'z-[51]',
+                comboboxOptionsContainer: 'z-51',
             }"
             :default-items="defaultItems"
             :existing-columns="existingColumns"

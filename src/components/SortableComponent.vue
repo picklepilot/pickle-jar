@@ -132,7 +132,7 @@ onMounted(() => {
 
 function syncArrayElements<T>(
     listItems: any,
-    domElements: HTMLElement[],
+    _domElements: HTMLElement[],
     from: number[],
     to: number[]
 ) {
@@ -174,11 +174,11 @@ function syncArrayElements<T>(
         list.value = newArray
 
         // If multiDrag is enabled, deselect all elements
-        if (Sortable.MultiDrag) {
+        /* if (Sortable.MultiDrag) {
             domElements.forEach((element) => {
                 Sortable.utils.deselect(element)
             })
-        }
+        } */
 
         emit('update:modelValue', list.value)
     })
@@ -190,5 +190,9 @@ function getItemBindings(item: any, idx: number) {
 
 onMounted(() => {
     // do nothing
+})
+
+defineExpose({
+    sortable: Sortable,
 })
 </script>

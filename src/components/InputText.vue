@@ -10,7 +10,7 @@
                 ...classes
             )
         "
-        @blur="$emit('blur', $event)"
+        @blur="$emit('blur-sm', $event)"
         @keyup.enter="$emit('enter', $event)"
         @focus="$emit('focus', $event)"
     />
@@ -27,7 +27,7 @@ interface Props {
     placeholder?: string
 }
 
-const emit = defineEmits(['blur', 'enter', 'focus', 'update:modelValue'])
+const emit = defineEmits(['blur-sm', 'enter', 'focus', 'update:modelValue'])
 
 const props = withDefaults(defineProps<Props>(), {
     classes: () => [],

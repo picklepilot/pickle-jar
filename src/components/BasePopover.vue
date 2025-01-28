@@ -18,7 +18,7 @@
                 ref="floating"
                 :class="
                     m(
-                        'fixed z-10 transform overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm',
+                        'fixed z-10 transform overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm',
                         classes.menuItems
                     )
                 "
@@ -37,18 +37,26 @@ import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import {
     autoPlacement,
     autoUpdate,
+    limitShift,
     offset,
+    shift,
     size,
     useFloating,
 } from '@floating-ui/vue'
 
 type AllowedPlacement =
-    | 'top-start'
-    | 'bottom-start'
-    | 'top-end'
+    | 'bottom'
     | 'bottom-end'
+    | 'bottom-start'
     | 'left'
+    | 'left-end'
+    | 'left-start'
     | 'right'
+    | 'right-end'
+    | 'right-start'
+    | 'top'
+    | 'top-end'
+    | 'top-start'
 
 const props = withDefaults(
     defineProps<{
@@ -64,7 +72,7 @@ const props = withDefaults(
         allowedPlacements?: AllowedPlacement[]
         middlewareOptions?: {
             autoPlacement?: {
-                allowedPlacements?: string[]
+                allowedPlacements?: AllowedPlacement[]
             }
             buffer?: number
             offset?: number
@@ -104,8 +112,16 @@ const { floatingStyles } = useFloating(reference, floating, {
     strategy: 'fixed',
     transform: false,
     middleware: [
+        shift({
+            padding: 10,
+            limiter: limitShift({
+                offset: 10,
+            }),
+        }),
         autoPlacement({
-            allowedPlacements: props.allowedPlacements,
+            allowedPlacements:
+                props.middlewareOptions.autoPlacement?.allowedPlacements ||
+                props.allowedPlacements,
         }),
         offset(props.middlewareOptions.offset),
         size({

@@ -10,7 +10,7 @@
                 v-show="showModal"
                 :class="
                     clsx(
-                        'fixed inset-0 z-[9997] h-full w-full bg-zinc-900/20',
+                        'fixed inset-0 z-9997 h-full w-full bg-zinc-900/20',
                         !showModal && 'pointer-events-none'
                     )
                 "
@@ -21,7 +21,7 @@
         <div
             :class="
                 m(
-                    'fixed inset-0 z-[9998] w-screen overflow-y-auto p-10',
+                    'fixed inset-0 z-9998 w-screen overflow-y-auto p-10',
                     ...containerClasses,
                     !showModal && 'pointer-events-none',
                     componentJarTheme.themeParams.modalScrollContainer
@@ -30,8 +30,13 @@
             @click="$emit('close', false)"
         >
             <div
-                class="flex min-h-full items-center justify-center p-4 sm:items-center sm:p-0"
-                :class="componentJarTheme.themeParams.modalMainContainer"
+                :class="
+                    m(
+                        'flex min-h-full items-center justify-center p-4 sm:items-center sm:p-0',
+                        componentJarTheme.themeParams.modalMainContainer,
+                        theme.modalMainContainer
+                    )
+                "
             >
                 <transition
                     enter-from-class="duration-300 ease-out opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -47,7 +52,8 @@
                                 'relative h-auto w-full transform rounded-xl border border-zinc-100/50 bg-white p-5 shadow-xl transition-all sm:max-w-lg',
                                 classes,
                                 componentJarTheme.themeParams
-                                    .modalMainContentContainer
+                                    .modalMainContentContainer,
+                                theme.modalMainContentContainer
                             )
                         "
                         @click.stop
@@ -111,12 +117,21 @@ interface Props {
      * @type {boolean}
      */
     showModal: boolean
+
+    theme?: {
+        modalMainContainer?: string
+        modalMainContentContainer?: string
+    }
 }
 
 const props = withDefaults(defineProps<Props>(), {
     classes: () => [],
     containerClasses: () => [],
     disabled: () => [],
+    theme: () => ({
+        modalMainContainer: '',
+        modalMainContentContainer: '',
+    }),
 })
 
 const { componentJarTheme } = useThemeConfigurator()
