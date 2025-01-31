@@ -17,10 +17,10 @@
                         @click.prevent="$emit('clicked', tab.id)"
                         :class="
                             m(
-                                'pj-tab flex cursor-pointer items-center rounded-t border-x border-t px-2 py-1.5 text-sm font-medium leading-none transition-all',
+                                'pj-tab flex cursor-pointer items-center rounded-t border-x border-t px-2 py-1.5 text-sm leading-none font-medium transition-all',
                                 classic
-                                    ? 'px-3 py-2 text-sm font-medium leading-none transition-all data-[active=false]:relative data-[active=false]:border-transparent data-[active=true]:border-zinc-200 data-[active=true]:bg-white data-[active=false]:hover:bg-zinc-900/5'
-                                    : 'flex cursor-pointer items-center rounded-sm border-0 px-3 py-2.5 text-sm font-medium leading-none transition-all hover:no-underline data-[active=false]:relative data-[active=true]:bg-white data-[active=false]:text-zinc-500 data-[active=true]:shadow-xs data-[active=false]:hover:bg-zinc-900/5 data-[active=false]:hover:text-zinc-800',
+                                    ? 'px-3 py-2 text-sm leading-none font-medium transition-all data-[active=false]:relative data-[active=false]:border-transparent data-[active=false]:hover:bg-zinc-900/5 data-[active=true]:border-zinc-200 data-[active=true]:bg-white'
+                                    : 'flex cursor-pointer items-center rounded-xs border-0 px-3 py-2.5 text-sm leading-none font-medium transition-all hover:no-underline data-[active=false]:relative data-[active=false]:text-zinc-500 data-[active=false]:hover:bg-zinc-900/5 data-[active=false]:hover:text-zinc-800 data-[active=true]:bg-white data-[active=true]:shadow-2xs',
                                 tab.classes || '',
                                 tabClasses,
                                 classes.tab,
@@ -36,8 +36,9 @@
                             class="fa-regular"
                             :class="tab.icon"
                         />
-                        <span v-html="tab.label" />
-                        <slot name="right" v-bind="tab"></slot>
+                        <span v-if="!$slots.label" v-html="tab.label" />
+                        <slot name="label" v-bind="tab" />
+                        <slot name="right" v-bind="tab" />
                     </a>
                 </template>
             </SortableComponent>

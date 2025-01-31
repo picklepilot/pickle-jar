@@ -5,7 +5,7 @@
                 ref="reference"
                 :class="
                     m(
-                        'relative w-full cursor-default overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-left ring-2 ring-transparent focus-within:border-indigo-500 focus-within:ring-indigo-200/60 hover:bg-zinc-50 focus:bg-white focus:shadow-sm focus:outline-hidden sm:text-sm',
+                        'relative w-full cursor-default overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 text-left ring-2 ring-transparent focus-within:border-indigo-500 focus-within:ring-indigo-200/60 hover:bg-zinc-50 focus:bg-white focus:shadow-xs focus:outline-hidden sm:text-sm',
                         componentJarTheme.themeParams
                             .baseDropdownInputContainer,
                         theme.comboboxInputTextContainer
@@ -15,7 +15,7 @@
                 <ComboboxInput
                     :class="
                         m(
-                            'w-full rounded-lg border-none bg-zinc-50 py-2.5 pl-3 pr-10 text-sm leading-5 text-zinc-900 focus-within:border-none',
+                            'w-full rounded-lg border-none bg-zinc-50 py-2.5 pr-10 pl-3 text-sm leading-5 text-zinc-900 focus-within:border-none',
                             componentJarTheme.themeParams.baseDropdownInputText,
                             theme.comboboxInputText
                         )
@@ -45,29 +45,32 @@
                     </svg>
                 </ComboboxButton>
             </div>
-            <transition
+            <Teleport to="body" :disabled="isStatic">
+                <!--transition
                 enter-active-class="transition duration-100 ease-out"
                 enter-from-class="transform scale-95 opacity-0"
                 enter-to-class="transform scale-100 opacity-100"
                 leave-active-class="transition duration-75 ease-out"
                 leave-from-class="transform scale-100 opacity-100"
                 leave-to-class="transform scale-95 opacity-0"
-            >
+            -->
                 <ComboboxOptions
                     ref="floating"
                     :class="
                         m(
-                            'absolute z-10 mt-1 w-full overflow-auto rounded-md bg-white p-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm',
+                            'fixed left-0 z-10 overflow-x-hidden overflow-y-auto rounded-lg bg-white p-3 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm',
                             componentJarTheme.themeParams
                                 .comboboxFloatingPanelContainer,
                             componentJarTheme.themeParams
                                 .generalFloatingPanelContainer
                         )
                     "
+                    :style="floatingStyles"
+                    :static="isStatic"
                 >
                     <div
                         v-if="filteredItems.length === 0 && query !== ''"
-                        class="relative cursor-default select-none px-4 py-2 text-zinc-700"
+                        class="relative cursor-default px-4 py-2 text-zinc-700 select-none"
                     >
                         Nothing found.
                     </div>
@@ -87,7 +90,7 @@
 
                         <li
                             v-else
-                            class="relative cursor-default select-none rounded-lg py-2 pl-10 pr-4"
+                            class="relative cursor-default rounded-lg py-2 pr-4 pl-10 select-none"
                             :class="{
                                 'bg-zinc-100': active,
                                 'text-zinc-900': !active,
@@ -111,7 +114,7 @@
                         </li>
                     </ComboboxOption>
                 </ComboboxOptions>
-            </transition>
+            </Teleport>
         </div>
     </Combobox>
 </template>
@@ -119,7 +122,7 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import { m } from '../utils'
-import { autoPlacement, size, useFloating } from '@floating-ui/vue'
+import { autoPlacement, autoUpdate, size, useFloating } from '@floating-ui/vue'
 import { useThemeConfigurator } from '../composables'
 import {
     Combobox,
@@ -142,6 +145,7 @@ const props = withDefaults(
         }
         displayValue?: (item: any) => string
         items?: any[]
+        isStatic?: boolean
         nullable?: boolean
         immediate?: boolean
         theme?: {
@@ -152,6 +156,7 @@ const props = withDefaults(
             autoPlacement?: {
                 allowedPlacements?: string[]
             }
+            buffer?: number
             size?: {
                 minWidth?: number
                 maxWidth?: number
@@ -178,6 +183,7 @@ const props = withDefaults(
             autoPlacement: {
                 allowedPlacements: ['top-start', 'bottom-start'],
             },
+            buffer: 20,
             size: {},
         }),
     }
@@ -187,13 +193,16 @@ const { componentJarTheme } = useThemeConfigurator()
 
 const reference = ref()
 const floating = ref()
-const BUFFER = 20
 
-useFloating(reference, floating, {
+const { floatingStyles } = useFloating(reference, floating, {
+    strategy: 'fixed',
+    transform: false,
     middleware: [
-        autoPlacement(),
+        autoPlacement({
+            allowedPlacements: ['top-start', 'bottom-start'],
+        }),
         size({
-            apply({ availableWidth, availableHeight, elements }) {
+            apply({ availableHeight, elements }) {
                 const referenceWidth =
                     elements.reference.getBoundingClientRect().width
 
@@ -201,13 +210,15 @@ useFloating(reference, floating, {
                     props.middlewareOptions.size?.minWidth || referenceWidth
 
                 Object.assign(elements.floating.style, {
+                    width: `${minWidth}px`,
                     minWidth: `${minWidth}px`,
-                    maxWidth: `${availableWidth - BUFFER}px`,
-                    maxHeight: `${availableHeight - BUFFER}px`,
+                    maxWidth: `${minWidth - (props.middlewareOptions.buffer || 20)}px`,
+                    maxHeight: `${availableHeight - (props.middlewareOptions.buffer || 20)}px`,
                 })
             },
         }),
     ],
+    whileElementsMounted: autoUpdate,
 })
 
 const comboboxButton = ref()

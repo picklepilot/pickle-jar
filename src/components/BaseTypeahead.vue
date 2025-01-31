@@ -29,7 +29,13 @@
                         :displayValue="displayProperty"
                         :placeholder="placeholder"
                         autoComplete="off"
-                        @focus="open = true"
+                        @focus="
+                            () => {
+                                open = true
+                                focused = true
+                            }
+                        "
+                        @blur="focused = false"
                         @change="query = $event.target.value"
                     />
                     <ComboboxButton
@@ -65,11 +71,12 @@
                         ref="floating"
                         :class="
                             m(
-                                'fixed left-0 z-10 overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm',
+                                'fixed left-0 z-10 overflow-x-hidden overflow-y-auto rounded-lg bg-white p-3 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm',
                                 componentJarTheme.themeParams
                                     .comboboxFloatingPanelContainer,
                                 componentJarTheme.themeParams
-                                    .generalFloatingPanelContainer
+                                    .generalFloatingPanelContainer,
+                                theme.generalFloatingPanelContainer
                             )
                         "
                         :style="floatingStyles"
@@ -176,6 +183,7 @@ const props = withDefaults(
         theme?: {
             baseDropdownInputContainer?: string
             baseDropdownInputText?: string
+            generalFloatingPanelContainer?: string
         }
         classes?: {
             comboboxOptionsContainer?: string
@@ -241,6 +249,7 @@ const props = withDefaults(
         theme: () => ({
             baseDropdownInputContainer: '',
             baseDropdownInputText: '',
+            generalFloatingPanelContainer: '',
         }),
         uidProperty: 'id',
         valueProperty: 'value',
@@ -257,6 +266,7 @@ const query = ref<string>('')
 const reference = ref()
 const searching = ref(false)
 const open = ref(false)
+const focused = ref(false)
 
 const activeItem = computed({
     get: () => props.modelValue,
@@ -287,13 +297,6 @@ const { floatingStyles } = useFloating(reference, floating, {
                     maxWidth: `${minWidth - (props.middlewareOptions.buffer || 20)}px`,
                     maxHeight: `${availableHeight - (props.middlewareOptions.buffer || 20)}px`,
                 })
-
-                /* console.log('availableHeight', availableHeight)
-
-                elements.floating.style.maxHeight =
-                    availableHeight >= elements.floating.scrollHeight
-                        ? ''
-                        : `${availableHeight}px` */
             },
         }),
     ],
@@ -336,6 +339,7 @@ const groupByFnc = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
     )
 
 defineExpose({
+    focused,
     query,
 })
 </script>

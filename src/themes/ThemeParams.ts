@@ -27,6 +27,7 @@ export type ThemeParam =
     | 'comboboxFloatingPanelContainer'
     | 'generalFloatingPanelContainer'
     | 'inputText'
+    | 'modalBackdrop'
     | 'modalMainContainer'
     | 'modalMainContentContainer'
     | 'modalScrollContainer'
@@ -73,6 +74,7 @@ export type ThemeParams = {
     comboboxFloatingPanelContainer: string
     generalFloatingPanelContainer: string
     inputText: string
+    modalBackdrop: string
     modalMainContainer: string
     modalMainContentContainer: string
     modalScrollContainer: string

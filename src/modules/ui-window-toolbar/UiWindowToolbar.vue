@@ -1,10 +1,5 @@
 <template>
-    <div
-        :class="[
-            !windows.length && '',
-            'shrink-0 border-t border-zinc-300/80 bg-zinc-100',
-        ]"
-    >
+    <div :class="[!windows.length && '', 'shrink-0 bg-zinc-100']">
         <UiWindow
             v-for="windowDef in windows"
             :key="`ui-window-${windowDef.id}`"
