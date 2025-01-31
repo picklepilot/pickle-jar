@@ -58,30 +58,3 @@ function unhighlightElement(target: string) {
     })
 }
 </script>
-
-<style lang="css">
-.tip-highlight {
-    position: relative;
-}
-
-.tip-highlight::after {
-    opacity: 0;
-    content: '';
-    display: block;
-    position: absolute;
-    border-radius: inherit;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    height: 100%;
-    border: 2px solid #fde047; /* TW: text-yellow-300 */
-    background-color: rgba(255, 252, 127, 0.35); /* TW: text-yellow-300 */
-    z-index: 2;
-    transition: opacity 0.3s ease-in-out;
-    pointer-events: none;
-}
-
-.tip-highlight.active::after {
-    opacity: 1;
-}
-</style>

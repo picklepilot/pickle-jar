@@ -61,7 +61,12 @@
                         <button
                             v-if="!disabled.includes('close-button')"
                             @click="$emit('close', false)"
-                            class="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800"
+                            :class="
+                                m(
+                                    'absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800',
+                                    theme.modalCloseButton
+                                )
+                            "
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -119,6 +124,7 @@ interface Props {
     showModal: boolean
 
     theme?: {
+        modalCloseButton?: string
         modalMainContainer?: string
         modalMainContentContainer?: string
     }
@@ -129,6 +135,7 @@ const props = withDefaults(defineProps<Props>(), {
     containerClasses: () => [],
     disabled: () => [],
     theme: () => ({
+        modalCloseButton: '',
         modalMainContainer: '',
         modalMainContentContainer: '',
     }),

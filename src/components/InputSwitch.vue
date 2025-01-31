@@ -25,7 +25,7 @@
                 :aria-checked="checked"
                 :class="
                     m(
-                        'pointer-events-none inline-block h-4 w-4 translate-x-0 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out aria-checked:translate-x-4'
+                        'pointer-events-none inline-block h-4 w-4 translate-x-0 transform rounded-full bg-white shadow-xs ring-0 transition duration-200 ease-in-out aria-checked:translate-x-4'
                     )
                 "
             ></span>

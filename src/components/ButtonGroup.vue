@@ -2,7 +2,7 @@
     <div
         :class="
             m(
-                'relative flex items-center rounded-md shadow-xs',
+                'relative flex items-center rounded-md shadow-2xs',
                 theme.buttonGroupContainer
             )
         "

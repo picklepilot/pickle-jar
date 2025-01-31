@@ -1,5 +1,5 @@
 <template>
-    <div class="relative flex items-center rounded-md shadow-xs">
+    <div class="relative flex items-center rounded-md shadow-2xs">
         <BaseButton
             :theme="{
                 baseButton: m(
