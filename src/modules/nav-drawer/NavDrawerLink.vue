@@ -7,7 +7,7 @@
             item.disabled ? 'pointer-events-none opacity-50' : '',
             'group flex gap-x-1 rounded-lg px-2 py-1.5 leading-6 text-zinc-800',
         ]"
-        @click.prevent="$emit('click', item)"
+        @click.prevent="$emit('clicked-nav-item', item)"
     >
         <i
             v-if="item.icon"

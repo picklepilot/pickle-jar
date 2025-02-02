@@ -101,6 +101,12 @@
                                                                 :sidebar-open="
                                                                     sidebarDrawerOpen
                                                                 "
+                                                                @clicked-nav-item="
+                                                                    emit(
+                                                                        'clicked-nav-item',
+                                                                        $event
+                                                                    )
+                                                                "
                                                             />
 
                                                             <ul
@@ -157,7 +163,7 @@ import {
 import NavDrawerLink from './NavDrawerLink.vue'
 import { computed } from 'vue'
 
-const emit = defineEmits(['update:sidebarDrawerOpen'])
+const emit = defineEmits(['clicked-nav-item', 'update:sidebarDrawerOpen'])
 const props = withDefaults(
     defineProps<{
         navigation: any
