@@ -26,6 +26,8 @@ export {
     ConfirmationDialog,
     useConfirmationDialogStore,
 } from './modules/confirmation-dialog'
+export { FeaturePreview, type Feature } from './modules/feature-preview'
+export { NavDrawer } from './modules/nav-drawer'
 
 export {
     UiWindow,
