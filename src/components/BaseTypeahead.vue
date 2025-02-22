@@ -103,8 +103,18 @@
                                 )"
                                 class="border-t border-zinc-300/60 px-2 first:border-t-0"
                             >
-                                <div class="p-3 pb-0 text-base font-medium">
-                                    {{
+                                <div
+                                    class="flex items-center p-3 pb-0 text-base font-medium"
+                                >
+                                    <slot
+                                        v-if="$slots.group"
+                                        name="group"
+                                        v-bind="{
+                                            group,
+                                            groupName,
+                                        }"
+                                    />
+                                    <span v-else>{{
                                         ![
                                             'undefined',
                                             null,
@@ -112,7 +122,7 @@
                                         ].includes(groupName)
                                             ? groupName
                                             : 'Uncategorized'
-                                    }}
+                                    }}</span>
                                 </div>
                                 <div class="-mx-3 grid grid-cols-2 p-3">
                                     <ComboboxOption
@@ -180,38 +190,23 @@ const emit = defineEmits(['update:modelValue'])
 
 const props = withDefaults(
     defineProps<{
-        theme?: {
-            baseDropdownInputContainer?: string
-            baseDropdownInputText?: string
-            generalFloatingPanelContainer?: string
-        }
         classes?: {
             comboboxOptionsContainer?: string
             container?: string
             inputContainer?: string
             inputElement?: string
         }
-        disabled?: string[]
-        prependItems?: any[]
         defaultItems?: any[]
+        disabled?: string[]
         displayProperty?: (item: any) => string
-        immediate?: boolean
-        items?: any[]
-        modelValue?: any
-        multiple?: boolean
-        nullable?: boolean
-        isStatic?: boolean
-        placeholder?: string
         groupBy?: string
-        searcher?: (
-            query: string,
-            controller?: AbortController
-        ) => Promise<any[]>
-        uidProperty?: string
-        valueProperty?: string
+        groupsConfig?: any
+        immediate?: boolean
+        isStatic?: boolean
+        items?: any[]
         middlewareOptions?: {
             autoPlacement?: {
-                allowedPlacements?: string[]
+                allowedPlacements?: any
             }
             buffer?: number
             size?: {
@@ -219,6 +214,22 @@ const props = withDefaults(
                 maxWidth?: number
             }
         }
+        modelValue?: any
+        multiple?: boolean
+        nullable?: boolean
+        placeholder?: string
+        prependItems?: any[]
+        searcher?: (
+            query: string,
+            controller?: AbortController
+        ) => Promise<any[]>
+        theme?: {
+            baseDropdownInputContainer?: string
+            baseDropdownInputText?: string
+            generalFloatingPanelContainer?: string
+        }
+        uidProperty?: string
+        valueProperty?: string
     }>(),
     {
         classes: () => ({
@@ -230,6 +241,7 @@ const props = withDefaults(
         defaultItems: () => [],
         disabled: () => [],
         displayProperty: (item: any) => item.name,
+        groupsConfig: () => ({}),
         immediate: false,
         isStatic: false,
         items: () => [],
@@ -281,7 +293,8 @@ const { floatingStyles } = useFloating(reference, floating, {
     transform: false,
     middleware: [
         autoPlacement({
-            allowedPlacements: ['top-start', 'bottom-start'],
+            allowedPlacements: props.middlewareOptions.autoPlacement
+                ?.allowedPlacements || ['top-start', 'bottom-start'],
         }),
         size({
             apply({ availableHeight, elements }) {
@@ -341,5 +354,6 @@ const groupByFnc = <T, K extends keyof any>(arr: T[], key: (i: T) => K) =>
 defineExpose({
     focused,
     query,
+    searching,
 })
 </script>

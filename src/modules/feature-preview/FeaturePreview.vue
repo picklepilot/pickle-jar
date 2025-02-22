@@ -15,7 +15,12 @@
                 "
             >
                 <nav class="flex min-h-full flex-1 flex-col">
-                    <ul role="list" class="flex flex-1 flex-col">
+                    <ul
+                        role="list"
+                        :class="
+                            m('flex flex-1 flex-col', theme.menuListContainer)
+                        "
+                    >
                         <li
                             v-for="(feature, idx) in features"
                             :key="`feature-${idx}`"
@@ -127,9 +132,13 @@
                     </video>
                     <div
                         v-else
-                        class="flex h-80 w-full items-center justify-center overflow-hidden rounded-lg bg-zinc-50"
+                        class="flex h-auto w-full overflow-hidden rounded-lg bg-zinc-50"
                     >
-                        <span>This is where image/webm should go.</span>
+                        <img
+                            :src="features[focusedFeatureIdx].image"
+                            :alt="features[focusedFeatureIdx].name + ' image'"
+                            class="self-start"
+                        />
                     </div>
                 </div>
                 <div
@@ -157,10 +166,11 @@ withDefaults(
         theme?: {
             container?: string
             mainContentContainer?: string
-            mainContentContainerHeader?: string
             mainContentContainerBody?: string
+            mainContentContainerHeader?: string
             menuContainer?: string
             menuItem?: string
+            menuListContainer?: string
             modalBackdrop?: string
             modalMainContainer?: string
             modalMainContentContainer?: string
@@ -171,10 +181,11 @@ withDefaults(
         theme: () => ({
             container: '',
             mainContentContainer: '',
-            mainContentContainerHeader: '',
             mainContentContainerBody: '',
+            mainContentContainerHeader: '',
             menuContainer: '',
             menuItem: '',
+            menuListContainer: '',
             modalBackdrop: '',
             modalMainContainer: '',
             modalMainContentContainer: '',

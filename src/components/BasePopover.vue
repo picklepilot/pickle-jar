@@ -1,7 +1,13 @@
 <template>
-    <Popover :class="m('relative inline-block text-left', classes.menu)">
+    <Popover
+        :class="m('relative inline-block text-left', classes.menu)"
+        v-slot="{ open }"
+    >
         <div>
-            <PopoverButton ref="reference" :class="m('', classes.menuButton)">
+            <PopoverButton
+                ref="reference"
+                :class="m(open ? 'is-open' : 'is-closed', classes.menuButton)"
+            >
                 <slot name="trigger"></slot>
             </PopoverButton>
         </div>
@@ -18,7 +24,7 @@
                 ref="floating"
                 :class="
                     m(
-                        'fixed z-10 transform overflow-y-auto overflow-x-hidden rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm',
+                        'fixed z-10 transform overflow-x-hidden overflow-y-auto rounded-lg bg-white p-3 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm',
                         classes.menuItems
                     )
                 "
@@ -139,5 +145,5 @@ const { floatingStyles } = useFloating(reference, floating, {
     whileElementsMounted: autoUpdate,
 })
 
-defineExpose({ open: floating })
+defineExpose({ open: floating, reference })
 </script>

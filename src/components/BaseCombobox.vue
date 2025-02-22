@@ -62,7 +62,8 @@
                             componentJarTheme.themeParams
                                 .comboboxFloatingPanelContainer,
                             componentJarTheme.themeParams
-                                .generalFloatingPanelContainer
+                                .generalFloatingPanelContainer,
+                            theme.comboboxFloatingPanelContainer
                         )
                     "
                     :style="floatingStyles"
@@ -151,6 +152,7 @@ const props = withDefaults(
         theme?: {
             comboboxInputTextContainer?: string
             comboboxInputText?: string
+            comboboxFloatingPanelContainer?: string
         }
         middlewareOptions?: {
             autoPlacement?: {
@@ -178,6 +180,7 @@ const props = withDefaults(
         theme: () => ({
             comboboxInputTextContainer: '',
             comboboxInputText: '',
+            comboboxFloatingPanelContainer: '',
         }),
         middlewareOptions: () => ({
             autoPlacement: {

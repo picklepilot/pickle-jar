@@ -41,7 +41,8 @@
                             v-if="editableGroupConfiguration[groupName]"
                             :classes="{
                                 menu: 'leading-none',
-                                menuButton: 'rounded-xs p-1 hover:bg-zinc-200/80',
+                                menuButton:
+                                    'rounded-xs p-1 hover:bg-zinc-200/80',
                             }"
                         >
                             <template #trigger>
@@ -139,16 +140,23 @@
                 </div>
 
                 <div
-                    v-if="addingColumnToGroups.includes(groupName as string)"
+                    v-if="
+                        true ||
+                        addingColumnToGroups.includes(groupName as string)
+                    "
                     class="group flex items-center justify-end space-x-2 p-2 px-4"
                 >
                     <BaseTypeahead
+                        ref="columnFinderTypeahead"
                         :classes="dropDownClasses"
                         :default-items="defaultItems"
                         :display-property="() => ''"
+                        :groups-config="typeaheadGroupsConfig"
+                        :group-by="typeaheadGroupBy"
                         :multiple="false"
                         :nullable="true"
                         :searcher="searcher"
+                        :middleware-options="typeaheadMiddlewareOptions"
                         placeholder="Add a column to group"
                         @update:modelValue="
                             onPickedNewColumn(groupName as string, $event)
@@ -161,7 +169,7 @@
                                 description="There are no columns to show at this time. Try a different search."
                                 :classes="{
                                     container:
-                                        'flex flex-col items-center justify-center border-2 border-dashed border-zinc-300/60 rounded-xl p-6',
+                                        'flex flex-col items-center justify-center p-6 text-center',
                                     icon: 'text-zinc-500',
                                 }"
                             />
@@ -181,6 +189,28 @@
                             </div>
                         </template-->
 
+                        <template #static>
+                            <div>
+                                <slot name="typeahead-static" />
+                            </div>
+                        </template>
+
+                        <template
+                            v-if="$slots['typeahead-group']"
+                            #group="groupSlotProps"
+                        >
+                            <slot
+                                name="typeahead-group"
+                                v-bind="groupSlotProps"
+                            />
+                        </template>
+
+                        <template #searching>
+                            <div>
+                                <slot name="typeahead-searching" />
+                            </div>
+                        </template>
+
                         <template #item="{ item, selected, active }">
                             <slot
                                 name="option"
@@ -189,7 +219,7 @@
                         </template>
                     </BaseTypeahead>
 
-                    <BaseButton
+                    <!--BaseButton
                         @click="
                             addingColumnToGroups.splice(
                                 addingColumnToGroups.indexOf(
@@ -216,7 +246,7 @@
                                 d="M6 18 18 6M6 6l12 12"
                             />
                         </svg>
-                    </BaseButton>
+                    </BaseButton-->
                 </div>
 
                 <div
@@ -323,6 +353,7 @@
             </div>
 
             <div
+                v-if="!disabled.includes('groups')"
                 class="sticky bottom-0 z-10"
                 :class="
                     m(
@@ -430,18 +461,31 @@ const props = withDefaults(
             }
         }
         defaultItems?: any[]
+        disabled?: string[]
         dropDownClasses?: {
             container?: string
             inputContainer?: string
             inputElement?: string
             comboboxOptionsContainer?: string
         }
+        defaultGroupColor?: string
         existingColumns?: any[]
+        groupConfiguration?: any
+        groupMenuItems?: any[]
         onPickedColumn: (groupName: string, column: any) => any
         searcher: (query: string) => Promise<any[]>
-        groupMenuItems?: any[]
-        groupConfiguration?: any
-        defaultGroupColor?: string
+        typeaheadGroupBy?: string
+        typeaheadGroupsConfig?: any
+        typeaheadMiddlewareOptions: {
+            autoPlacement?: {
+                allowedPlacements?: string[]
+            }
+            buffer?: number
+            size?: {
+                minWidth?: number
+                maxWidth?: number
+            }
+        }
     }>(),
     {
         classes: () => ({
@@ -460,6 +504,7 @@ const props = withDefaults(
             },
         }),
         defaultItems: () => [],
+        disabled: () => [],
         dropDownClasses: () => ({
             container: '',
             inputContainer: '',
@@ -480,6 +525,15 @@ const props = withDefaults(
             columnManagerNewGroupInput: '',
             columnManagerNewGroupInputButton: '',
         }),
+        typeaheadGroupBy: '',
+        typeaheadGroupsConfig: () => ({}),
+        typeaheadMiddlewareOptions: () => ({
+            autoPlacement: {
+                allowedPlacements: ['top-start', 'bottom-start'],
+            },
+            buffer: 20,
+            size: {},
+        }),
     }
 )
 
@@ -488,8 +542,9 @@ const componentJarTheme = inject(
 ) as unknown as ThemeConfigurator
 
 const editableColumns = ref<{ [key: string]: any }>(
-    groupColumns(props.existingColumns)
+    groupColumns([...props.existingColumns])
 )
+const columnFinderTypeahead = ref<any>()
 const focusedColumn = ref<any>()
 const newGroupName = ref<string>('')
 // const addingColumnToGroup = ref<string>('')
@@ -500,7 +555,7 @@ const uniqueId = ref((Math.random() + 1).toString(36).substring(7))
 watch(
     () => props.existingColumns,
     (newVal) => {
-        editableColumns.value = groupColumns(newVal)
+        editableColumns.value = groupColumns([...newVal])
     },
     { immediate: false }
 )
@@ -555,9 +610,17 @@ function onUpdateGroupColor(groupName: string | number, hexColor: string) {
  * @param {number} idx - The index of the column
  */
 function removeColumn(groupName: string, idx: number) {
-    editableColumns.value[groupName] = editableColumns.value[groupName].filter(
+    /* editableColumns.value[groupName] = editableColumns.value[groupName].filter(
         (_column: any, colIdx: number) => colIdx !== idx
-    )
+    ) */
+
+    editableColumns.value = {
+        ...editableColumns.value,
+        [groupName]: editableColumns.value[groupName].filter(
+            (_column: any, colIdx: number) => colIdx !== idx
+        ),
+    }
+
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }
 
@@ -693,6 +756,7 @@ function onUpdatedList(groupName: string, params: any) {
 } */
 
 function onAdded(groupName: string, params: any) {
+    console.log('ADDED TO GROUP', groupName, params)
     const fromGroupName = params.from.dataset.groupName || 'Default'
     const targetValues = indicesParams(params)
         .from.map(
@@ -741,6 +805,8 @@ function onPickedNewColumn(groupName: string, value: any) {
         ...editableColumns.value,
         [groupName]: [...editableColumns.value[groupName], value],
     }
+
+    console.log('update:existingColumns', editableColumns.value)
 
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }

@@ -16,6 +16,7 @@ export type ThemeParam =
     | 'buttonComboDropdownPrimaryButton'
     | 'buttonComboDropdownTriggerButton'
     | 'buttonComboDropdownTriggerButtonIcon'
+    | 'baseDropdownMenuTriggerButtonActive'
     | 'columnManagerContainer'
     | 'columnManagerGroupContainer'
     | 'columnManagerGroupHeader'
@@ -26,7 +27,9 @@ export type ThemeParam =
     | 'columnManagerNewGroupInputButton'
     | 'comboboxFloatingPanelContainer'
     | 'generalFloatingPanelContainer'
+    | 'inputSwitch'
     | 'inputText'
+    | 'inputTextInvalid'
     | 'modalBackdrop'
     | 'modalMainContainer'
     | 'modalMainContentContainer'
@@ -73,7 +76,9 @@ export type ThemeParams = {
     columnManagerNewGroupInputButton: string
     comboboxFloatingPanelContainer: string
     generalFloatingPanelContainer: string
+    inputSwitch: string
     inputText: string
+    inputTextInvalid: string
     modalBackdrop: string
     modalMainContainer: string
     modalMainContentContainer: string
@@ -91,4 +96,5 @@ export type ThemeParams = {
     uiWindowToolbarWindowContainer: string
     uiWindowToolbarWindowTopMenu: string
     uiWindowToolbarWindowTopMenuTitle: string
+    baseDropdownMenuTriggerButtonActive: string
 }

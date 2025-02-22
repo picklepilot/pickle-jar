@@ -4,8 +4,9 @@ export type SettingsConfigurationItem = {
     label: string
     onClick: () => void
     active: boolean
+    disabled?: boolean
 }
 
-export type SettingsConfiguration = {
+export interface SettingsConfiguration {
     [key: string]: SettingsConfigurationItem[]
 }

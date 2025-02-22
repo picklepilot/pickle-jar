@@ -1,13 +1,17 @@
 <template>
-    <div :class="m('relative z-10 mx-auto', classes)">
+    <div
+        :class="m('relative z-10 mx-auto', classes.container, theme.container)"
+    >
         <div class="flex space-x-1.5">
             <SortableComponent
                 ref="sortableRef"
-                :classes="
-                    ['flex flex-wrap space-x-0.5', classic && 'px-6'].filter(
-                        Boolean
-                    )
-                "
+                :classes="[
+                    m(
+                        'flex flex-wrap space-x-0.5',
+                        classic && 'px-6',
+                        theme.sortableContainer
+                    ),
+                ]"
                 :model-value="effectiveTabs"
                 @update:modelValue="onUpdateOrder"
             >
@@ -73,6 +77,8 @@ const props = withDefaults(
         tabClasses?: string[]
         tabs: Tab[]
         theme?: {
+            container?: string
+            sortableContainer?: string
             tabsNavTab?: string
         }
     }>(),
@@ -86,6 +92,8 @@ const props = withDefaults(
         disabled: () => [],
         tabClasses: () => [],
         theme: () => ({
+            container: '',
+            sortableContainer: '',
             tabsNavTab: '',
         }),
     }

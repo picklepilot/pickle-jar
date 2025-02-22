@@ -7,6 +7,7 @@
                 theme.baseDropdownMenuContainer
             )
         "
+        v-slot="{ open }"
     >
         <div>
             <MenuButton
@@ -15,12 +16,15 @@
                     m(
                         componentJarTheme.themeParams
                             .baseDropdownMenuTriggerButton,
-                        theme.baseDropdownMenuTriggerButton
+                        theme.baseDropdownMenuTriggerButton,
+                        open &&
+                            componentJarTheme.themeParams
+                                .baseDropdownMenuTriggerButtonActive
                     )
                 "
                 @click.stop.prevent
             >
-                <slot name="trigger"></slot>
+                <slot name="trigger" />
             </MenuButton>
         </div>
 
@@ -147,6 +151,7 @@ const props = withDefaults(
             baseDropdownMenuItemIcon?: string
             baseDropdownMenuItems?: string
             baseDropdownMenuTriggerButton?: string
+            baseDropdownMenuTriggerButtonActive?: string
         }
     }>(),
     {
@@ -171,6 +176,7 @@ const props = withDefaults(
             baseDropdownMenuItemIcon: '',
             baseDropdownMenuItems: '',
             baseDropdownMenuTriggerButton: '',
+            baseDropdownMenuTriggerButtonActive: '',
         }),
     }
 )

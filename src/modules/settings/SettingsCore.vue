@@ -31,7 +31,9 @@
                                             .settingsMenuItem,
                                         item.active &&
                                             componentJarTheme.themeParams
-                                                .settingsMenuItemActive
+                                                .settingsMenuItemActive,
+                                        item.disabled &&
+                                            'pointer-events-none opacity-50'
                                     )
                                 "
                                 @click="item.onClick"
