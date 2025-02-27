@@ -27,7 +27,7 @@
     },
     "dependencies": {
         "@floating-ui/vue": "^1.1.5",
-        "@headlessui/vue": "^0.0.0-insiders.b6f355d",
+        "@headlessui/vue": "^0.0.0-insiders.20f46dd",
         "@tailwindcss/postcss": "^4.0.0",
         "@tailwindcss/vite": "^4.0.0",
         "@types/node": "^22.10.5",

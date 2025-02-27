@@ -474,10 +474,10 @@
     "@floating-ui/utils" "^0.2.8"
     vue-demi ">=0.13.0"
 
-"@headlessui/vue@^0.0.0-insiders.b6f355d":
-  version "0.0.0-insiders.b6f355d"
-  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-0.0.0-insiders.b6f355d.tgz#576fff517a6de3695cdbb239aade816f075461b0"
-  integrity sha512-Zml091cG/YtsP8kKRAAsGTtIdPQVH/cHhOk60Efi/HgV5gRjiEyYDS/9kqJ4zGC6fXI8u5GzCxFajd0mIrNnCA==
+"@headlessui/vue@^0.0.0-insiders.20f46dd":
+  version "0.0.0-insiders.20f46dd"
+  resolved "https://registry.yarnpkg.com/@headlessui/vue/-/vue-0.0.0-insiders.20f46dd.tgz#2f9ff8cd1d9428b134ae52b4101e329cdc20edfd"
+  integrity sha512-RuYWXZU+fCjuI4xkbqUSydcwF7wNqrIzoFXkIWIcznewDt3xVuRFhLWAb8Sy1at3co8O5JMTT2TtVy54NfAFPQ==
   dependencies:
     "@tanstack/vue-virtual" "3.0.0-beta.60"
 
