@@ -12,13 +12,14 @@
         v-tooltip="{
             content: item.tooltip,
             placement: 'top',
+            classes: 'text-center',
         }"
         @click="item.onClick"
     >
         <i :class="['fa-regular', item.icon]"></i>
         <span
             v-if="item.count"
-            class="absolute -right-1 -top-1 flex h-3.5 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-medium text-white"
+            class="absolute -top-1 -right-1 flex h-3.5 items-center justify-center rounded-full bg-red-500 px-1 text-[9px] font-medium text-white"
             :style="{ backgroundColor: item.statusColor || '#ef4444' }"
             >{{ item.count }}</span
         >

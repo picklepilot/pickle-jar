@@ -1,9 +1,16 @@
 <template>
     <div class="flex">
-        <div :class="componentJarTheme.themeParams.settingsMenuContainer">
+        <div
+            :class="
+                m(
+                    componentJarTheme.themeParams.settingsMenuContainer,
+                    collapsed && 'collapsed'
+                )
+            "
+        >
             <nav class="flex min-h-full flex-1 flex-col">
                 <ul role="list" class="flex flex-1 flex-col gap-y-7">
-                    <li class="text-base font-medium">
+                    <li v-if="!collapsed" class="text-base font-medium">
                         {{ title || 'Settings' }}
                     </li>
                     <li
@@ -18,7 +25,14 @@
                     >
                         <ul role="list" class="-mx-2">
                             <li
+                                v-if="!collapsed"
                                 class="px-2 pb-2 text-xs font-semibold text-zinc-700"
+                                v-tooltip="{
+                                    content: groupName,
+                                    placement: 'right',
+                                    classes: 'text-center',
+                                    enabled: collapsed,
+                                }"
                             >
                                 {{ groupName }}
                             </li>
@@ -36,6 +50,12 @@
                                             'pointer-events-none opacity-50'
                                     )
                                 "
+                                v-tooltip="{
+                                    content: item.label,
+                                    placement: 'right',
+                                    classes: 'text-center',
+                                    enabled: collapsed,
+                                }"
                                 @click="item.onClick"
                             >
                                 <i
@@ -48,11 +68,11 @@
                                     ]"
                                     aria-hidden="true"
                                 />
-                                <span>{{ item.label }}</span>
+                                <span v-if="!collapsed">{{ item.label }}</span>
                             </li>
                         </ul>
                     </li>
-                    <li class="mt-auto">
+                    <li class="-mx-2 mt-auto">
                         <slot name="nav-bottom" />
                     </li>
                 </ul>
@@ -73,10 +93,12 @@ import { useThemeConfigurator } from '../../composables'
 
 withDefaults(
     defineProps<{
+        collapsed?: boolean
         settingsConfiguration?: SettingsConfiguration
         title?: string
     }>(),
     {
+        collapsed: false,
         settingsConfiguration: () => ({}),
     }
 )

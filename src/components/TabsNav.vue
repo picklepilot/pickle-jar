@@ -3,6 +3,8 @@
         :class="m('relative z-10 mx-auto', classes.container, theme.container)"
     >
         <div class="flex space-x-1.5">
+            <slot name="before" />
+
             <SortableComponent
                 ref="sortableRef"
                 :classes="[
@@ -18,7 +20,13 @@
                 <template v-slot:item="tab">
                     <a
                         href="#"
-                        @click.prevent="$emit('clicked', tab.id)"
+                        @click.prevent="
+                            (evt) => {
+                                evt.preventDefault()
+
+                                $emit('clicked', tab.id)
+                            }
+                        "
                         :class="
                             m(
                                 'pj-tab flex cursor-pointer items-center rounded-t border-x border-t px-2 py-1.5 text-sm leading-none font-medium transition-all',

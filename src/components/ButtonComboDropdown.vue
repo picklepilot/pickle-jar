@@ -1,5 +1,12 @@
 <template>
-    <div class="relative flex items-center rounded-md shadow-2xs">
+    <div
+        :class="
+            m(
+                'relative flex items-center rounded-md shadow-2xs',
+                theme.buttonComboDropdownContainer
+            )
+        "
+    >
         <BaseButton
             :theme="{
                 baseButton: m(
@@ -29,6 +36,7 @@
         >
             <template #trigger>
                 <svg
+                    v-if="!$slots['trigger-icon']"
                     :class="
                         m(
                             componentJarTheme.themeParams
@@ -48,6 +56,8 @@
                         d="m19.5 8.25-7.5 7.5-7.5-7.5"
                     />
                 </svg>
+                <slot v-else name="trigger-icon" />
+                <slot name="dropdown-trigger"></slot>
             </template>
         </BaseDropdownMenu>
     </div>
@@ -66,6 +76,7 @@ withDefaults(
         allowedPlacements?: AllowedPlacement[]
         items: DropdownItem[][]
         theme?: {
+            buttonComboDropdownContainer?: string
             buttonComboDropdownPrimaryButton?: string
             buttonComboDropdownTriggerButton?: string
             buttonComboDropdownTriggerButtonIcon?: string
@@ -74,6 +85,7 @@ withDefaults(
     {
         allowedPlacements: () => ['top-start', 'bottom-start'],
         theme: () => ({
+            buttonComboDropdownContainer: '',
             buttonComboDropdownPrimaryButton: '',
             buttonComboDropdownTriggerButton: '',
             buttonComboDropdownTriggerButtonIcon: '',

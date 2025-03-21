@@ -16,9 +16,15 @@
                 )
             "
         >
-            <div
-                v-for="(_group, groupName, idx) in editableColumns"
-                :key="`column-management-group-${idx}`"
+            <Sortable
+                :list="
+                    Object.values(editableGroupConfiguration).filter(
+                        (_: any) => _.name
+                    )
+                "
+                :key="'groups'"
+                item-key="id"
+                tag="div"
                 :class="
                     m(
                         componentJarTheme.themeParams
@@ -26,331 +32,348 @@
                         theme.columnManagerGroupContainer
                     )
                 "
+                :data-group-name="'groups'"
+                :options="{
+                    animation: 150,
+                    group: 'shared-groups',
+                    handle: '.drag-handle',
+                    selectedClass: 'selected',
+                }"
+                @start="draggingGroup = true"
+                @end="draggingGroup = false"
+                @update="onUpdatedGroupOrder($event)"
             >
-                <div
-                    :class="
-                        m(
-                            componentJarTheme.themeParams
-                                .columnManagerGroupHeader,
-                            theme.columnManagerGroupHeader
-                        )
-                    "
-                >
-                    <div class="flex items-center space-x-2 text-base">
-                        <BasePopover
-                            v-if="editableGroupConfiguration[groupName]"
-                            :classes="{
-                                menu: 'leading-none',
-                                menuButton:
-                                    'rounded-xs p-1 hover:bg-zinc-200/80',
-                            }"
-                        >
-                            <template #trigger>
-                                <span
-                                    class="block h-3 w-3 rounded-full"
-                                    :style="`background-color: ${editableGroupConfiguration[groupName].color || defaultGroupColor};`"
-                                ></span>
-                            </template>
-
-                            <div class="flex flex-col space-y-4">
-                                <div class="space-y-2">
-                                    <div
-                                        class="block text-sm font-medium text-zinc-900"
-                                    >
-                                        Group name
-                                    </div>
-                                    <input
-                                        type="text"
-                                        :class="
-                                            componentJarTheme.themeParams
-                                                .inputText
-                                        "
-                                        v-model="
-                                            editableGroupConfiguration[
-                                                groupName
-                                            ].name
-                                        "
-                                        @update:modelValue="
-                                            editableGroupConfiguration = {
-                                                ...editableGroupConfiguration,
-                                                [groupName]: {
-                                                    ...editableGroupConfiguration[
-                                                        groupName
-                                                    ],
-                                                    name: $event,
-                                                },
-                                            }
-                                        "
-                                    />
-                                </div>
-                                <div class="space-y-2">
-                                    <div
-                                        class="block text-sm font-medium text-zinc-900"
-                                    >
-                                        Group color
-                                    </div>
-                                    <ColorPicker
-                                        :model-value="
-                                            editableGroupConfiguration[
-                                                groupName
-                                            ].color
-                                        "
-                                        @update:modelValue="
-                                            onUpdateGroupColor(
-                                                groupName,
-                                                $event
-                                            )
-                                        "
-                                    />
-                                </div>
-                            </div>
-                        </BasePopover>
-
-                        <span class="font-semibold">{{
-                            editableGroupConfiguration[groupName].name
-                        }}</span>
-                    </div>
-                    <span v-if="groupMenuItems" class="shrink-0 text-sm">
-                        <BaseDropdownMenu
-                            :allowed-placements="['bottom-end', 'top-end']"
-                            :items="[
-                                ...groupMenuItems,
-                                defaultGroupDropdownMenuItems,
-                            ]"
-                            :context="{ groupName }"
-                        >
-                            <template #trigger>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke-width="1.5"
-                                    stroke="currentColor"
-                                    class="h-5 w-5"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
-                                    />
-                                </svg>
-                            </template>
-                        </BaseDropdownMenu>
-                    </span>
-                </div>
-
-                <div
-                    v-if="
-                        true ||
-                        addingColumnToGroups.includes(groupName as string)
-                    "
-                    class="group flex items-center justify-end space-x-2 p-2 px-4"
-                >
-                    <BaseTypeahead
-                        ref="columnFinderTypeahead"
-                        :classes="dropDownClasses"
-                        :default-items="defaultItems"
-                        :display-property="() => ''"
-                        :groups-config="typeaheadGroupsConfig"
-                        :group-by="typeaheadGroupBy"
-                        :multiple="false"
-                        :nullable="true"
-                        :searcher="searcher"
-                        :middleware-options="typeaheadMiddlewareOptions"
-                        placeholder="Add a column to group"
-                        @update:modelValue="
-                            onPickedNewColumn(groupName as string, $event)
-                        "
-                    >
-                        <template #empty>
-                            <EmptyState
-                                icon="fa-exclamation-circle"
-                                title="No columns found"
-                                description="There are no columns to show at this time. Try a different search."
-                                :classes="{
-                                    container:
-                                        'flex flex-col items-center justify-center p-6 text-center',
-                                    icon: 'text-zinc-500',
-                                }"
-                            />
-                        </template>
-
-                        <!--template #options="{ filteredItems }">
-                            <div class="grid grid-cols-1 gap-2">
-                                <ComboboxOption
-                                    v-for="item in filteredItems"
-                                    as="template"
-                                    :key="item._id"
-                                    :value="item"
-                                    v-slot="{ selected, active }"
-                                >
-
-                                </ComboboxOption>
-                            </div>
-                        </template-->
-
-                        <template #static>
-                            <div>
-                                <slot name="typeahead-static" />
-                            </div>
-                        </template>
-
-                        <template
-                            v-if="$slots['typeahead-group']"
-                            #group="groupSlotProps"
-                        >
-                            <slot
-                                name="typeahead-group"
-                                v-bind="groupSlotProps"
-                            />
-                        </template>
-
-                        <template #searching>
-                            <div>
-                                <slot name="typeahead-searching" />
-                            </div>
-                        </template>
-
-                        <template #item="{ item, selected, active }">
-                            <slot
-                                name="option"
-                                v-bind="{ item, selected, active }"
-                            />
-                        </template>
-                    </BaseTypeahead>
-
-                    <!--BaseButton
-                        @click="
-                            addingColumnToGroups.splice(
-                                addingColumnToGroups.indexOf(
-                                    groupName as string
-                                ),
-                                1
-                            )
-                        "
-                        :classes="[
-                            'text-sm flex shrink-0 items-center justify-center w-9 h-9 rounded-lg border-none bg-transparent hover:bg-zinc-100 text-zinc-400 hover:text-zinc-500',
-                        ]"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="h-5 w-5"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M6 18 18 6M6 6l12 12"
-                            />
-                        </svg>
-                    </BaseButton-->
-                </div>
-
-                <div
-                    v-if="editableColumns[groupName].length === 0"
-                    class="flex flex-col items-center justify-center p-4"
-                >
-                    <EmptyState
-                        title="No columns"
-                        description="There are no columns here yet. Use the picker above to add the first column."
-                        :classes="{
-                            container:
-                                'flex flex-col items-center justify-center border-2 border-dashed border-zinc-300/60 rounded-xl p-6',
-                            icon: 'text-zinc-500',
-                            description: 'text-center',
-                        }"
-                    />
-                </div>
-
-                <Sortable
-                    :list="editableColumns[groupName]"
-                    :key="JSON.stringify(editableColumns[groupName])"
-                    item-key="id"
-                    tag="div"
-                    :class="[`sortable-group-${groupName}`]"
-                    :data-group-name="groupName"
-                    :options="{
-                        animation: 150,
-                        group: 'shared-columns',
-                        handle: '.drag-handle',
-                        multiDrag: true,
-                        selectedClass: 'selected',
-                        emptyInsertThreshold: 100,
-                    }"
-                    @add="onAdded(groupName as string, $event)"
-                    @remove="onRemoved(groupName as string, $event)"
-                    @update="onUpdatedList(groupName as string, $event)"
-                >
-                    <template #item="{ element, index }">
+                <template #item="{ element: groupElement }">
+                    <div>
+                        <!--                <div-->
+                        <!--                    v-for="(_group, groupName, idx) in editableColumns"-->
+                        <!--                    :key="`column-management-group-${idx}`"-->
+                        <!--                    :class="-->
+                        <!--                        m(-->
+                        <!--                            componentJarTheme.themeParams-->
+                        <!--                                .columnManagerGroupContainer,-->
+                        <!--                            theme.columnManagerGroupContainer-->
+                        <!--                        )-->
+                        <!--                    "-->
+                        <!--                >-->
                         <div
-                            class="group flex w-full [&.selected]:bg-blue-100"
                             :class="
                                 m(
                                     componentJarTheme.themeParams
-                                        .columnManagerItem,
-                                    theme.columnManagerItem
+                                        .columnManagerGroupHeader,
+                                    theme.columnManagerGroupHeader
                                 )
                             "
-                            :key="element.id"
-                            :data-sortable-item-id="element.id"
-                            @click="onClickedListItem"
                         >
-                            <slot name="drag-handle"></slot>
-
-                            <slot name="column" :slotProps="element"></slot>
-
                             <div
-                                class="ml-auto flex items-center space-x-1.5 p-1"
+                                class="sortable-drag flex items-center space-x-2 text-base"
                             >
-                                <button
-                                    @click.prevent.stop="
-                                        removeColumn(groupName as string, index)
+                                <slot name="drag-handle"></slot>
+
+                                <BasePopover
+                                    v-if="
+                                        editableGroupConfiguration[
+                                            groupElement.name
+                                        ]
                                     "
-                                    class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                    :classes="{
+                                        menu: 'leading-none',
+                                        menuButton:
+                                            'rounded-xs p-1 hover:bg-zinc-200/80',
+                                    }"
                                 >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="h-4 w-4"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
-                                        />
-                                    </svg>
-                                </button>
-                                <button
-                                    @click.prevent.stop="
-                                        focusedColumn =
-                                            editableColumns[groupName][index]
-                                    "
-                                    class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 16 16"
-                                        fill="currentColor"
-                                        class="h-4 w-4"
-                                    >
-                                        <path
-                                            fill-rule="evenodd"
-                                            d="M6.455 1.45A.5.5 0 0 1 6.952 1h2.096a.5.5 0 0 1 .497.45l.186 1.858a4.996 4.996 0 0 1 1.466.848l1.703-.769a.5.5 0 0 1 .639.206l1.047 1.814a.5.5 0 0 1-.14.656l-1.517 1.09a5.026 5.026 0 0 1 0 1.694l1.516 1.09a.5.5 0 0 1 .141.656l-1.047 1.814a.5.5 0 0 1-.639.206l-1.703-.768c-.433.36-.928.649-1.466.847l-.186 1.858a.5.5 0 0 1-.497.45H6.952a.5.5 0 0 1-.497-.45l-.186-1.858a4.993 4.993 0 0 1-1.466-.848l-1.703.769a.5.5 0 0 1-.639-.206l-1.047-1.814a.5.5 0 0 1 .14-.656l1.517-1.09a5.033 5.033 0 0 1 0-1.694l-1.516-1.09a.5.5 0 0 1-.141-.656L2.46 3.593a.5.5 0 0 1 .639-.206l1.703.769c.433-.36.928-.65 1.466-.848l.186-1.858Zm-.177 7.567-.022-.037a2 2 0 0 1 3.466-1.997l.022.037a2 2 0 0 1-3.466 1.997Z"
-                                            clip-rule="evenodd"
-                                        />
-                                    </svg>
-                                </button>
+                                    <template #trigger>
+                                        <span
+                                            class="block h-3 w-3 rounded-full"
+                                            :style="`background-color: ${editableGroupConfiguration[groupElement.name].color || defaultGroupColor};`"
+                                        ></span>
+                                    </template>
+
+                                    <div class="flex flex-col space-y-4">
+                                        <div class="space-y-2">
+                                            <div
+                                                class="block text-sm font-medium text-zinc-900"
+                                            >
+                                                Group name
+                                            </div>
+                                            <input
+                                                type="text"
+                                                :class="
+                                                    componentJarTheme
+                                                        .themeParams.inputText
+                                                "
+                                                v-model="groupMeta.name"
+                                                :placeholder="`${groupElement.name}`"
+                                            />
+                                        </div>
+                                        <div class="space-y-2">
+                                            <div
+                                                class="block text-sm font-medium text-zinc-900"
+                                            >
+                                                Group color
+                                            </div>
+                                            <ColorPicker
+                                                :model-value="
+                                                    editableGroupConfiguration[
+                                                        groupElement.name
+                                                    ].color
+                                                "
+                                                @update:modelValue="
+                                                    groupMeta.color = $event
+                                                "
+                                            />
+                                        </div>
+                                        <div class="flex justify-end">
+                                            <BaseButton
+                                                @click="
+                                                    onUpdateGroupMeta(
+                                                        groupElement.name
+                                                    )
+                                                "
+                                            >
+                                                Save
+                                            </BaseButton>
+                                        </div>
+                                    </div>
+                                </BasePopover>
+
+                                <span class="font-semibold">{{
+                                    editableGroupConfiguration[
+                                        groupElement.name
+                                    ].name
+                                }}</span>
                             </div>
+                            <span
+                                v-if="groupMenuItems"
+                                class="shrink-0 text-sm"
+                            >
+                                <BaseDropdownMenu
+                                    :allowed-placements="[
+                                        'bottom-end',
+                                        'top-end',
+                                    ]"
+                                    :items="[
+                                        ...groupMenuItems,
+                                        defaultGroupDropdownMenuItems,
+                                    ]"
+                                    :context="{ groupName: groupElement.name }"
+                                >
+                                    <template #trigger>
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke-width="1.5"
+                                            stroke="currentColor"
+                                            class="h-5 w-5"
+                                        >
+                                            <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"
+                                            />
+                                        </svg>
+                                    </template>
+                                </BaseDropdownMenu>
+                            </span>
                         </div>
-                    </template>
-                </Sortable>
-            </div>
+
+                        <div
+                            v-if="!draggingGroup"
+                            class="group flex items-center justify-end space-x-2 p-2 px-4"
+                        >
+                            <BaseTypeahead
+                                ref="columnFinderTypeahead"
+                                :classes="dropDownClasses"
+                                :default-items="defaultItems"
+                                :display-property="() => ''"
+                                :groups-config="typeaheadGroupsConfig"
+                                :group-by="typeaheadGroupBy"
+                                :multiple="false"
+                                :nullable="true"
+                                :searcher="searcher"
+                                :middleware-options="typeaheadMiddlewareOptions"
+                                placeholder="Add a column to group"
+                                @update:modelValue="
+                                    onPickedNewColumn(
+                                        groupElement.name as string,
+                                        $event
+                                    )
+                                "
+                            >
+                                <template #empty>
+                                    <EmptyState
+                                        icon="fa-exclamation-circle"
+                                        title="No columns found"
+                                        description="There are no columns to show at this time. Try a different search."
+                                        :classes="{
+                                            container:
+                                                'flex flex-col items-center justify-center p-6 text-center',
+                                            icon: 'text-zinc-500',
+                                        }"
+                                    />
+                                </template>
+
+                                <template #static>
+                                    <div>
+                                        <slot name="typeahead-static" />
+                                    </div>
+                                </template>
+
+                                <template
+                                    v-if="$slots['typeahead-group']"
+                                    #group="groupSlotProps"
+                                >
+                                    <slot
+                                        name="typeahead-group"
+                                        v-bind="groupSlotProps"
+                                    />
+                                </template>
+
+                                <template #searching>
+                                    <div>
+                                        <slot name="typeahead-searching" />
+                                    </div>
+                                </template>
+
+                                <template #item="{ item, selected, active }">
+                                    <slot
+                                        name="option"
+                                        v-bind="{ item, selected, active }"
+                                    />
+                                </template>
+                            </BaseTypeahead>
+                        </div>
+
+                        <div
+                            v-if="
+                                !draggingGroup &&
+                                (editableColumns[groupElement.name] || [])
+                                    .length === 0
+                            "
+                            class="flex flex-col items-center justify-center p-4"
+                        >
+                            <EmptyState
+                                title="No columns"
+                                description="There are no columns here yet. Use the picker above to add the first column."
+                                :classes="{
+                                    container:
+                                        'flex flex-col items-center justify-center border-2 border-dashed border-zinc-300/60 rounded-xl p-6',
+                                    icon: 'text-zinc-500',
+                                    description: 'text-center',
+                                }"
+                            />
+                        </div>
+
+                        <Sortable
+                            v-if="!draggingGroup"
+                            :list="editableColumns[groupElement.name]"
+                            :key="
+                                JSON.stringify(
+                                    editableColumns[groupElement.name]
+                                )
+                            "
+                            item-key="id"
+                            tag="div"
+                            :class="[`sortable-group-${groupElement.name}`]"
+                            :data-group-name="groupElement.name"
+                            :options="{
+                                animation: 150,
+                                group: 'shared-columns',
+                                handle: '.drag-handle',
+                                multiDrag: true,
+                                selectedClass: 'selected',
+                                emptyInsertThreshold: 100,
+                            }"
+                            @add="onAdded(groupElement.name as string, $event)"
+                            @remove="
+                                onRemoved(groupElement.name as string, $event)
+                            "
+                            @update="
+                                onUpdatedList(
+                                    groupElement.name as string,
+                                    $event
+                                )
+                            "
+                        >
+                            <template #item="{ element, index }">
+                                <div
+                                    class="group flex w-full [&.selected]:bg-blue-100"
+                                    :class="
+                                        m(
+                                            componentJarTheme.themeParams
+                                                .columnManagerItem,
+                                            theme.columnManagerItem
+                                        )
+                                    "
+                                    :key="element.id"
+                                    :data-sortable-item-id="element.id"
+                                    @click="onClickedListItem"
+                                >
+                                    <slot name="drag-handle"></slot>
+
+                                    <slot
+                                        name="column"
+                                        :slotProps="element"
+                                    ></slot>
+
+                                    <div
+                                        class="ml-auto flex items-center space-x-1.5 p-1"
+                                    >
+                                        <button
+                                            @click.prevent.stop="
+                                                removeColumn(
+                                                    groupElement.name as string,
+                                                    index
+                                                )
+                                            "
+                                            class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                viewBox="0 0 24 24"
+                                                stroke-width="1.5"
+                                                stroke="currentColor"
+                                                class="h-4 w-4"
+                                            >
+                                                <path
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    d="M15 12H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                                                />
+                                            </svg>
+                                        </button>
+                                        <button
+                                            @click.prevent.stop="
+                                                focusedColumn =
+                                                    editableColumns[
+                                                        groupElement.name
+                                                    ][index]
+                                            "
+                                            class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                                class="h-4 w-4"
+                                            >
+                                                <path
+                                                    fill-rule="evenodd"
+                                                    d="M6.455 1.45A.5.5 0 0 1 6.952 1h2.096a.5.5 0 0 1 .497.45l.186 1.858a4.996 4.996 0 0 1 1.466.848l1.703-.769a.5.5 0 0 1 .639.206l1.047 1.814a.5.5 0 0 1-.14.656l-1.517 1.09a5.026 5.026 0 0 1 0 1.694l1.516 1.09a.5.5 0 0 1 .141.656l-1.047 1.814a.5.5 0 0 1-.639.206l-1.703-.768c-.433.36-.928.649-1.466.847l-.186 1.858a.5.5 0 0 1-.497.45H6.952a.5.5 0 0 1-.497-.45l-.186-1.858a4.993 4.993 0 0 1-1.466-.848l-1.703.769a.5.5 0 0 1-.639-.206l-1.047-1.814a.5.5 0 0 1 .14-.656l1.517-1.09a5.033 5.033 0 0 1 0-1.694l-1.516-1.09a.5.5 0 0 1-.141-.656L2.46 3.593a.5.5 0 0 1 .639-.206l1.703.769c.433-.36.928-.65 1.466-.848l.186-1.858Zm-.177 7.567-.022-.037a2 2 0 0 1 3.466-1.997l.022.037a2 2 0 0 1-3.466 1.997Z"
+                                                    clip-rule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </template>
+                        </Sortable>
+                        <!--                </div>-->
+                    </div>
+                </template>
+            </Sortable>
 
             <div
                 v-if="!disabled.includes('groups')"
@@ -407,7 +430,7 @@
 
 <script setup lang="ts">
 import { m, type ThemeConfigurator } from '../utils'
-import { inject, ref, toRef, watch } from 'vue'
+import { inject, ref, watch } from 'vue'
 import { Sortable } from 'sortablejs-vue3'
 // @ts-ignore
 import { default as realSortable } from 'sortablejs'
@@ -549,8 +572,13 @@ const focusedColumn = ref<any>()
 const newGroupName = ref<string>('')
 // const addingColumnToGroup = ref<string>('')
 const addingColumnToGroups = ref<string[]>([])
-const editableGroupConfiguration = toRef(props, 'groupConfiguration')
+const editableGroupConfiguration = ref<any>({ ...props.groupConfiguration }) // toRef(props, 'groupConfiguration')
 const uniqueId = ref((Math.random() + 1).toString(36).substring(7))
+const draggingGroup = ref(false)
+const groupMeta = ref({
+    name: '',
+    color: '',
+})
 
 watch(
     () => props.existingColumns,
@@ -560,27 +588,25 @@ watch(
     { immediate: false }
 )
 
-/* watch(
+watch(
     () => props.groupConfiguration,
     () => {
-        editableGroupConfiguration.value = mergeColumnGroupsWithDefaults(
-            props.groupConfiguration
-        )
+        editableGroupConfiguration.value = { ...props.groupConfiguration }
     },
     { immediate: false }
-) */
-
-watch(
-    () => editableGroupConfiguration.value,
-    () => {
-        console.log(
-            'GROUP CONFIG UPDATED IN COL MAN',
-            editableGroupConfiguration.value
-        )
-        emit('update:groupConfiguration', editableGroupConfiguration.value)
-    },
-    { deep: false }
 )
+
+// watch(
+//     () => editableGroupConfiguration.value,
+//     () => {
+//         console.log(
+//             'GROUP CONFIG UPDATED IN COL MAN',
+//             editableGroupConfiguration.value
+//         )
+//         emit('update:groupConfiguration', editableGroupConfiguration.value)
+//     },
+//     { deep: false }
+// )
 
 function onClickedListItem(evt: any) {
     if (evt.currentTarget.classList.contains('selected')) {
@@ -590,19 +616,53 @@ function onClickedListItem(evt: any) {
     }
 }
 
-function onUpdateGroupColor(groupName: string | number, hexColor: string) {
-    editableGroupConfiguration.value[groupName].color = hexColor
-    /* editableGroupConfiguration.value = {
-        ...editableGroupConfiguration.value,
-        [groupName]: {
-            ...editableGroupConfiguration.value[groupName],
-            color: hexColor,
-        },
-    } */
+function onUpdateGroupMeta(oldGroupName: string) {
+    console.log('UPDATING META', groupMeta.value, oldGroupName)
+    // delete editableGroupConfiguration.value[oldGroupName]
+    // editableGroupConfiguration.value = {
+    //     ...editableGroupConfiguration.value,
+    //     [groupMeta.value.name]: {
+    //         name: groupMeta.value.name,
+    //         color: groupMeta.value.color || props.defaultGroupColor,
+    //     },
+    // }
 
-    console.log('COLOR', hexColor, editableGroupConfiguration.value)
-    emit('update:groupConfiguration', editableGroupConfiguration.value)
+    const filtered = Object.values(editableGroupConfiguration.value).filter(
+        (group: any) => group.name !== oldGroupName
+    )
+    filtered.push({ ...groupMeta.value })
+    const newGroupConfig = filtered.reduce((acc: any, group: any) => {
+        acc[group.name] = group
+        return acc
+    }, {})
+
+    emit('update:groupConfiguration', newGroupConfig)
 }
+
+// function onUpdateGroupName(groupName: string, evt: any) {
+//     console.log('UPDATING GROUP NAME', groupName, evt.target.value)
+//     editableGroupConfiguration.value = {
+//         ...editableGroupConfiguration.value,
+//         [groupName]: {
+//             ...editableGroupConfiguration.value[groupName],
+//             name: groupName,
+//         },
+//     }
+// }
+//
+// function onUpdateGroupColor(groupName: string | number, hexColor: string) {
+//     editableGroupConfiguration.value[groupName].color = hexColor
+//     /* editableGroupConfiguration.value = {
+//         ...editableGroupConfiguration.value,
+//         [groupName]: {
+//             ...editableGroupConfiguration.value[groupName],
+//             color: hexColor,
+//         },
+//     } */
+//
+//     console.log('COLOR', hexColor, editableGroupConfiguration.value)
+//     emit('update:groupConfiguration', editableGroupConfiguration.value)
+// }
 
 /**
  * Handler for the remove column button click event.
@@ -701,6 +761,14 @@ function onUpdatedList(groupName: string, params: any) {
         editableColumns.value[groupName]
     )
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
+}
+
+function onUpdatedGroupOrder(_params: any) {
+    // editableColumns.value = sortableUpdate(
+    //     params,
+    //     editableColumns.value
+    // )
+    // emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }
 
 /* function syncArrayElements<T>(

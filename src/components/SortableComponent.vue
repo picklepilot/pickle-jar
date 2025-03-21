@@ -158,6 +158,8 @@ function syncArrayElements<T>(
     let currentTo = to[0]
     const targetElements = from.map((idx) => originalArray[idx])
 
+    console.log('targetElements', targetElements)
+
     // let lastMovedElement: any = null
     targetElements.forEach((element, idx) => {
         // lastMovedElement = element

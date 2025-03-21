@@ -59,6 +59,7 @@
                 />
             </span>
         </div>
+        <slot name="right" />
     </div>
 </template>
 
@@ -66,7 +67,7 @@
 import BaseToolbarItem from './BaseToolbarItem.vue'
 import { computed } from 'vue'
 import { m } from '../utils'
-import { type ToolbarItemGroup } from '../types/ToolbarItem.ts'
+import { type ToolbarItemGroup } from '../types'
 
 const props = withDefaults(
     defineProps<{

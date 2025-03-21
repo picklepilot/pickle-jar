@@ -28,14 +28,7 @@
             </MenuButton>
         </div>
 
-        <transition
-            enter-active-class="transition duration-100 ease-out"
-            enter-from-class="transform scale-95 opacity-0"
-            enter-to-class="transform scale-100 opacity-100"
-            leave-active-class="transition duration-75 ease-in"
-            leave-from-class="transform scale-100 opacity-100"
-            leave-to-class="transform scale-95 opacity-0"
-        >
+        <Teleport to="body" :disabled="floatingOptions.strategy === 'absolute'">
             <MenuItems
                 ref="floating"
                 :class="
@@ -95,7 +88,7 @@
                     </MenuItem>
                 </div>
             </MenuItems>
-        </transition>
+        </Teleport>
     </Menu>
 </template>
 
@@ -140,6 +133,10 @@ const props = withDefaults(
             menuItemButton?: string
             menuItemIcon?: string
         }
+        floatingOptions?: {
+            strategy?: 'absolute' | 'fixed'
+            transform?: boolean
+        }
         context?: any
         items: DropdownItem[][]
         theme?: {
@@ -165,6 +162,10 @@ const props = withDefaults(
             menuItemButton: '',
             menuItemIcon: '',
         }),
+        floatingOptions: () => ({
+            strategy: 'fixed',
+            transform: false,
+        }),
         context: () => ({}),
         offset: 8,
         theme: () => ({
@@ -188,8 +189,8 @@ const floating = ref()
 const BUFFER = ref(props.buffer)
 
 const { floatingStyles } = useFloating(reference, floating, {
-    strategy: 'fixed',
-    transform: false,
+    strategy: props.floatingOptions.strategy,
+    transform: props.floatingOptions.transform,
     middleware: [
         offset(props.offset),
         autoPlacement({

@@ -61,6 +61,7 @@ withDefaults(
 )
 
 function handleClick(evt: any) {
+    evt.preventDefault()
     emit('click', evt)
 }
 

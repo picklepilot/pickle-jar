@@ -20,6 +20,7 @@
                 ...inputClasses,
             ]"
             :readonly="readonly"
+            :disabled="disabled"
             @blur="$emit('blur-xs', $event)"
             @focus="$emit('focus', $event)"
         />
@@ -33,6 +34,7 @@ import { ref, watch } from 'vue'
 interface Props {
     autocomplete?: string
     classes?: string[]
+    disabled?: boolean
     id?: string
     inputClasses?: string[]
     modelValue: string | null

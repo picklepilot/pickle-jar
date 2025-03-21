@@ -1,10 +1,11 @@
 <template>
     <div :class="m('relative w-full rounded-lg', classes.container)">
         <Combobox
-            v-model="activeItem"
+            :model-value="activeItem"
             :immediate="immediate"
             :nullable="nullable"
             :multiple="multiple"
+            @update:modelValue="activeItem = $event"
         >
             <div class="relative">
                 <div
@@ -95,10 +96,14 @@
                             <span v-else>No results</span>
                         </div>
 
-                        <div v-if="groupBy">
+                        <div v-if="groupBy && !searching">
                             <div
                                 v-for="(group, groupName) in groupByFnc(
-                                    [...prependItems, ...filteredItems],
+                                    [
+                                        ...prependItems,
+                                        ...filteredItems,
+                                        ...postpendItems,
+                                    ],
                                     (item) => item[groupBy as string]
                                 )"
                                 class="border-t border-zinc-300/60 px-2 first:border-t-0"
@@ -124,7 +129,7 @@
                                             : 'Uncategorized'
                                     }}</span>
                                 </div>
-                                <div class="-mx-3 grid grid-cols-2 p-3">
+                                <div class="-mx-1.5 grid grid-cols-2 p-3">
                                     <ComboboxOption
                                         v-if="!searching"
                                         v-for="item in group"
@@ -219,6 +224,7 @@ const props = withDefaults(
         nullable?: boolean
         placeholder?: string
         prependItems?: any[]
+        postpendItems?: any[]
         searcher?: (
             query: string,
             controller?: AbortController
@@ -257,6 +263,7 @@ const props = withDefaults(
         nullable: false,
         placeholder: 'Search...',
         prependItems: () => [],
+        postpendItems: () => [],
         searcher: undefined,
         theme: () => ({
             baseDropdownInputContainer: '',
