@@ -68,10 +68,14 @@
                             <div
                                 class="sortable-drag flex items-center space-x-2 text-base"
                             >
-                                <slot name="drag-handle"></slot>
+                                <slot
+                                    v-if="!disabled.includes('groups')"
+                                    name="drag-handle"
+                                />
 
                                 <BasePopover
                                     v-if="
+                                        !disabled.includes('groups') &&
                                         editableGroupConfiguration[
                                             groupElement.name
                                         ]
@@ -137,11 +141,19 @@
                                     </div>
                                 </BasePopover>
 
-                                <span class="font-semibold">{{
-                                    editableGroupConfiguration[
-                                        groupElement.name
-                                    ].name
-                                }}</span>
+                                <span
+                                    class="font-semibold"
+                                    :class="[
+                                        disabled.includes('groups')
+                                            ? 'ml-4'
+                                            : '',
+                                    ]"
+                                    >{{
+                                        editableGroupConfiguration[
+                                            groupElement.name
+                                        ].name
+                                    }}</span
+                                >
                             </div>
                             <span
                                 v-if="groupMenuItems"
@@ -152,10 +164,13 @@
                                         'bottom-end',
                                         'top-end',
                                     ]"
-                                    :items="[
-                                        ...groupMenuItems,
-                                        defaultGroupDropdownMenuItems,
-                                    ]"
+                                    :items="
+                                        [
+                                            ...groupMenuItems,
+                                            !disabled.includes('groups') &&
+                                                defaultGroupDropdownMenuItems,
+                                        ].filter(Boolean)
+                                    "
                                     :context="{ groupName: groupElement.name }"
                                 >
                                     <template #trigger>
@@ -564,9 +579,12 @@ const componentJarTheme = inject(
     'componentJarTheme'
 ) as unknown as ThemeConfigurator
 
-const editableColumns = ref<{ [key: string]: any }>(
-    groupColumns([...props.existingColumns])
-)
+// const editableColumns = ref<{ [key: string]: any }>(
+//     groupColumns([...props.existingColumns])
+// )
+
+const editableColumns = ref<{ [key: string]: any }>({ Default: [] })
+
 const columnFinderTypeahead = ref<any>()
 const focusedColumn = ref<any>()
 const newGroupName = ref<string>('')
@@ -583,9 +601,14 @@ const groupMeta = ref({
 watch(
     () => props.existingColumns,
     (newVal) => {
-        editableColumns.value = groupColumns([...newVal])
+        editableColumns.value =
+            newVal.length === 0
+                ? {
+                      Default: [],
+                  }
+                : groupColumns([...newVal])
     },
-    { immediate: false }
+    { immediate: true }
 )
 
 watch(

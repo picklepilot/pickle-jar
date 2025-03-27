@@ -133,6 +133,12 @@
                                                                         :sidebar-open="
                                                                             sidebarDrawerOpen
                                                                         "
+                                                                        @clicked-nav-item="
+                                                                            emit(
+                                                                                'clicked-nav-item',
+                                                                                $event
+                                                                            )
+                                                                        "
                                                                     />
                                                                 </li>
                                                             </ul>
