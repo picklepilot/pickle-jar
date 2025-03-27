@@ -5,7 +5,8 @@
             m(
                 'h-8 w-8 border-none flex items-center justify-center rounded-md font-medium p-2 text-xs leading-none bg-transparent text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 relative',
                 item.classes?.button || '',
-                componentJarTheme.themeParams.baseButton
+                componentJarTheme.themeParams.baseButton,
+                componentJarTheme.themeParams.toolbarButton
             ),
         ]"
         :disabled="item.disabled"
@@ -42,6 +43,13 @@
         "
         :buffer="item.menuConfig?.buffer || 20"
         :offset="item.menuConfig?.offset || 8"
+        :theme="{
+            baseDropdownMenuItems: theme.baseDropdownMenuItems,
+            baseDropdownMenuTriggerButton: theme.baseDropdownMenuTriggerButton,
+            baseDropdownMenuItemGroup: theme.baseDropdownMenuItemGroup,
+            baseDropdownMenuItemButton: theme.baseDropdownMenuItemButton,
+        }"
+
     >
         <template #trigger>
             <span
@@ -65,8 +73,31 @@ import { useThemeConfigurator } from '../composables'
 const props = withDefaults(
     defineProps<{
         item: ToolbarItem
+        theme?: {
+            baseDropdownMenuContainer?: string
+            baseDropdownMenuHeader?: string
+            baseDropdownMenuItem?: string
+            baseDropdownMenuItemButton?: string
+            baseDropdownMenuItemGroup?: string
+            baseDropdownMenuItemIcon?: string
+            baseDropdownMenuItems?: string
+            baseDropdownMenuTriggerButton?: string
+            baseDropdownMenuTriggerButtonActive?: string
+        }
     }>(),
-    {}
+    {
+        theme: () => ({
+            baseDropdownMenuContainer: '',
+            baseDropdownMenuHeader: '',
+            baseDropdownMenuItem: '',
+            baseDropdownMenuItemButton: '',
+            baseDropdownMenuItemGroup: '',
+            baseDropdownMenuItemIcon: '',
+            baseDropdownMenuItems: '',
+            baseDropdownMenuTriggerButton: '',
+            baseDropdownMenuTriggerButtonActive: '',
+        }),
+    }
 )
 
 const { componentJarTheme } = useThemeConfigurator()

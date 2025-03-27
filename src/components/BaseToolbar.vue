@@ -33,6 +33,7 @@
                     v-for="(item, j) in itemGroup.children"
                     :key="`toolbar-left-group-${i}-${j}`"
                     :item="item"
+                    :theme="item.theme || {}"
                 />
             </span>
         </div>
@@ -46,6 +47,7 @@
                 )
             "
         >
+            <slot name="before-right" />
             <span
                 v-for="(itemGroup, i) in groupedToolbarItemGroups.right"
                 :key="`toolbar-right-group-${i}`"
@@ -56,6 +58,7 @@
                     v-for="(item, j) in itemGroup.children"
                     :key="`toolbar-right-group-${i}-${j}`"
                     :item="item"
+                    :theme="item.theme || {}"
                 />
             </span>
         </div>

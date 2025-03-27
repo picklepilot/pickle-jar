@@ -180,7 +180,7 @@
 
 <script setup lang="ts">
 import { computed, inject, ref, watch } from 'vue'
-import { m, type ThemeConfigurator } from '../utils'
+import { debounce, m, type ThemeConfigurator } from '../utils'
 import { autoPlacement, autoUpdate, size, useFloating } from '@floating-ui/vue'
 import {
     Combobox,
@@ -201,6 +201,7 @@ const props = withDefaults(
             inputContainer?: string
             inputElement?: string
         }
+        debounce?: number
         defaultItems?: any[]
         disabled?: string[]
         displayProperty?: (item: any) => string
@@ -244,6 +245,7 @@ const props = withDefaults(
             inputContainer: '',
             inputeElement: '',
         }),
+        debounce: 1000,
         defaultItems: () => [],
         disabled: () => [],
         displayProperty: (item: any) => item.name,
@@ -325,7 +327,7 @@ const { floatingStyles } = useFloating(reference, floating, {
 
 watch(
     () => query.value,
-    async () => {
+    debounce(async () => {
         const abortController = new AbortController()
         if (props.searcher) {
             searching.value = true
@@ -338,7 +340,7 @@ watch(
         } else {
             filteredItems.value = []
         }
-    }
+    }, props.debounce)
 )
 
 watch(

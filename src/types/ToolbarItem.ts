@@ -33,6 +33,7 @@ export type ToolbarItem = {
     onClick?: () => void
     position?: 'left' | 'right'
     statusColor?: string
+    theme?: any
     tooltip?: string
 }
 

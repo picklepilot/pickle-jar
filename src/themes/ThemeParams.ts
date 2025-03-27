@@ -12,11 +12,11 @@ export type ThemeParam =
     | 'baseDropdownMenuItemIcon'
     | 'baseDropdownMenuItems'
     | 'baseDropdownMenuTriggerButton'
+    | 'baseDropdownMenuTriggerButtonActive'
     | 'baseTypeaheadContainer'
     | 'buttonComboDropdownPrimaryButton'
     | 'buttonComboDropdownTriggerButton'
     | 'buttonComboDropdownTriggerButtonIcon'
-    | 'baseDropdownMenuTriggerButtonActive'
     | 'columnManagerContainer'
     | 'columnManagerGroupContainer'
     | 'columnManagerGroupHeader'
@@ -47,6 +47,7 @@ export type ThemeParam =
     | 'uiWindowToolbarWindowContainer'
     | 'uiWindowToolbarWindowTopMenu'
     | 'uiWindowToolbarWindowTopMenuTitle'
+    | 'toolbarButton'
 
 export type ThemeParams = {
     baseButton: string
@@ -62,6 +63,7 @@ export type ThemeParams = {
     baseDropdownMenuItemIcon: string
     baseDropdownMenuItems: string
     baseDropdownMenuTriggerButton: string
+    baseDropdownMenuTriggerButtonActive: string
     baseTypeaheadContainer: string
     buttonComboDropdownPrimaryButton: string
     buttonComboDropdownTriggerButton: string
@@ -91,10 +93,10 @@ export type ThemeParams = {
     settingsMenuItemIcon: string
     tabsNavLine: string
     tabsNavTab: string
+    toolbarButton: string
     uiWindowToolbarTopMenuEnabled: boolean
     uiWindowToolbarWindowCloseButton: string
     uiWindowToolbarWindowContainer: string
     uiWindowToolbarWindowTopMenu: string
     uiWindowToolbarWindowTopMenuTitle: string
-    baseDropdownMenuTriggerButtonActive: string
 }

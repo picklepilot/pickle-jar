@@ -15,7 +15,7 @@
                     )
                 "
                 @click="$emit('close', false)"
-            ></div>
+            />
         </transition>
 
         <div

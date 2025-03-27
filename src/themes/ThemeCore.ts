@@ -44,6 +44,7 @@ export const ThemeCore: ThemeParams = {
     settingsMenuItemIcon: 'text-sm',
     tabsNavLine: '-mt-px border-zinc-300',
     tabsNavTab: '',
+    toolbarButton: '',
     uiWindowToolbarTopMenuEnabled: true,
     uiWindowToolbarWindowCloseButton: 'border-0 p-0 justify-center rounded-full text-zinc-800 h-6 w-6 leading-none bg-red-500 hover:bg-red-400',
     uiWindowToolbarWindowContainer: 'border border-zinc-300/80 bg-white shadow-xl',
