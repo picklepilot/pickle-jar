@@ -13,7 +13,7 @@
 <script setup lang="ts">
 // @ts-ignore
 import Sortable from 'sortablejs'
-import { ref, onMounted, watch, nextTick } from 'vue-demi'
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { m } from '../utils'
 
 const sortableClass = ref(

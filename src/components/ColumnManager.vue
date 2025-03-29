@@ -66,7 +66,7 @@
                             "
                         >
                             <div
-                                class="sortable-drag flex items-center space-x-2 text-base"
+                                class="sortable-drag flex min-w-px grow items-center space-x-2 text-base"
                             >
                                 <slot
                                     v-if="!disabled.includes('groups')"
@@ -83,7 +83,7 @@
                                     :classes="{
                                         menu: 'leading-none',
                                         menuButton:
-                                            'rounded-xs p-1 hover:bg-zinc-200/80',
+                                            'rounded-xs size-6 flex items-center justify-center hover:bg-zinc-100',
                                     }"
                                 >
                                     <template #trigger>
@@ -143,11 +143,7 @@
 
                                 <span
                                     class="font-semibold"
-                                    :class="[
-                                        disabled.includes('groups')
-                                            ? 'ml-4'
-                                            : '',
-                                    ]"
+                                    :class="theme.columnManagerGroupLabel"
                                     >{{
                                         editableGroupConfiguration[
                                             groupElement.name
@@ -167,11 +163,11 @@
                                     :items="
                                         [
                                             ...groupMenuItems,
-                                            !disabled.includes('groups') &&
-                                                defaultGroupDropdownMenuItems,
+                                            defaultGroupDropdownMenuItems,
                                         ].filter(Boolean)
                                     "
                                     :context="{ groupName: groupElement.name }"
+                                    :theme="theme"
                                 >
                                     <template #trigger>
                                         <svg
@@ -195,7 +191,12 @@
 
                         <div
                             v-if="!draggingGroup"
-                            class="group flex items-center justify-end space-x-2 p-2 px-4"
+                            :class="
+                                m(
+                                    'group flex items-center justify-end space-x-2 p-2 px-4',
+                                    theme.typeaheadContainer
+                                )
+                            "
                         >
                             <BaseTypeahead
                                 ref="columnFinderTypeahead"
@@ -207,9 +208,10 @@
                                 :multiple="false"
                                 :nullable="true"
                                 :searcher="searcher"
+                                :theme="theme"
                                 :middleware-options="typeaheadMiddlewareOptions"
                                 placeholder="Add a column to group"
-                                @update:modelValue="
+                                @update:model-value="
                                     onPickedNewColumn(
                                         groupElement.name as string,
                                         $event
@@ -327,13 +329,10 @@
                                 >
                                     <slot name="drag-handle"></slot>
 
-                                    <slot
-                                        name="column"
-                                        :slotProps="element"
-                                    ></slot>
+                                    <slot name="column" v-bind="{ element }" />
 
                                     <div
-                                        class="ml-auto flex items-center space-x-1.5 p-1"
+                                        class="ml-auto flex items-center space-x-1 p-1"
                                     >
                                         <button
                                             @click.prevent.stop="
@@ -342,7 +341,7 @@
                                                     index
                                                 )
                                             "
-                                            class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                            class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-100 hover:text-zinc-700"
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -366,7 +365,7 @@
                                                         groupElement.name
                                                     ][index]
                                             "
-                                            class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-200 hover:text-zinc-700"
+                                            class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-100 hover:text-zinc-700"
                                         >
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -401,41 +400,68 @@
                     )
                 "
             >
-                <InputText
-                    :classes="[
-                        m(
-                            componentJarTheme.themeParams
-                                .columnManagerNewGroupInput,
-                            theme.columnManagerNewGroupInput
-                        ),
-                    ]"
-                    id="column-manager-new-group-name"
-                    name="column-manager-new-group-name"
-                    placeholder="New group name"
-                    v-model="newGroupName"
-                />
-                <BaseButton
-                    :theme="{
-                        baseButton:
-                            componentJarTheme.themeParams
-                                .columnManagerNewGroupInputButton,
-                    }"
-                    @click="addGroup()"
+                <transition
+                    enter-active-class="transition duration-200 ease-out"
+                    enter-from-class="translate-y-1 opacity-0"
+                    enter-to-class="translate-y-0 opacity-100"
+                    leave-active-class="transition duration-150 ease-in"
+                    leave-from-class="translate-y-0 opacity-100"
+                    leave-to-class="translate-y-1 opacity-0"
                 >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke-width="1.5"
-                        stroke="currentColor"
-                        class="h-6 w-6"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M12 4.5v15m7.5-7.5h-15"
+                    <span v-show="addingNewGroup" class="flex -space-x-px">
+                        <InputText
+                            :classes="[
+                                m(
+                                    componentJarTheme.themeParams
+                                        .columnManagerNewGroupInput,
+                                    theme.columnManagerNewGroupInput
+                                ),
+                            ]"
+                            :theme="{
+                                inputText: m(
+                                    componentJarTheme.themeParams
+                                        .columnManagerNewGroupInput,
+                                    theme.columnManagerNewGroupInput
+                                ),
+                            }"
+                            id="column-manager-new-group-name"
+                            name="column-manager-new-group-name"
+                            placeholder="New group name"
+                            v-model="newGroupName"
+                            @keyup.enter="addGroup()"
                         />
-                    </svg>
+                        <BaseButton
+                            :theme="{
+                                baseButton: m(
+                                    componentJarTheme.themeParams
+                                        .columnManagerNewGroupInputButton,
+                                    theme.columnManagerNewGroupInputButton
+                                ),
+                            }"
+                            @click="addGroup()"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke-width="1.5"
+                                stroke="currentColor"
+                                class="h-4 w-4"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M12 4.5v15m7.5-7.5h-15"
+                                />
+                            </svg>
+                        </BaseButton>
+                    </span>
+                </transition>
+                <BaseButton
+                    @click="addingNewGroup = !addingNewGroup"
+                    :theme="{ baseButton: theme.addGroupButton }"
+                >
+                    {{ addingNewGroup ? 'Cancel' : 'Add a group' }}
                 </BaseButton>
             </div>
         </div>
@@ -444,12 +470,12 @@
 </template>
 
 <script setup lang="ts">
+import type { ColumnDefinition } from '../types/ColumnDefinition'
 import { m, type ThemeConfigurator } from '../utils'
-import { inject, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 import { Sortable } from 'sortablejs-vue3'
 // @ts-ignore
 import { default as realSortable } from 'sortablejs'
-
 import BaseButton from './BaseButton.vue'
 import BaseDropdownMenu from './BaseDropdownMenu.vue'
 import BasePopover from './BasePopover.vue'
@@ -457,15 +483,10 @@ import BaseTypeahead from './BaseTypeahead.vue'
 import ColorPicker from './ColorPicker.vue'
 import EmptyState from './EmptyState.vue'
 import InputText from './InputText.vue'
-
 // @ts-ignore
 import { ComboboxOption } from '@headlessui/vue'
-
-import {
-    groupColumns,
-    // mergeColumnGroupsWithDefaults,
-    ungroupColumns,
-} from '../utils/ColumnManagerUtils'
+import { groupColumns, ungroupColumns } from '../utils/ColumnManagerUtils'
+import type { ColumnGroupDefinition } from '../types'
 
 const emit = defineEmits([
     'update:existingColumns',
@@ -474,16 +495,11 @@ const emit = defineEmits([
 
 const props = withDefaults(
     defineProps<{
-        theme?: {
-            columnManagerContainer?: string
-            columnManagerGroupContainer?: string
-            columnManagerGroupHeader?: string
-            columnManagerGroupsContainer?: string
-            columnManagerItem?: string
-            columnManagerNewGroupContainer?: string
-            columnManagerNewGroupInput?: string
-            columnManagerNewGroupInputButton?: string
-        }
+        /**
+         * CSS classes for various container elements
+         * @deprecated
+         * @type {Object}
+         */
         classes?: {
             container?: string
             groupContainer?: string
@@ -498,22 +514,114 @@ const props = withDefaults(
                 menuItemIcon?: string
             }
         }
-        defaultItems?: any[]
+
+        /**
+         * Default items to display in the typeahead component
+         * @type {Array<ColumnDefinition>}
+         */
+        defaultItems?: ColumnDefinition[]
+
+        /**
+         * Array of disabled features/functionalities
+         * @type {Array<string>}
+         */
         disabled?: string[]
+
+        /**
+         * CSS classes for the dropdown component
+         * @type {Object}
+         */
         dropDownClasses?: {
             container?: string
             inputContainer?: string
             inputElement?: string
             comboboxOptionsContainer?: string
         }
+
+        /**
+         * Default color for new groups
+         * @type {string}
+         */
         defaultGroupColor?: string
-        existingColumns?: any[]
-        groupConfiguration?: any
+
+        /**
+         * Array of existing columns to display in the manager
+         * @type {Array<ColumnDefinition>}
+         */
+        existingColumns?: ColumnDefinition[]
+
+        /**
+         * Configuration for group settings like name and color
+         * @type {Object}
+         */
+        groupConfiguration?: { [key: string]: ColumnGroupDefinition }
+
+        /**
+         * Custom menu items for group actions
+         * @type {Array<any>}
+         */
         groupMenuItems?: any[]
-        onPickedColumn: (groupName: string, column: any) => any
+
+        /**
+         * Callback function when a column is picked for a group
+         * @type {Function}
+         * @param {string} groupName - The name of the group
+         * @param {any} column - The selected column
+         * @returns {any}
+         */
+        // onPickedColumn: (groupName: string, column: any) => any
+
+        /**
+         * Function to search for columns
+         * @type {Function}
+         * @param {string} query - The search query
+         * @returns {Promise<Array<any>>}
+         */
         searcher: (query: string) => Promise<any[]>
+
+        /**
+         * Theme configuration for various container elements
+         * @type {Object}
+         */
+        theme?: {
+            baseDropdownInputText?: string
+            baseDropdownMenuContainer?: string
+            baseDropdownMenuHeader?: string
+            baseDropdownMenuItem?: string
+            baseDropdownMenuItemButton?: string
+            baseDropdownMenuItemGroup?: string
+            baseDropdownMenuItemIcon?: string
+            baseDropdownMenuItems?: string
+            baseDropdownMenuTriggerButton?: string
+            baseDropdownMenuTriggerButtonActive?: string
+            columnManagerContainer?: string
+            columnManagerGroupContainer?: string
+            columnManagerGroupHeader?: string
+            columnManagerGroupLabel?: string
+            columnManagerGroupsContainer?: string
+            columnManagerItem?: string
+            columnManagerNewGroupContainer?: string
+            columnManagerNewGroupInput?: string
+            columnManagerNewGroupInputButton?: string
+            typeaheadContainer?: string
+        }
+
+        /**
+         * Property to group by in the typeahead component
+         * @type {string}
+         */
         typeaheadGroupBy?: string
+
+        /**
+         * Configuration for typeahead groups
+         * @type {Object}
+         */
         typeaheadGroupsConfig?: any
+
+        /**
+         * Options for typeahead middleware positioning and sizing
+         * @type {Object}
+         */
         typeaheadMiddlewareOptions: {
             autoPlacement?: {
                 allowedPlacements?: string[]
@@ -535,7 +643,7 @@ const props = withDefaults(
             groupMenuClasses: {
                 menu: '',
                 menuButton:
-                    'h-7 w-7 rounded-lg flex items-center justify-center hover:bg-zinc-200',
+                    'h-7 w-7 rounded-lg flex items-center justify-center hover:bg-zinc-100',
                 menuItems: 'z-50',
                 menuItem: 'rounded-xl',
                 menuItemIcon: 'group-hover:bg-indigo-300',
@@ -554,14 +662,26 @@ const props = withDefaults(
         groupConfiguration: () => ({}),
         defaultGroupColor: '#e7e5e4',
         theme: () => ({
+            baseDropdownInputText: '',
+            baseDropdownMenuContainer: '',
+            baseDropdownMenuHeader: '',
+            baseDropdownMenuItem: '',
+            baseDropdownMenuItemButton: '',
+            baseDropdownMenuItemGroup: '',
+            baseDropdownMenuItemIcon: '',
+            baseDropdownMenuItems: '',
+            baseDropdownMenuTriggerButton: '',
+            baseDropdownMenuTriggerButtonActive: '',
             columnManagerContainer: '',
             columnManagerGroupContainer: '',
             columnManagerGroupHeader: '',
+            columnManagerGroupLabel: '',
             columnManagerGroupsContainer: '',
             columnManagerItem: '',
             columnManagerNewGroupContainer: '',
             columnManagerNewGroupInput: '',
             columnManagerNewGroupInputButton: '',
+            typeaheadContainer: '',
         }),
         typeaheadGroupBy: '',
         typeaheadGroupsConfig: () => ({}),
@@ -585,6 +705,7 @@ const componentJarTheme = inject(
 
 const editableColumns = ref<{ [key: string]: any }>({ Default: [] })
 
+const addingNewGroup = ref(false)
 const columnFinderTypeahead = ref<any>()
 const focusedColumn = ref<any>()
 const newGroupName = ref<string>('')
@@ -619,18 +740,10 @@ watch(
     { immediate: false }
 )
 
-// watch(
-//     () => editableGroupConfiguration.value,
-//     () => {
-//         console.log(
-//             'GROUP CONFIG UPDATED IN COL MAN',
-//             editableGroupConfiguration.value
-//         )
-//         emit('update:groupConfiguration', editableGroupConfiguration.value)
-//     },
-//     { deep: false }
-// )
-
+/**
+ * Handles the click event on a list item to toggle its selection state.
+ * @param {Event} evt - The click event object
+ */
 function onClickedListItem(evt: any) {
     if (evt.currentTarget.classList.contains('selected')) {
         realSortable.utils.deselect(evt.currentTarget)
@@ -639,17 +752,11 @@ function onClickedListItem(evt: any) {
     }
 }
 
+/**
+ * Updates the metadata (name and color) of a group.
+ * @param {string} oldGroupName - The current name of the group to update
+ */
 function onUpdateGroupMeta(oldGroupName: string) {
-    console.log('UPDATING META', groupMeta.value, oldGroupName)
-    // delete editableGroupConfiguration.value[oldGroupName]
-    // editableGroupConfiguration.value = {
-    //     ...editableGroupConfiguration.value,
-    //     [groupMeta.value.name]: {
-    //         name: groupMeta.value.name,
-    //         color: groupMeta.value.color || props.defaultGroupColor,
-    //     },
-    // }
-
     const filtered = Object.values(editableGroupConfiguration.value).filter(
         (group: any) => group.name !== oldGroupName
     )
@@ -662,41 +769,12 @@ function onUpdateGroupMeta(oldGroupName: string) {
     emit('update:groupConfiguration', newGroupConfig)
 }
 
-// function onUpdateGroupName(groupName: string, evt: any) {
-//     console.log('UPDATING GROUP NAME', groupName, evt.target.value)
-//     editableGroupConfiguration.value = {
-//         ...editableGroupConfiguration.value,
-//         [groupName]: {
-//             ...editableGroupConfiguration.value[groupName],
-//             name: groupName,
-//         },
-//     }
-// }
-//
-// function onUpdateGroupColor(groupName: string | number, hexColor: string) {
-//     editableGroupConfiguration.value[groupName].color = hexColor
-//     /* editableGroupConfiguration.value = {
-//         ...editableGroupConfiguration.value,
-//         [groupName]: {
-//             ...editableGroupConfiguration.value[groupName],
-//             color: hexColor,
-//         },
-//     } */
-//
-//     console.log('COLOR', hexColor, editableGroupConfiguration.value)
-//     emit('update:groupConfiguration', editableGroupConfiguration.value)
-// }
-
 /**
- * Handler for the remove column button click event.
- * @param {string} groupName - The group name of the column
- * @param {number} idx - The index of the column
+ * Removes a column from a specific group at the given index.
+ * @param {string} groupName - The name of the group containing the column
+ * @param {number} idx - The index of the column to remove
  */
 function removeColumn(groupName: string, idx: number) {
-    /* editableColumns.value[groupName] = editableColumns.value[groupName].filter(
-        (_column: any, colIdx: number) => colIdx !== idx
-    ) */
-
     editableColumns.value = {
         ...editableColumns.value,
         [groupName]: editableColumns.value[groupName].filter(
@@ -708,7 +786,8 @@ function removeColumn(groupName: string, idx: number) {
 }
 
 /**
- * Handler for the add group button click event.
+ * Adds a new group to the column manager.
+ * Creates a new empty group with the specified name and default color.
  */
 function addGroup() {
     editableColumns.value = {
@@ -722,6 +801,7 @@ function addGroup() {
     }
 
     newGroupName.value = ''
+    addingNewGroup.value = false
 
     setTimeout(() => {
         const objDiv = document.getElementById(
@@ -729,7 +809,6 @@ function addGroup() {
         )
 
         if (objDiv) {
-            // objDiv.scrollTop = objDiv.scrollHeight
             objDiv.scrollTo({
                 top: objDiv.scrollHeight,
                 behavior: 'smooth',
@@ -739,17 +818,39 @@ function addGroup() {
 }
 
 /**
- * Handler for the remove group button click event.
- * @param {string} groupName - The group name of the column
+ * Removes a group and all its columns from the column manager.
+ * @param {string} groupName - The name of the group to remove
  */
 function removeGroup(groupName: string) {
-    delete editableColumns.value[groupName]
+    editableColumns.value = Object.entries(editableColumns.value)
+        .filter(([key]) => key !== groupName)
+        .reduce(
+            (acc, [key, value]) => ({
+                ...acc,
+                [key]: value,
+            }),
+            {}
+        )
+
+    editableGroupConfiguration.value = Object.entries(
+        editableGroupConfiguration.value
+    )
+        .filter(([key]) => key !== groupName)
+        .reduce(
+            (acc, [key, value]) => ({
+                ...acc,
+                [key]: value,
+            }),
+            {}
+        )
+
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
+    emit('update:groupConfiguration', editableGroupConfiguration.value)
 }
 
 /**
- * Handler for the reset to default columns button click event.
- * @param {string} groupName - The group name of the column
+ * Clears all columns from a specific group.
+ * @param {string} groupName - The name of the group to clear
  */
 function clearAllColumns(groupName: string) {
     editableColumns.value = {
@@ -763,9 +864,11 @@ function clearAllColumns(groupName: string) {
 }
 
 /**
- * Updates the array after a sortable event.
- * @param e
- * @param arr
+ * Updates an array after a sortable event by moving elements.
+ * @template T
+ * @param {realSortable.SortableEvent} e - The sortable event object
+ * @param {T[]} arr - The array to update
+ * @returns {T[]} The updated array with elements in their new positions
  */
 function sortableUpdate<T>(e: realSortable.SortableEvent, arr: T[]) {
     const el = arr.splice(e.oldIndex!, 1)[0]
@@ -774,9 +877,9 @@ function sortableUpdate<T>(e: realSortable.SortableEvent, arr: T[]) {
 }
 
 /**
- * Handler for the sortable component update event.
- * @param {string} groupName - The group name of the column
- * @param {any} params - The updated column list
+ * Handles the update event from the sortable component for a specific group.
+ * @param {string} groupName - The name of the group being updated
+ * @param {any} params - The sortable update parameters
  */
 function onUpdatedList(groupName: string, params: any) {
     editableColumns.value[groupName] = sortableUpdate(
@@ -786,68 +889,20 @@ function onUpdatedList(groupName: string, params: any) {
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }
 
+/**
+ * Handles the group order update event from the sortable component.
+ * @param {any} _params - The sortable update parameters (currently unused)
+ */
 function onUpdatedGroupOrder(_params: any) {
-    // editableColumns.value = sortableUpdate(
-    //     params,
-    //     editableColumns.value
-    // )
-    // emit('update:existingColumns', ungroupColumns(editableColumns.value))
+    // Implementation for group order updates
 }
 
-/* function syncArrayElements<T>(
-    listItems: any,
-    domElements: HTMLElement[],
-    from: number[],
-    to: number[],
-) {
-    const originalArray = [...listItems]
-
-    // Credits: https://stackoverflow.com/a/69574526
-    const swapIndex = (array: T[], from: number, to: number) =>
-        from < to
-            ? [
-                  ...array.slice(0, from), // Chunk from beginning of array up to original position
-                  ...array.slice(from + 1, to + 1), // Chunk from after original position up to new position
-                  array[from], // Target element gets inserted here
-                  ...array.slice(to + 1), // Chunk from after new position to end of array
-              ]
-            : [
-                  ...array.slice(0, to),
-                  array[from],
-                  ...array.slice(to, from),
-                  ...array.slice(from + 1),
-              ]
-
-    let newArray = originalArray
-    let currentTo = to[0]
-    const targetElements = from.map((idx) => originalArray[idx])
-
-    let lastMovedElement: any = null
-    targetElements.forEach((element, idx) => {
-        lastMovedElement = element
-        currentTo = to[idx] // newArray.findIndex(item => item.id === lastMovedElement.id)
-        if (currentTo === -1) currentTo = to[idx]
-        const fromIndex = newArray.findIndex((item) => item.id === element.id)
-        newArray = swapIndex(newArray, fromIndex, currentTo)
-    })
-
-    nextTick(() => {
-        // When list is ref, assign array to list
-        list.value = newArray
-
-        // If multiDrag is enabled, deselect all elements
-        if (Sortable.MultiDrag) {
-            domElements.forEach((element) => {
-                Sortable.utils.deselect(element)
-            })
-        }
-
-        emit('update:existingColumns', ungroupColumns(editableColumns.value))
-    })
-} */
-
+/**
+ * Handles the event when columns are added to a group.
+ * @param {string} groupName - The name of the target group
+ * @param {any} params - The sortable add event parameters
+ */
 function onAdded(groupName: string, params: any) {
-    console.log('ADDED TO GROUP', groupName, params)
     const fromGroupName = params.from.dataset.groupName || 'Default'
     const targetValues = indicesParams(params)
         .from.map(
@@ -864,11 +919,21 @@ function onAdded(groupName: string, params: any) {
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }
 
+/**
+ * Handles the event when columns are removed from a group.
+ * @param {string} groupName - The name of the source group
+ * @param {any} params - The sortable remove event parameters
+ */
 function onRemoved(groupName: string, params: any) {
     editableColumns.value[groupName].splice(params.oldIndex, 1)
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }
 
+/**
+ * Extracts and formats indices parameters from a sortable event.
+ * @param {realSortable.SortableEvent} e - The sortable event object
+ * @returns {Object} An object containing DOM elements and indices arrays
+ */
 function indicesParams(e: realSortable.SortableEvent): {
     domElements: HTMLElement[]
     from: number[]
@@ -886,9 +951,9 @@ function indicesParams(e: realSortable.SortableEvent): {
 }
 
 /**
- * Handler for the column picker component update event.
- * @param {string} groupName - The group name of the column
- * @param {any} value - The selected column
+ * Handles the event when a new column is picked for a group.
+ * @param {string} groupName - The name of the target group
+ * @param {any} value - The selected column to add
  */
 function onPickedNewColumn(groupName: string, value: any) {
     value.group = groupName
@@ -897,35 +962,46 @@ function onPickedNewColumn(groupName: string, value: any) {
         [groupName]: [...editableColumns.value[groupName], value],
     }
 
-    console.log('update:existingColumns', editableColumns.value)
-
     emit('update:existingColumns', ungroupColumns(editableColumns.value))
 }
 
-const defaultGroupDropdownMenuItems = [
-    {
-        icon: 'fa-plus',
-        label: 'Add column to group',
-        onClick: (context: any) => {
-            // addingColumnToGroup.value = context.groupName
-            addingColumnToGroups.value.push(context.groupName)
+const defaultGroupDropdownMenuItems = computed(() =>
+    [
+        // {
+        //     icon: 'fa-plus',
+        //     label: 'Add column to group',
+        //     onClick: (context: any) => {
+        //         // addingColumnToGroup.value = context.groupName
+        //         addingColumnToGroups.value.push(context.groupName)
+        //     },
+        // },
+        {
+            icon: 'fa-empty-set',
+            label: 'Empty group',
+            onClick: (context: any) => {
+                clearAllColumns(context.groupName)
+            },
         },
-    },
-    {
-        icon: 'fa-empty-set',
-        label: 'Empty group',
-        onClick: (context: any) => {
-            clearAllColumns(context.groupName)
-        },
-    },
-    {
-        icon: 'fa-trash',
-        label: 'Remove group',
-        onClick: (context: any) => {
-            removeGroup(context.groupName)
-        },
-    },
-]
+        !props.disabled.includes('groups')
+            ? {
+                  icon: 'fa-trash',
+                  label: 'Remove group',
+                  onClick: (context: any) => {
+                      // Only remove if there's more than one group with columns
+                      const groupsWithColumns = Object.entries(
+                          editableColumns.value
+                      ) // .filter(([_, columns]) => columns.length > 0)
+
+                      if (groupsWithColumns.length <= 1) {
+                          return
+                      }
+
+                      removeGroup(context.groupName)
+                  },
+              }
+            : false,
+    ].filter(Boolean)
+)
 
 defineExpose({
     clearAllColumns,
