@@ -1,5 +1,5 @@
 import dts from 'vite-plugin-dts'
-import tailwindcss from '@tailwindcss/vite'
+// import tailwindcss from '@tailwindcss/vite'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import { resolve } from 'path'
@@ -8,7 +8,7 @@ import { resolve } from 'path'
 export default defineConfig({
     plugins: [
         vue(),
-        tailwindcss(),
+        // tailwindcss(),
         dts({ tsconfigPath: './tsconfig.app.json' }),
     ],
     build: {
