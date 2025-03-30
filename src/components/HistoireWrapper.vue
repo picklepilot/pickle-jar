@@ -1,9 +1,17 @@
 <script lang="ts" setup>
 import type { Story, Variant } from 'histoire'
 
+interface CustomStoryMeta {
+    wrapper?: boolean
+}
+
+interface CustomVariantMeta {
+    wrapper?: boolean
+}
+
 const props = defineProps<{
-    story: Story
-    variant?: Variant
+    story: Story & { meta?: CustomStoryMeta }
+    variant?: Variant & { meta?: CustomVariantMeta }
 }>()
 
 function hasWrapper() {

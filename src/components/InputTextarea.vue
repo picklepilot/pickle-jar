@@ -3,8 +3,10 @@
         :id="`input-textarea-${id}-container`"
         :class="
             m(
-                'block h-full w-full overflow-hidden rounded-md border border-solid border-zinc-300/80 text-sm text-zinc-900 ring-[3px] ring-transparent placeholder:text-zinc-400 focus-within:border-zinc-500 focus-within:ring-[3px] focus-within:ring-zinc-200/60',
-                ...classes
+                'block w-full overflow-hidden rounded-md border border-solid border-zinc-300/80 text-sm text-zinc-900 ring-[3px] ring-transparent placeholder:text-zinc-400 focus-within:border-zinc-500 focus-within:ring-[3px] focus-within:ring-zinc-200/60',
+                ...classes,
+                componentJarTheme.themeParams.inputTextareaContainer,
+                theme.inputTextareaContainer
             )
         "
     >
@@ -15,10 +17,14 @@
             :placeholder="placeholder"
             :autocomplete="autocomplete"
             :rows="rows"
-            :class="[
-                'h-full w-full bg-transparent px-3 py-2.5',
-                ...inputClasses,
-            ]"
+            :class="
+                m(
+                    'h-full w-full bg-transparent px-3 py-2.5',
+                    ...inputClasses,
+                    componentJarTheme.themeParams.inputTextarea,
+                    theme.inputTextarea
+                )
+            "
             :readonly="readonly"
             :disabled="disabled"
             @blur="$emit('blur-xs', $event)"
@@ -30,6 +36,7 @@
 <script setup lang="ts">
 import { m } from '../utils'
 import { ref, watch } from 'vue'
+import { useThemeConfigurator } from '../composables'
 
 interface Props {
     autocomplete?: string
@@ -42,6 +49,10 @@ interface Props {
     placeholder?: string
     readonly?: boolean
     rows?: string | number
+    theme?: {
+        inputTextareaContainer?: string
+        inputTextarea?: string
+    }
 }
 
 const emit = defineEmits(['blur-xs', 'focus', 'update:modelValue'])
@@ -55,7 +66,13 @@ const props = withDefaults(defineProps<Props>(), {
     placeholder: '',
     readonly: false,
     rows: 3,
+    theme: () => ({
+        inputTextareaContainer: '',
+        inputTextarea: '',
+    }),
 })
+
+const { componentJarTheme } = useThemeConfigurator()
 
 const effectiveValue = ref(props.modelValue)
 

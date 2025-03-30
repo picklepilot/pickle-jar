@@ -29,8 +29,11 @@ export type ThemeParam =
     | 'generalFloatingPanelContainer'
     | 'inputSwitch'
     | 'inputText'
+    | 'inputTextarea'
+    | 'inputTextareaContainer'
     | 'inputTextInvalid'
     | 'modalBackdrop'
+    | 'modalCloseButton'
     | 'modalMainContainer'
     | 'modalMainContentContainer'
     | 'modalScrollContainer'
@@ -42,12 +45,12 @@ export type ThemeParam =
     | 'settingsMenuItemIcon'
     | 'tabsNavLine'
     | 'tabsNavTab'
+    | 'toolbarButton'
     | 'uiWindowToolbarTopMenuEnabled'
     | 'uiWindowToolbarWindowCloseButton'
     | 'uiWindowToolbarWindowContainer'
     | 'uiWindowToolbarWindowTopMenu'
     | 'uiWindowToolbarWindowTopMenuTitle'
-    | 'toolbarButton'
 
 export type ThemeParams = {
     baseButton: string
@@ -80,8 +83,11 @@ export type ThemeParams = {
     generalFloatingPanelContainer: string
     inputSwitch: string
     inputText: string
+    inputTextarea: string
+    inputTextareaContainer: string
     inputTextInvalid: string
     modalBackdrop: string
+    modalCloseButton: string
     modalMainContainer: string
     modalMainContentContainer: string
     modalScrollContainer: string

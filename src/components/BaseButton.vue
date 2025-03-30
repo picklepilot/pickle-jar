@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import { inject } from 'vue'
 import { m, ThemeConfigurator } from '../utils'
-import type { ThemeParams } from '../themes/ThemeParams'
+// import type { ThemeParams } from '../themes/ThemeParams'
 
 const emit = defineEmits(['click'])
 

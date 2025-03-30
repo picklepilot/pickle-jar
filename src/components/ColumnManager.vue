@@ -584,6 +584,7 @@ const props = withDefaults(
          * @type {Object}
          */
         theme?: {
+            addGroupButton?: string
             baseDropdownInputText?: string
             baseDropdownMenuContainer?: string
             baseDropdownMenuHeader?: string
@@ -662,6 +663,7 @@ const props = withDefaults(
         groupConfiguration: () => ({}),
         defaultGroupColor: '#e7e5e4',
         theme: () => ({
+            addGroupButton: '',
             baseDropdownInputText: '',
             baseDropdownMenuContainer: '',
             baseDropdownMenuHeader: '',
