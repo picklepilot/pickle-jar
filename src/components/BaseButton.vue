@@ -11,7 +11,8 @@
             )
         "
     >
-        <span v-if="processing" class="mr-2">
+        <slot></slot>
+        <span v-if="processing">
             <span v-if="$slots.processing">
                 <slot name="processing"></slot>
             </span>
