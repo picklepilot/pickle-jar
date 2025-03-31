@@ -11,7 +11,7 @@
             )
         "
     >
-        <span><slot></slot></span>
+        <slot></slot>
         <span v-if="processing">
             <span v-if="$slots.processing">
                 <slot name="processing"></slot>

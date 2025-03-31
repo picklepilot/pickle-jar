@@ -15,17 +15,18 @@
         @blur="$emit('blur-xs', $event)"
         @keyup.enter="$emit('enter', $event)"
         @focus="$emit('focus', $event)"
+        @input="handleInput"
     />
 </template>
 
 <script setup lang="ts">
 import { m } from '../utils'
-import { computed } from 'vue'
-import { useThemeConfigurator } from '../composables'
+import { useDebouncedInput, useThemeConfigurator } from '../composables'
 
 interface Props {
     classes?: string[]
-    modelValue: string | null
+    debounce?: number
+    modelValue: string
     name: string
     placeholder?: string
     theme?: {
@@ -37,6 +38,7 @@ const emit = defineEmits(['blur-xs', 'enter', 'focus', 'update:modelValue'])
 
 const props = withDefaults(defineProps<Props>(), {
     classes: () => [],
+    debounce: 0,
     modelValue: '',
     name: '',
     placeholder: '',
@@ -45,27 +47,7 @@ const props = withDefaults(defineProps<Props>(), {
     }),
 })
 
-const effectiveValue = computed({
-    get: () => props.modelValue,
-    set: (newValue: string) => emit('update:modelValue', newValue),
-})
-
 const { componentJarTheme } = useThemeConfigurator()
 
-// const effectiveValue = ref(props.modelValue || '')
-
-/* watch(
-    () => props.modelValue,
-    () => {
-        effectiveValue.value = props.modelValue || ''
-    },
-    { immediate: true }
-)
-
-watch(
-    () => effectiveValue.value,
-    () => {
-        emit('update:modelValue', effectiveValue.value)
-    }
-) */
+const { effectiveValue, handleInput } = useDebouncedInput(props, emit)
 </script>
