@@ -10,6 +10,7 @@ export const ThemeCore: ThemeParams = {
     baseDropdownMenuItem: '',
     baseDropdownMenuItemActiveButton: '',
     baseDropdownMenuItemButton: '',
+    baseDropdownMenuItemFocusButton: 'bg-zinc-100',
     baseDropdownMenuItemGroup: '',
     baseDropdownMenuItemIcon: '',
     baseDropdownMenuItems: '',

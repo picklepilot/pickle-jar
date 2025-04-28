@@ -8,6 +8,7 @@ export type ThemeParam =
     | 'baseDropdownMenuItem'
     | 'baseDropdownMenuItemActiveButton'
     | 'baseDropdownMenuItemButton'
+    | 'baseDropdownMenuItemFocusButton'
     | 'baseDropdownMenuItemGroup'
     | 'baseDropdownMenuItemIcon'
     | 'baseDropdownMenuItems'
@@ -59,6 +60,7 @@ export type ThemeParams = {
     baseDropdownMenuItem: string
     baseDropdownMenuItemActiveButton: string
     baseDropdownMenuItemButton: string
+    baseDropdownMenuItemFocusButton: string
     baseDropdownMenuItemGroup: string
     baseDropdownMenuItemIcon: string
     baseDropdownMenuItems: string
