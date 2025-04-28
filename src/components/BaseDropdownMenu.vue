@@ -54,7 +54,7 @@
                     <MenuItem
                         v-for="(item, j) in group"
                         :key="`dropdown-menu-${i}-${j}`"
-                        v-slot="{ active }"
+                        v-slot="{ active, focus }"
                     >
                         <button
                             :class="
@@ -65,6 +65,9 @@
                                     active &&
                                         componentJarTheme.themeParams
                                             .baseDropdownMenuItemActiveButton,
+                                    focus &&
+                                        componentJarTheme.themeParams
+                                            .baseDropdownMenuItemFocusButton,
                                     item.classes?.button
                                 )
                             "
