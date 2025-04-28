@@ -1,6 +1,11 @@
 <template>
     <div
-        :class="m('resizer absolute z-10 bg-transparent', classes)"
+        :class="
+            m(
+                'resizer absolute z-10 bg-transparent hover:bg-zinc-950/5',
+                classes
+            )
+        "
         @mousedown="
             $emit('resize', {
                 direction,
