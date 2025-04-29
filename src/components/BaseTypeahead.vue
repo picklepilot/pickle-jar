@@ -72,7 +72,7 @@
                         ref="floating"
                         :class="
                             m(
-                                'fixed left-0 z-10 overflow-x-hidden overflow-y-auto rounded-lg bg-white p-3 text-base ring-1 shadow-lg ring-black/5 focus:outline-hidden sm:text-sm',
+                                'fixed left-0 z-10 overflow-x-hidden overflow-y-auto rounded-lg bg-white p-3 text-base shadow-lg ring-1 ring-black/5 focus:outline-hidden sm:text-sm',
                                 componentJarTheme.themeParams
                                     .comboboxFloatingPanelContainer,
                                 componentJarTheme.themeParams
@@ -146,6 +146,9 @@
                                                 selected,
                                             }"
                                         />
+                                        <span v-else>{{
+                                            displayProperty(item)
+                                        }}</span>
                                     </ComboboxOption>
                                 </div>
                             </div>
@@ -163,6 +166,7 @@
                                 name="item"
                                 v-bind="{ item, active, selected }"
                             />
+                            <span v-else>{{ displayProperty(item) }}</span>
                         </ComboboxOption>
 
                         <slot

@@ -107,4 +107,5 @@ export type ThemeParams = {
     uiWindowToolbarWindowContainer: string
     uiWindowToolbarWindowTopMenu: string
     uiWindowToolbarWindowTopMenuTitle: string
+    [key: string]: string | boolean
 }

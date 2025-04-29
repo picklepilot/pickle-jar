@@ -1,7 +1,5 @@
-@source './histoire.setup.ts';
-
 @import 'tailwindcss';
-
+@source './histoire.setup.ts';
 @plugin '@tailwindcss/forms';
 
 /*
