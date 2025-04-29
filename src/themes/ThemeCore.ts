@@ -3,6 +3,7 @@ import type { ThemeParams } from './ThemeParams.ts'
 export const ThemeCore: ThemeParams = {
     baseButton: 'flex items-center rounded-md font-medium leading-none',
     baseButtonDisabled: 'pointer-events-none opacity-60',
+    baseButtonIcon: '',
     baseDropdownInputContainer: '',
     baseDropdownInputText: '',
     baseDropdownMenuContainer: 'relative inline-block text-left',

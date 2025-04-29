@@ -22,7 +22,8 @@
                 fill="currentColor"
                 :class="
                     m(
-                        'mi-solid mi-circle-notch animate-spin',
+                        'mi-solid mi-circle-notch animate-spin text-zinc-500',
+                        componentJarTheme.themeParams.baseButtonIcon,
                         theme.baseButtonIcon
                     )
                 "

@@ -1,6 +1,7 @@
 export type ThemeParam =
     | 'baseButton'
     | 'baseButtonDisabled'
+    | 'baseButtonIcon'
     | 'baseDropdownInputContainer'
     | 'baseDropdownInputText'
     | 'baseDropdownMenuContainer'
@@ -56,6 +57,7 @@ export type ThemeParam =
 export type ThemeParams = {
     baseButton: string
     baseButtonDisabled: string
+    baseButtonIcon: string
     baseDropdownInputContainer: string
     baseDropdownInputText: string
     baseDropdownMenuContainer: string
