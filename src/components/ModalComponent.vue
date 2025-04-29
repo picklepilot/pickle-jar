@@ -64,6 +64,8 @@
                             :class="
                                 m(
                                     'absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-md text-zinc-400 hover:bg-zinc-100 hover:text-zinc-800',
+                                    componentJarTheme.themeParams
+                                        .modalCloseButton,
                                     theme.modalCloseButton
                                 )
                             "
@@ -101,6 +103,60 @@ import clsx from 'clsx'
 import { watch } from 'vue'
 import { m } from '../utils'
 import { useThemeConfigurator } from '../composables'
+
+/**
+ * Props interface for the ModalComponent
+ */
+interface Props {
+    /**
+     * Additional CSS classes to apply to the modal
+     *
+     * @deprecated
+     * @default []
+     * @type {string[]}
+     */
+    classes?: string[]
+
+    /**
+     * Array of disabled elements/functionalities
+     *
+     * @default []
+     * @type {string[]}
+     */
+    disabled?: string[]
+
+    /**
+     * Additional CSS classes to apply to the modal container
+     *
+     * @deprecated
+     * @default []
+     * @type {string[]}
+     */
+    containerClasses?: string[]
+
+    /**
+     * Toggle the modal visibility
+     *
+     * @default false
+     * @type {boolean}
+     */
+    showModal: boolean
+
+    /**
+     * Theme configuration for various modal elements
+     *
+     * @default { modalCloseButton: '', modalMainContainer: '', modalMainContentContainer: '' }
+     * @type {Object}
+     */
+    theme?: {
+        /** CSS classes for the modal close button */
+        modalCloseButton?: string
+        /** CSS classes for the main modal container */
+        modalMainContainer?: string
+        /** CSS classes for the modal content container */
+        modalMainContentContainer?: string
+    }
+}
 
 interface Props {
     classes?: string[]

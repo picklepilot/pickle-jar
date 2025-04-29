@@ -1,5 +1,6 @@
+export { type AllowedPlacement } from './AllowedPlacement'
+export { type ColumnDefinition } from './ColumnDefinition'
 export { type ColumnGroupDefinition } from './ColumnGroupDefinition'
 export { type DropdownItem } from './DropdownItem'
 export { type Tab } from './Tab'
 export { type ToolbarItem, type ToolbarItemGroup } from './ToolbarItem'
-export { type AllowedPlacement } from './AllowedPlacement'

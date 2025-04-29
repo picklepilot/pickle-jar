@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
 import clsx from 'clsx'
-import { ref, watch } from 'vue-demi'
+import { ref, watch } from 'vue'
 
 interface Props {
     /**

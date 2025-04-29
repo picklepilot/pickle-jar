@@ -1,6 +1,7 @@
 export type ThemeParam =
     | 'baseButton'
     | 'baseButtonDisabled'
+    | 'baseButtonIcon'
     | 'baseDropdownInputContainer'
     | 'baseDropdownInputText'
     | 'baseDropdownMenuContainer'
@@ -30,8 +31,11 @@ export type ThemeParam =
     | 'generalFloatingPanelContainer'
     | 'inputSwitch'
     | 'inputText'
+    | 'inputTextarea'
+    | 'inputTextareaContainer'
     | 'inputTextInvalid'
     | 'modalBackdrop'
+    | 'modalCloseButton'
     | 'modalMainContainer'
     | 'modalMainContentContainer'
     | 'modalScrollContainer'
@@ -43,6 +47,7 @@ export type ThemeParam =
     | 'settingsMenuItemIcon'
     | 'tabsNavLine'
     | 'tabsNavTab'
+    | 'toolbarButton'
     | 'uiWindowToolbarTopMenuEnabled'
     | 'uiWindowToolbarWindowCloseButton'
     | 'uiWindowToolbarWindowContainer'
@@ -53,6 +58,7 @@ export type ThemeParam =
 export type ThemeParams = {
     baseButton: string
     baseButtonDisabled: string
+    baseButtonIcon: string
     baseDropdownInputContainer: string
     baseDropdownInputText: string
     baseDropdownMenuContainer: string
@@ -82,8 +88,11 @@ export type ThemeParams = {
     generalFloatingPanelContainer: string
     inputSwitch: string
     inputText: string
+    inputTextarea: string
+    inputTextareaContainer: string
     inputTextInvalid: string
     modalBackdrop: string
+    modalCloseButton: string
     modalMainContainer: string
     modalMainContentContainer: string
     modalScrollContainer: string
@@ -101,4 +110,5 @@ export type ThemeParams = {
     uiWindowToolbarWindowContainer: string
     uiWindowToolbarWindowTopMenu: string
     uiWindowToolbarWindowTopMenuTitle: string
+    [key: string]: string | boolean
 }

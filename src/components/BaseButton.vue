@@ -22,10 +22,14 @@
             <svg
                 v-else
                 xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
                 fill="currentColor"
-                class="mi-solid mi-circle-notch animate-spin"
+                :class="
+                    m(
+                        'mi-solid mi-circle-notch animate-spin text-zinc-500',
+                        componentJarTheme.themeParams.baseButtonIcon,
+                        theme.baseButtonIcon
+                    )
+                "
                 viewBox="0 0 24 24"
             >
                 <path
@@ -33,24 +37,51 @@
                 />
             </svg>
         </span>
-        <span v-if="processing" class="sr-only">Loading...</span>
     </button>
 </template>
 
 <script setup lang="ts">
 import { inject } from 'vue'
 import { m, ThemeConfigurator } from '../utils'
+// import type { ThemeParams } from '../themes/ThemeParams'
 
 const emit = defineEmits(['click'])
 
 withDefaults(
     defineProps<{
+        /**
+         * Extra classes to apply to the button element.
+         *
+         * @deprecated
+         * @type {string}
+         */
         classes?: string[]
+
+        /**
+         * Whether the button is disabled.
+         * When true, the button cannot be clicked and shows a disabled state.
+         *
+         * @type {boolean}
+         */
         disabled?: boolean
+
+        /**
+         * Whether the button is in a processing state.
+         * When true, displays a loading indicator before the button content.
+         *
+         * @type {boolean}
+         */
         processing?: boolean
+
+        /**
+         * Locally customize the component's theme properties.
+         *
+         * @type {Partial<ThemeParams>}
+         */
         theme?: {
             baseButton?: string
             baseButtonDisabled?: string
+            baseButtonIcon?: string
         }
     }>(),
     {
@@ -60,6 +91,7 @@ withDefaults(
         theme: () => ({
             baseButton: '',
             baseButtonDisabled: '',
+            baseButtonIcon: '',
         }),
     }
 )
