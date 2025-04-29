@@ -35,7 +35,8 @@
 </template>
 
 <script setup lang="ts">
-import { m } from '../utils'
+import { inject } from 'vue'
+import { m, ThemeConfigurator } from '../utils'
 import { useDebouncedInput } from '../composables'
 
 interface Props {
@@ -74,7 +75,10 @@ const props = withDefaults(defineProps<Props>(), {
     }),
 })
 
-// const { componentJarTheme } = useThemeConfigurator()
-
 const { effectiveValue, handleInput } = useDebouncedInput(props, emit)
+
+const componentJarTheme = inject<ThemeConfigurator>('componentJarTheme')
+if (!componentJarTheme) {
+    throw new Error('componentJarTheme is not provided')
+}
 </script>
