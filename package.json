@@ -1,6 +1,6 @@
 {
     "name": "component-jar",
-    "version": "0.0.16",
+    "version": "0.0.17",
     "type": "module",
     "main": "./dist/component-jar.umd.cjs",
     "module": "./dist/component-jar.js",
