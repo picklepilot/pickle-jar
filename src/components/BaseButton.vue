@@ -10,9 +10,12 @@
                 classes
             )
         "
+        :aria-disabled="disabled"
+        :aria-busy="processing"
+        :disabled="disabled"
     >
         <slot></slot>
-        <span v-if="processing">
+        <span v-if="processing" aria-hidden="true">
             <span v-if="$slots.processing">
                 <slot name="processing"></slot>
             </span>
@@ -30,7 +33,7 @@
                 />
             </svg>
         </span>
-        <slot></slot>
+        <span v-if="processing" class="sr-only">Loading...</span>
     </button>
 </template>
 
@@ -61,12 +64,27 @@ withDefaults(
     }
 )
 
-function handleClick(evt: any) {
+function handleClick(evt: MouseEvent) {
     evt.preventDefault()
     emit('click', evt)
 }
 
-const componentJarTheme = inject(
-    'componentJarTheme'
-) as unknown as ThemeConfigurator
+const componentJarTheme = inject<ThemeConfigurator>('componentJarTheme')
+if (!componentJarTheme) {
+    throw new Error('componentJarTheme is not provided')
+}
 </script>
+
+<style scoped>
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+</style>
