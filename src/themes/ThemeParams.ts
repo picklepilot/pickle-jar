@@ -53,6 +53,7 @@ export type ThemeParam =
     | 'uiWindowToolbarWindowContainer'
     | 'uiWindowToolbarWindowTopMenu'
     | 'uiWindowToolbarWindowTopMenuTitle'
+    | 'toolbarButton'
 
 export type ThemeParams = {
     baseButton: string

@@ -5,6 +5,7 @@ export function debounce(
 ): any {
     const _this = this
     let timeoutId: any
+
     return function (...args: any[]) {
         clearTimeout(timeoutId)
         timeoutId = setTimeout(() => {

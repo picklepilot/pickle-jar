@@ -36,8 +36,7 @@
 
 <script setup lang="ts">
 import { m } from '../utils'
-// import { ref, watch } from 'vue'
-import { useDebouncedInput, useThemeConfigurator } from '../composables'
+import { useDebouncedInput } from '../composables'
 
 interface Props {
     autocomplete?: string
@@ -75,7 +74,7 @@ const props = withDefaults(defineProps<Props>(), {
     }),
 })
 
-const { componentJarTheme } = useThemeConfigurator()
+// const { componentJarTheme } = useThemeConfigurator()
 
 const { effectiveValue, handleInput } = useDebouncedInput(props, emit)
 </script>
