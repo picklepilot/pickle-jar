@@ -39,6 +39,11 @@ export type ThemeParam =
     | 'modalMainContainer'
     | 'modalMainContentContainer'
     | 'modalScrollContainer'
+    | 'popoverMenu'
+    | 'popoverMenuButton'
+    | 'popoverMenuItems'
+    | 'popoverMenuItem'
+    | 'popoverMenuItemIcon'
     | 'settingsMainContentContainer'
     | 'settingsMenuContainer'
     | 'settingsMenuGroupContainer'
@@ -96,6 +101,11 @@ export type ThemeParams = {
     modalMainContainer: string
     modalMainContentContainer: string
     modalScrollContainer: string
+    popoverMenu: string
+    popoverMenuButton: string
+    popoverMenuItems: string
+    popoverMenuItem: string
+    popoverMenuItemIcon: string
     settingsMainContentContainer: string
     settingsMenuContainer: string
     settingsMenuGroupContainer: string
