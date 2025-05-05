@@ -47,8 +47,9 @@
                     )
                 "
                 :style="floatingStyles"
+                v-slot="{ close }"
             >
-                <slot></slot>
+                <slot v-bind="{ close }"></slot>
             </PopoverPanel>
         </transition>
     </Popover>
@@ -87,13 +88,6 @@ type AllowedPlacement =
  */
 const props = withDefaults(
     defineProps<{
-        /**
-         * Buffer space in pixels between the popover and viewport edges.
-         *
-         * @type {number}
-         */
-        buffer?: number
-
         /**
          * Custom CSS classes for different parts of the popover.
          *
@@ -230,7 +224,6 @@ const emit = defineEmits<{
 
 const reference = ref()
 const floating = ref()
-const BUFFER = ref(props.buffer)
 const isOpen = ref(props.open ?? false)
 
 watch(
@@ -255,6 +248,7 @@ const { floatingStyles } = useFloating(reference, floating, {
  * Closes the popover and emits the update event
  */
 const close = () => {
+    console.log('close')
     isOpen.value = false
     emit('update:open', false)
 }
