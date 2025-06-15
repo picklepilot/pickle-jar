@@ -4,7 +4,6 @@
     "semi": false,
     "singleQuote": true,
     "printWidth": 80,
-    "plugins": ["prettier-plugin-tailwindcss"],
     "tailwindAttributes": ["theme"],
     "arrowParens": "avoid",
     "endOfLine": "lf",

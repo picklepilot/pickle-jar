@@ -2205,7 +2205,7 @@ __metadata:
     playwright: "npm:^1.52.0"
     postcss: "npm:^8.4.49"
     prettier: "npm:^3.4.2"
-    prettier-plugin-tailwindcss: "npm:^0.6.11"
+    prettier-plugin-tailwindcss: "npm:^0.6.12"
     sortablejs: "npm:^1.15.6"
     sortablejs-vue3: "npm:^1.2.11"
     storybook: "npm:^9.0.10"
@@ -4057,7 +4057,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier-plugin-tailwindcss@npm:^0.6.11":
+"prettier-plugin-tailwindcss@npm:^0.6.12":
   version: 0.6.12
   resolution: "prettier-plugin-tailwindcss@npm:0.6.12"
   peerDependencies:
