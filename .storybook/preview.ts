@@ -1,5 +1,5 @@
-import type { Preview } from '@storybook/vue3'
-import { setup } from '@storybook/vue3'
+import type { Preview } from '@storybook/vue3-vite'
+import { setup } from '@storybook/vue3-vite'
 import ThemeConfigurator from '../src/utils/ThemeConfigurator'
 import '../src/style.css'
 
@@ -13,9 +13,8 @@ const preview: Preview = {
         },
     },
 }
-
 // Use setup() to configure global Vue components, directives, plugins, etc.
-setup((app) => {
+setup((app: any) => {
     // Add your global Vue configuration here
     // Example:
     // app.use(MyPlugin)
@@ -35,6 +34,15 @@ setup((app) => {
             baseDropdownMenuItemActiveButton: 'bg-blue-400 text-blue-50',
             baseDropdownMenuContainer: 'relative',
             generalFloatingPanelContainer: '',
+
+            // ui-window-toolbar
+            uiWindowToolbarWindowContainer: 'bg-white',
+            uiWindowToolbarWindowTopMenu: 'bg-white',
+            uiWindowToolbarWindowTopMenuTitle: 'text-zinc-900',
+            uiWindowToolbarWindowCloseButton: '[&>svg]:size-4 text-red-50',
+            uiWindowToolbarWindowCollapseButton: '[&>svg]:size-4 text-amber-800',
+            uiWindowToolbarWindowResizeHandle: 'bg-zinc-900',
+            uiWindowToolbarWindowResizeHandleActive: 'bg-zinc-900',
         })
     )
 })

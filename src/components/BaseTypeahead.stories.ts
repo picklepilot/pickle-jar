@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import BaseTypeahead from './BaseTypeahead.vue'
-import { action } from '@storybook/addon-actions'
+import { action } from 'storybook/actions'
 
 const meta = {
     title: 'Components/BaseTypeahead',
