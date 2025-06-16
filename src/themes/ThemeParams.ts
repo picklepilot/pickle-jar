@@ -28,6 +28,14 @@ export type ThemeParam =
     | 'columnManagerNewGroupInput'
     | 'columnManagerNewGroupInputButton'
     | 'comboboxFloatingPanelContainer'
+    | 'confirmationDialogBackdrop'
+    | 'confirmationDialogContainer'
+    | 'confirmationDialogContent'
+    | 'confirmationDialogTitle'
+    | 'confirmationDialogDescription'
+    | 'confirmationDialogButtonCancel'
+    | 'confirmationDialogButtonConfirm'
+    | 'confirmationDialogProcessing'
     | 'generalFloatingPanelContainer'
     | 'inputSwitch'
     | 'inputText'
@@ -58,7 +66,6 @@ export type ThemeParam =
     | 'uiWindowToolbarWindowContainer'
     | 'uiWindowToolbarWindowTopMenu'
     | 'uiWindowToolbarWindowTopMenuTitle'
-    | 'toolbarButton'
 
 export type ThemeParams = {
     baseButton: string
@@ -90,6 +97,14 @@ export type ThemeParams = {
     columnManagerNewGroupInput: string
     columnManagerNewGroupInputButton: string
     comboboxFloatingPanelContainer: string
+    confirmationDialogBackdrop: string
+    confirmationDialogContainer: string
+    confirmationDialogContent: string
+    confirmationDialogTitle: string
+    confirmationDialogDescription: string
+    confirmationDialogButtonCancel: string
+    confirmationDialogButtonConfirm: string
+    confirmationDialogProcessing: string
     generalFloatingPanelContainer: string
     inputSwitch: string
     inputText: string
