@@ -18,7 +18,7 @@ export default defineConfig({
             fileName: 'component-jar',
         },
         rollupOptions: {
-            external: ['vue', 'pinia'],
+            external: ['vue'],
             output: {
                 globals: {
                     vue: 'Vue',

@@ -1,6 +1,6 @@
 <template>
-    <TransitionRoot appear :show="show" as="template">
-        <Dialog as="div" @close="closeModal" class="relative z-10000">
+    <TransitionRoot appear :show="modelValue" as="template">
+        <Dialog as="div" @close="closeModal" class="relative">
             <TransitionChild
                 as="template"
                 enter="duration-300 ease-out"
@@ -10,10 +10,10 @@
                 leave-from="opacity-100"
                 leave-to="opacity-0"
             >
-                <div class="fixed inset-0 bg-black/25" />
+                <div class="z-50 fixed inset-0 bg-black/30" />
             </TransitionChild>
 
-            <div class="fixed inset-0 overflow-y-auto">
+            <div class="z-51 fixed inset-0 overflow-y-auto">
                 <div
                     class="flex min-h-full items-center justify-center p-4 text-center"
                 >
@@ -27,56 +27,44 @@
                         leave-to="opacity-0 scale-95"
                     >
                         <DialogPanel
-                            class="w-full max-w-md transform overflow-hidden rounded-xl bg-white p-2 text-left align-middle shadow-xl transition-all duration-300"
+                            class="w-full max-w-md transform overflow-hidden rounded-lg bg-[var(--card)] ring-1 ring-[var(--border)] p-6 text-left align-middle shadow-xl transition-all duration-300"
                         >
-                            <div
-                                class="flex min-h-[150px] flex-col rounded-lg bg-linear-to-t from-zinc-100 to-zinc-200 p-6"
-                            >
+                            <div class="space-y-4">
                                 <DialogTitle
                                     as="h3"
-                                    class="text-xl font-semibold leading-6 text-zinc-900"
+                                    class="text-lg font-medium leading-6 text-[var(--card-foreground)]"
                                 >
                                     {{ title }}
                                 </DialogTitle>
 
                                 <div class="mt-2 grow">
-                                    <p class="text-base text-zinc-500">
+                                    <p
+                                        class="text-sm text-[var(--muted-foreground)]"
+                                    >
                                         {{ description }}
                                     </p>
                                 </div>
 
                                 <div
                                     v-if="!processing"
-                                    class="flex items-center justify-end space-x-3 pt-4"
+                                    class="flex items-center justify-end space-x-2 pt-4"
                                 >
                                     <BaseButton
-                                        :theme="{
-                                            baseButton:
-                                                'px-3 py-2.5 bg-transparent border border-transparent text-zinc-800 hover:text-zinc-900 hover:bg-zinc-900/10 hover:border-zinc-900/0',
-                                        }"
-                                        @click="
-                                            cancelCallback().then(closeModal)
-                                        "
+                                        variant="ghost"
+                                        @click="handleCancel"
                                     >
                                         {{ cancelButtonText }}
                                     </BaseButton>
                                     <BaseButton
-                                        :theme="{
-                                            baseButton: m(
-                                                'px-3 py-2.5 shadow-xs hover:bg-zinc-900/80 rounded-md',
-                                                confirmButtonTheme
-                                            ),
-                                        }"
-                                        @click="
-                                            confirmCallback().then(closeModal)
-                                        "
+                                        variant="default"
+                                        @click="handleConfirm"
                                     >
                                         {{ confirmButtonText }}
                                     </BaseButton>
                                 </div>
                                 <div
                                     v-else
-                                    class="flex items-center justify-end space-x-1.5 pt-4"
+                                    class="flex items-center justify-center py-4"
                                 >
                                     <slot name="processing"></slot>
                                 </div>
@@ -90,10 +78,8 @@
 </template>
 
 <script setup lang="ts">
-import { m } from '../../utils'
+import { onUnmounted, watch } from 'vue'
 import BaseButton from '../../components/BaseButton.vue'
-import { storeToRefs } from 'pinia'
-import { useConfirmationDialogStore } from './confirmation-dialog.store'
 import {
     TransitionRoot,
     TransitionChild,
@@ -102,24 +88,65 @@ import {
     DialogTitle,
 } from '@headlessui/vue'
 
-const {
-    cancelButtonText,
-    cancelCallback,
-    confirmButtonText,
-    confirmButtonTheme,
-    confirmCallback,
-    description,
-    processing,
-    show,
-    title,
-} = storeToRefs(useConfirmationDialogStore())
+interface Props {
+    modelValue: boolean
+    title: string
+    description: string
+    confirmButtonText?: string
+    cancelButtonText?: string
+    processing?: boolean
+    onConfirm?: () => Promise<void> | void
+    onCancel?: () => Promise<void> | void
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    confirmButtonText: 'Confirm',
+    cancelButtonText: 'Cancel',
+    processing: false,
+    onConfirm: () => Promise.resolve(),
+    onCancel: () => Promise.resolve(),
+})
+
+const emit = defineEmits<{
+    (e: 'update:modelValue', value: boolean): void
+}>()
+
+// Handle scrollbar shift
+function handleScrollbar() {
+    if (props.modelValue) {
+        document.body.style.overflow = 'hidden'
+        document.body.style.paddingRight = 'var(--removed-body-scroll-bar-size)'
+    } else {
+        document.body.style.overflow = ''
+        document.body.style.paddingRight = ''
+    }
+}
+
+// Watch for modelValue changes
+watch(() => props.modelValue, handleScrollbar)
+
+// Cleanup on unmount
+onUnmounted(() => {
+    document.body.style.overflow = ''
+    document.body.style.paddingRight = ''
+})
+
+async function handleConfirm() {
+    await props.onConfirm()
+    closeModal()
+}
+
+async function handleCancel() {
+    await props.onCancel()
+    closeModal()
+}
 
 function closeModal() {
-    show.value = false
+    emit('update:modelValue', false)
 }
 
 function openModal() {
-    show.value = true
+    emit('update:modelValue', true)
 }
 
 defineExpose({

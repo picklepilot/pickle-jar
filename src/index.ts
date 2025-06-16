@@ -22,10 +22,7 @@ export { default as TabsNav } from './components/TabsNav.vue'
 export { default as TipsPanel } from './components/TipsPanel.vue'
 
 export { SettingsCore, type SettingsConfiguration } from './modules/settings'
-export {
-    ConfirmationDialog,
-    useConfirmationDialogStore,
-} from './modules/confirmation-dialog'
+export { ConfirmationDialog } from './modules/confirmation-dialog'
 export { FeaturePreview, type Feature } from './modules/feature-preview'
 export { NavDrawer } from './modules/nav-drawer'
 
@@ -34,13 +31,6 @@ export {
     UiWindowResizer,
     UiWindowToolbar,
 } from './modules/ui-window-toolbar'
-
-// export type {
-//     ColumnGroupDefinition,
-//     DropdownItem,
-//     Tab,
-//     ToolbarItemGroup,
-// } from './types'
 
 export * from './types'
 
