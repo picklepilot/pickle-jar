@@ -1,8 +1,7 @@
 import type { Preview } from '@storybook/vue3-vite'
 import { setup } from '@storybook/vue3-vite'
-// import ThemeConfigurator from '../src/utils/ThemeConfigurator'
-import '../src/styles/output.css'
-// import './theme.css'
+// import '@pickle-jar/core/styles'
+import '@pickle-jar/ui/styles'
 
 const preview: Preview = {
     parameters: {

@@ -145,7 +145,7 @@
                                 :nullable="true"
                                 :searcher="searcher"
                                 :middleware-options="typeaheadMiddlewareOptions"
-                                placeholder="Add a column to group"
+                                :placeholder="'Add a column to group'"
                                 @update:model-value="
                                     onPickedNewColumn(
                                         groupElement.id as string,

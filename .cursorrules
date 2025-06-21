@@ -1,0 +1,180 @@
+# Cursor Rules for Pickle Jar Vue.js Monorepo
+
+## Project Overview
+
+This is a Vue.js monorepo containing UI components, web applications, and design system packages. The project uses:
+
+- Vue 3 with Composition API
+- TypeScript
+- Tailwind CSS
+- Storybook for component documentation
+- Vite for build tooling
+- pnpm for package management
+- Turbo for monorepo orchestration
+
+## Code Style & Conventions
+
+### Vue Components
+
+- Use Vue 3 Composition API with `<script setup>` syntax
+- Prefer TypeScript for all components
+- Use PascalCase for component names
+- Use kebab-case for file names
+- Always include proper TypeScript interfaces for props and emits
+- Use defineProps and defineEmits with TypeScript generics
+
+### Component Structure
+
+```vue
+<template>
+    <!-- Template content -->
+</template>
+
+<script setup lang="ts">
+interface Props {
+    // Define props interface
+}
+
+interface Emits {
+    // Define emits interface
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<Emits>()
+
+// Component logic
+</script>
+
+<style scoped>
+/* Component styles */
+</style>
+```
+
+### TypeScript
+
+- Use strict TypeScript configuration
+- Prefer interfaces over types for object shapes
+- Use proper generic types
+- Avoid `any` type - use `unknown` or proper typing
+- Use utility types like `Partial<T>`, `Pick<T>`, `Omit<T>`
+
+### Styling
+
+- Use Tailwind CSS utility classes
+- Prefer utility classes over custom CSS
+- Use CSS custom properties for theme values
+- Follow mobile-first responsive design
+- Use semantic color names from the design system
+
+### File Organization
+
+- Group related components in modules
+- Use index.ts files for clean exports
+- Keep components focused and single-purpose
+- Separate business logic from UI components
+
+## Component Development Guidelines
+
+### Props & Emits
+
+- Always define proper TypeScript interfaces
+- Use descriptive prop names
+- Provide default values where appropriate
+- Use proper validation for props
+- Emit events with descriptive names
+
+### Accessibility
+
+- Include proper ARIA attributes
+- Ensure keyboard navigation works
+- Provide focus management
+- Use semantic HTML elements
+- Test with screen readers
+
+### Performance
+
+- Use Vue's reactivity system efficiently
+- Avoid unnecessary re-renders
+- Use `v-memo` for expensive components
+- Lazy load components when appropriate
+- Optimize bundle size
+
+## Storybook Integration
+
+- Create stories for all components
+- Include multiple variants and states
+- Document props and usage examples
+- Use proper story organization
+- Include accessibility testing
+
+## Package Structure
+
+- Keep packages focused and cohesive
+- Use proper peer dependencies
+- Maintain consistent versioning
+- Document package APIs
+- Include proper TypeScript declarations
+
+## Testing
+
+- Write unit tests for components
+- Test user interactions
+- Include accessibility tests
+- Use proper test utilities
+- Maintain good test coverage
+
+## Documentation
+
+- Document component APIs
+- Include usage examples
+- Explain design decisions
+- Keep README files updated
+- Use JSDoc comments for complex functions
+
+## Git & Version Control
+
+- Use conventional commit messages
+- Keep commits focused and atomic
+- Update CHANGELOG for releases
+- Use proper branch naming
+- Review code before merging
+
+## Build & Deployment
+
+- Optimize for production builds
+- Use proper environment variables
+- Implement proper error handling
+- Monitor bundle sizes
+- Use proper caching strategies
+
+## Code Quality
+
+- Follow ESLint rules
+- Use Prettier for formatting
+- Maintain consistent naming
+- Write self-documenting code
+- Keep functions small and focused
+
+## Security
+
+- Validate user inputs
+- Sanitize data
+- Use proper authentication
+- Follow security best practices
+- Keep dependencies updated
+
+## Performance Considerations
+
+- Optimize images and assets
+- Use proper loading strategies
+- Implement proper caching
+- Monitor Core Web Vitals
+- Use performance budgets
+
+## Accessibility Standards
+
+- Follow WCAG 2.1 guidelines
+- Ensure proper color contrast
+- Support keyboard navigation
+- Provide alternative text
+- Test with assistive technologies

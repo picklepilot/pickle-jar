@@ -1,0 +1,42 @@
+{
+    "name": "@pickle-jar/core",
+    "version": "0.1.0",
+    "type": "module",
+    "main": "./dist/pickle-jar-core.umd.js",
+    "module": "./dist/pickle-jar-core.es.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/pickle-jar-core.es.js",
+            "require": "./dist/pickle-jar-core.umd.js"
+        },
+        "./styles": {
+            "import": "./dist/styles.css"
+        },
+        "./dist/styles.css": "./dist/styles.css",
+        "./utils": "./src/utils/index.ts"
+    },
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "vite build",
+        "dev": "vite build --watch",
+        "tailwind:build": "tailwindcss --cwd ./ -i ./src/styles/input.css -o ./dist/styles.css",
+        "tailwind:watch": "tailwindcss --cwd ./ -i ./src/styles/input.css -o ./dist/styles.css --watch",
+        "build:all": "npm run tailwind:build && npm run build",
+        "prepublishOnly": "npm run build:all"
+    },
+    "dependencies": {
+        "tailwindcss": "^4.1.10"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.1.10",
+        "autoprefixer": "^10.4.21",
+        "postcss": "^8.5.6",
+        "typescript": "~5.6.2",
+        "vite": "^6.0.5",
+        "vite-plugin-dts": "^4.4.0"
+    }
+}

@@ -1,14 +1,28 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "tasks": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
-    },
-    "dev": {
-      "cache": false
-    },
-    "lint": {},
-    "test": {}
-  }
-} 
+    "$schema": "https://turbo.build/schema.json",
+    "tasks": {
+        "build": {
+            "dependsOn": ["^build"],
+            "outputs": ["dist/**"]
+        },
+        "dev": {
+            "cache": false
+        },
+        "lint": {},
+        "test": {},
+        "storybook": {
+            "cache": false
+        },
+        "build-storybook": {
+            "dependsOn": ["^build"],
+            "outputs": ["storybook-static/**"]
+        },
+        "tailwind:build": {
+            "dependsOn": [],
+            "outputs": ["dist/styles.css"]
+        },
+        "tailwind:watch": {
+            "cache": false
+        }
+    }
+}

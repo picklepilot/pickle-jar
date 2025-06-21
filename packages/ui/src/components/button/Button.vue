@@ -1,9 +1,14 @@
+<!-- 
+  Tailwind classes used in this component:
+  inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background outline-none ring-3 ring-ring focus:outline-none focus:ring-3 focus:ring-ring transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50
+-->
 <template>
     <button
+        ref="buttonRef"
         @click="handleClick"
         :class="
             m(
-                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50',
                 // Variant styles
                 variant === 'default' &&
                     'bg-primary text-primary-foreground hover:bg-primary/90',
@@ -26,11 +31,14 @@
 
                 icon && 'size-5',
 
+                isDropdownTrigger && 'outline-none ring-3 ring-ring',
+
                 theme.button
             )
         "
         :aria-disabled="disabled"
         :aria-busy="processing"
+        :aria-expanded="isDropdownTrigger"
         :disabled="disabled"
     >
         <slot></slot>
@@ -45,12 +53,47 @@
 <script setup lang="ts">
 import clsx, { type ClassValue } from 'clsx'
 import { twMerge } from 'tailwind-merge'
+import { inject, computed, ref } from 'vue'
 
 function m(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs))
 }
 
 const emit = defineEmits(['click'])
+
+// Inject dropdown context to check if this button is a dropdown trigger
+interface DropdownContext {
+    isOpen: any
+    triggerRef: any
+    open: () => void
+    close: () => void
+    toggle: () => void
+    setTriggerRef: (ref: HTMLElement) => void
+    registerItem: (itemRef: HTMLElement, itemId: string) => void
+    unregisterItem: (itemId: string) => void
+    focusNext: () => void
+    focusPrevious: () => void
+    focusFirst: () => void
+    focusLast: () => void
+    focusItem: (itemId: string) => void
+    getActiveItemId: () => string | null
+}
+
+const dropdown = inject<DropdownContext>('dropdown')
+const buttonRef = ref<HTMLElement>()
+
+// Check if this button is the trigger for an active dropdown
+// Compare the button ref with the trigger ref to see if they are the same element
+const isDropdownTrigger = computed(() => {
+    dropdown?.triggerRef?.value
+    const triggerRefButton =
+        dropdown?.triggerRef?.value?.querySelector('button')
+    console.log('triggerRefButton', dropdown?.triggerRef?.value)
+    console.log('buttonRef', buttonRef.value)
+    return (
+        triggerRefButton === buttonRef.value && dropdown?.isOpen?.value === true
+    )
+})
 
 withDefaults(
     defineProps<{

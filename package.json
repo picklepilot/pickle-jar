@@ -1,19 +1,25 @@
 {
-  "name": "pickle-jar",
-  "private": true,
-  "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "lint": "turbo run lint",
-    "test": "turbo run test"
-  },
-  "devDependencies": {
-    "prettier": "^3.5.3",
-    "turbo": "^2.5.4"
-  },
-  "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
-  "dependencies": {
-    "@types/uuid": "^10.0.0",
-    "uuid": "^11.1.0"
-  }
+    "name": "pickle-jar",
+    "private": true,
+    "scripts": {
+        "dev": "turbo run dev",
+        "build": "turbo run build",
+        "lint": "turbo run lint",
+        "test": "turbo run test",
+        "version:setup": "node scripts/setup-versioning.js",
+        "changeset": "changeset",
+        "version": "changeset version",
+        "publish": "changeset publish",
+        "version:check": "pnpm exec changeset status"
+    },
+    "devDependencies": {
+        "@changesets/cli": "^2.29.5",
+        "prettier": "^3.5.3",
+        "turbo": "^2.5.4"
+    },
+    "packageManager": "pnpm@10.10.0+sha512.d615db246fe70f25dcfea6d8d73dee782ce23e2245e3c4f6f888249fb568149318637dca73c2c5c8ef2a4ca0d5657fb9567188bfab47f566d1ee6ce987815c39",
+    "dependencies": {
+        "@types/uuid": "^10.0.0",
+        "uuid": "^11.1.0"
+    }
 }
