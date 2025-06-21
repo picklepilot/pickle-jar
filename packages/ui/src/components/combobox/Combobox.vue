@@ -66,6 +66,7 @@
                             @focus="open = true"
                             @blur="open = false"
                             @change="query = $event.target.value"
+                            @keydown.delete="handleDeleteKey"
                         />
                     </div>
                     <ComboboxButton
@@ -342,6 +343,21 @@ const removeItem = (item: any) => {
         i => i[props.uidProperty] !== item[props.uidProperty]
     )
     emit('update:modelValue', newValue)
+}
+
+const handleDeleteKey = (event: KeyboardEvent) => {
+    if (
+        props.multiple &&
+        Array.isArray(props.modelValue) &&
+        props.modelValue.length > 0 &&
+        query.value.length === 0
+    ) {
+        // Remove last item when no query text
+        event.preventDefault()
+        const newValue = props.modelValue.slice(0, -1)
+        emit('update:modelValue', newValue)
+    }
+    // Otherwise, let the default behavior handle deleting query text
 }
 
 defineExpose({
