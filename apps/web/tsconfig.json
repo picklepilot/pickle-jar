@@ -22,9 +22,7 @@
         "src/**/*.ts",
         "src/**/*.d.ts",
         "src/**/*.tsx",
-        "src/**/*.vue",
-        ".storybook/**/*.ts",
-        ".storybook/**/*.tsx"
+        "src/**/*.vue"
     ],
     "exclude": ["node_modules"],
     "extends": ["./tsconfig.app.json", "./tsconfig.node.json"]

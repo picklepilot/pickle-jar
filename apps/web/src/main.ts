@@ -1,7 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
-import '@pickle-jar/ui/dist/ui.css'
+// @ts-ignore
+import '@pickle-jar/ui/styles'
 import './style.css'
 
 // import './styles/theme.css'

@@ -1,7 +1,6 @@
 import type { Preview } from '@storybook/vue3-vite'
 import { setup } from '@storybook/vue3-vite'
-// import '@pickle-jar/core/styles'
-import '@pickle-jar/ui/styles'
+import './storybook.css'
 
 const preview: Preview = {
     parameters: {
@@ -28,6 +27,7 @@ const preview: Preview = {
         },
     ],
 }
+
 // Use setup() to configure global Vue components, directives, plugins, etc.
 setup((app: any) => {
     // Add your global Vue configuration here

@@ -8,7 +8,7 @@
         @click="handleClick"
         :class="
             m(
-                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50',
+                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50',
                 // Variant styles
                 variant === 'default' &&
                     'bg-primary text-primary-foreground hover:bg-primary/90',
