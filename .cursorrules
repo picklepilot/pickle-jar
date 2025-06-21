@@ -6,7 +6,7 @@ This is a Vue.js monorepo containing UI components, web applications, and design
 
 - Vue 3 with Composition API
 - TypeScript
-- Tailwind CSS
+- Tailwind CSS verion 4 without using tailwind.config files
 - Storybook for component documentation
 - Vite for build tooling
 - pnpm for package management
