@@ -88,8 +88,6 @@ const isDropdownTrigger = computed(() => {
     dropdown?.triggerRef?.value
     const triggerRefButton =
         dropdown?.triggerRef?.value?.querySelector('button')
-    console.log('triggerRefButton', dropdown?.triggerRef?.value)
-    console.log('buttonRef', buttonRef.value)
     return (
         triggerRefButton === buttonRef.value && dropdown?.isOpen?.value === true
     )

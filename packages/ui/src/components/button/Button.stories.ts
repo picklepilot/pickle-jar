@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
+import { expect, userEvent, within } from 'storybook/test'
 import Button from './Button.vue'
 
 const meta = {
@@ -45,6 +46,13 @@ export const Default: Story = {
         },
         template: '<Button v-bind="args">Button</Button>',
     }),
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement)
+        const button = canvas.getByRole('button')
+
+        await userEvent.click(button)
+        expect(button).toBeInTheDocument()
+    },
 }
 
 export const Destructive: Story = {
@@ -64,7 +72,7 @@ export const Outline: Story = {
     args: {
         variant: 'outline',
         theme: {
-            Button: 'shadow-sm',
+            button: 'shadow-sm',
         },
     },
     render: args => ({
@@ -106,9 +114,9 @@ export const Processing: Story = {
 export const WithCustomTheme: Story = {
     args: {
         theme: {
-            Button: 'transition-all bg-secondary hover:bg-blue-400 text-blue-400 hover:text-blue-50 px-2.5 py-2',
-            ButtonDisabled: 'bg-gray-300 text-gray-500',
-            ButtonIcon: 'text-white',
+            button: 'transition-all bg-secondary hover:bg-blue-400 text-blue-400 hover:text-blue-50 px-2.5 py-2',
+            buttonDisabled: 'bg-gray-300 text-gray-500',
+            buttonIcon: 'text-white',
         },
     },
     render: (args, { globals }) => ({
@@ -119,4 +127,35 @@ export const WithCustomTheme: Story = {
         },
         template: `<span class="${globals.backgrounds.value}"><Button v-bind="args">Custom Theme Button</Button></span>`,
     }),
+}
+
+// Example story demonstrating vitest addon integration
+export const WithVitestTests: Story = {
+    args: {
+        variant: 'default',
+        size: 'default',
+    },
+    render: args => ({
+        components: { Button },
+        setup() {
+            return { args }
+        },
+        template:
+            '<Button v-bind="args" data-testid="test-button">Test Button</Button>',
+    }),
+    play: async ({ canvasElement }) => {
+        const canvas = within(canvasElement)
+        const button = canvas.getByTestId('test-button')
+
+        // Basic interaction test
+        await userEvent.click(button)
+        expect(button).toBeInTheDocument()
+        expect(button).toHaveAttribute('data-testid', 'test-button')
+    },
+    parameters: {
+        // This enables the vitest addon for this specific story
+        vitest: {
+            include: ['src/components/button/Button.test.ts'],
+        },
+    },
 }
