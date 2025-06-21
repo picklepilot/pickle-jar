@@ -136,7 +136,6 @@
                         >
                             <Typeahead
                                 ref="columnFinderTypeahead"
-                                :theme="dropDownClasses"
                                 :default-items="defaultItems"
                                 :display-property="() => ''"
                                 :groups-config="typeaheadGroupsConfig"

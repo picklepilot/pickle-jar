@@ -599,60 +599,60 @@ export const Interactive: Story = {
     },
 }
 
-export const WithSlots: Story = {
-    render: args => ({
-        components: { TabsNav },
-        setup() {
-            const tabs = ref([...sampleTabs])
-            const activeTabId = computed(() => {
-                if (!Array.isArray(tabs.value)) return 1
-                const activeTab = tabs.value.find(tab => tab.active)
-                return activeTab?.id || 1
-            })
+// export const WithSlots: Story = {
+//     render: args => ({
+//         components: { TabsNav },
+//         setup() {
+//             const tabs = ref([...sampleTabs])
+//             const activeTabId = computed(() => {
+//                 if (!Array.isArray(tabs.value)) return 1
+//                 const activeTab = tabs.value.find(tab => tab.active)
+//                 return activeTab?.id || 1
+//             })
 
-            const handleClicked = (tabId: number) => {
-                tabs.value = tabs.value.map(tab => ({
-                    ...tab,
-                    active: tab.id === tabId,
-                }))
-                console.log('Tab clicked:', tabId)
-            }
+//             const handleClicked = (tabId: number) => {
+//                 tabs.value = tabs.value.map(tab => ({
+//                     ...tab,
+//                     active: tab.id === tabId,
+//                 }))
+//                 console.log('Tab clicked:', tabId)
+//             }
 
-            return { tabs, activeTabId, handleClicked, demoContent }
-        },
-        template: `
-            <div class="space-y-6">
-                <TabsNav
-                    :tabs="tabs"
-                    style="classic"
-                    @clicked="handleClicked"
-                >
-                    <template #before>
-                        <div class="text-sm text-gray-500 mr-4">Navigation:</div>
-                    </template>
-                    <template #after>
-                        <button class="ml-4 px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">
-                            +
-                        </button>
-                    </template>
-                    <template #right="{ element }">
-                        <span v-if="element.active" class="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
-                            Active
-                        </span>
-                    </template>
-                </TabsNav>
-                <div class="bg-white border rounded-lg p-6">
-                    <div v-html="demoContent[activeTabId]?.content"></div>
-                </div>
-            </div>
-        `,
-    }),
-    args: {
-        tabs: sampleTabs,
-        style: 'classic',
-        disabled: [],
-    },
-}
+//             return { tabs, activeTabId, handleClicked, demoContent }
+//         },
+//         template: `
+//             <div class="space-y-6">
+//                 <TabsNav
+//                     :tabs="tabs"
+//                     style="classic"
+//                     @clicked="handleClicked"
+//                 >
+//                     <template #before>
+//                         <div class="text-sm text-gray-500 mr-4">Navigation:</div>
+//                     </template>
+//                     <template #after>
+//                         <button class="ml-4 px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600">
+//                             +
+//                         </button>
+//                     </template>
+//                     <template #right="{ element }">
+//                         <span v-if="element.active" class="ml-2 text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+//                             Active
+//                         </span>
+//                     </template>
+//                 </TabsNav>
+//                 <div class="bg-white border rounded-lg p-6">
+//                     <div v-html="demoContent[activeTabId]?.content"></div>
+//                 </div>
+//             </div>
+//         `,
+//     }),
+//     args: {
+//         tabs: sampleTabs,
+//         style: 'classic',
+//         disabled: [],
+//     },
+// }
 
 export const DisabledBorder: Story = {
     render: args => ({

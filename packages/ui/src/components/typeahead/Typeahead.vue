@@ -186,6 +186,7 @@
 <script setup lang="ts">
 import { computed, inject, ref, watch } from 'vue'
 import { debounce, m } from '../../utils'
+import { type AllowedPlacement } from '../../types'
 import {
     autoPlacement,
     autoUpdate,
