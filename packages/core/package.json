@@ -8,23 +8,25 @@
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/pickle-jar-core.es.js",
-            "require": "./dist/pickle-jar-core.umd.js"
+            "import": "./dist/index.js"
         },
-        "./styles": {
-            "import": "./dist/styles.css"
-        },
+        "./styles/tailwind.css": "./src/styles/tailwind.css",
         "./dist/styles.css": "./dist/styles.css",
-        "./utils": "./src/utils/index.ts"
+        "./utils": "./src/utils/index.ts",
+        "./styles": {
+            "import": "./dist/pickle-jar.css"
+        },
+        "./pickle-jar-src.css": "./src/styles/pickle-jar-src.css"
     },
     "files": [
-        "dist"
+        "dist",
+        "src/styles/pickle-jar-src.css"
     ],
     "scripts": {
-        "build": "vite build",
+        "build": "vite build && tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./dist/pickle-jar.css",
         "dev": "vite build --watch",
-        "tailwind:build": "tailwindcss --cwd ./ -i ./src/styles/input.css -o ./dist/styles.css",
-        "tailwind:watch": "tailwindcss --cwd ./ -i ./src/styles/input.css -o ./dist/styles.css --watch",
+        "tailwind:build": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./dist/pickle-jar.css",
+        "tailwind:watch": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./src/styles/pickle-jar.css --watch",
         "build:all": "npm run tailwind:build && npm run build",
         "prepublishOnly": "npm run build:all"
     },

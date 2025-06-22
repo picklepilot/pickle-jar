@@ -1,4 +1,5 @@
 import type { ThemeConfig, ComponentTheme } from '../types/index.js'
+import { Z_INDEX } from '../constants/index.js'
 
 /**
  * Default theme configuration
@@ -51,4 +52,27 @@ export function applyTheme(theme: ThemeConfig): void {
     Object.entries(theme).forEach(([key, value]) => {
         root.style.setProperty(`--color-${key}`, value)
     })
+}
+
+/**
+ * Get z-index value for a specific layer
+ */
+export function getZIndex(layer: keyof typeof Z_INDEX): string {
+    return Z_INDEX[layer]
+}
+
+/**
+ * Set z-index value for a specific layer
+ */
+export function setZIndex(layer: keyof typeof Z_INDEX, value: number): void {
+    const root = document.documentElement
+    const cssVar = `--z-index-${layer.replace(/([A-Z])/g, '-$1').toLowerCase()}`
+    root.style.setProperty(cssVar, value.toString())
+}
+
+/**
+ * Get all z-index values as an object
+ */
+export function getAllZIndices(): Record<keyof typeof Z_INDEX, string> {
+    return { ...Z_INDEX }
 }

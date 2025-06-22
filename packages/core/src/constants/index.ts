@@ -30,11 +30,11 @@ export const ANIMATION_DURATIONS = {
 
 // Z-index constants
 export const Z_INDEX = {
-    dropdown: 1000,
-    sticky: 1020,
-    fixed: 1030,
-    modalBackdrop: 1040,
-    modal: 1050,
-    popover: 1060,
-    tooltip: 1070,
+    dropdown: 'var(--z-dropdown)',
+    sticky: 'var(--z-sticky)',
+    fixed: 'var(--z-fixed)',
+    modalBackdrop: 'var(--z-modal-backdrop)',
+    modal: 'var(--z-modal)',
+    popover: 'var(--z-popover)',
+    tooltip: 'var(--z-tooltip)',
 } as const
