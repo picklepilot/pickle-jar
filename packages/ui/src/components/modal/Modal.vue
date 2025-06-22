@@ -16,6 +16,7 @@
 -->
 <template>
     <Teleport to="body">
+        <!-- Backdrop -->
         <Transition
             enter-active-class="transition-all duration-300 ease-out"
             enter-from-class="opacity-0"
@@ -28,22 +29,17 @@
                 v-if="isOpen"
                 ref="backdropRef"
                 @click="handleBackdropClick"
-                @keydown="handleKeydown"
                 :class="
                     m(
-                        'fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm',
+                        'fixed inset-0 bg-primary/20 backdrop-blur-sm',
                         theme.backdrop
                     )
                 "
                 :style="{ zIndex: 'var(--z-modal-backdrop)' }"
-                tabindex="-1"
-                role="dialog"
-                :aria-modal="true"
-                :aria-labelledby="titleId"
-                :aria-describedby="descriptionId"
             ></div>
         </Transition>
 
+        <!-- Modal Container -->
         <Transition
             enter-active-class="transition-all duration-300 ease-out"
             enter-from-class="opacity-0 scale-95 translate-y-4"
@@ -52,97 +48,116 @@
             leave-from-class="opacity-100 scale-100 translate-y-0"
             leave-to-class="opacity-0 scale-95 translate-y-4"
         >
+            <!-- Fixed Modal Container -->
             <div
                 v-if="isOpen"
-                ref="modalRef"
+                ref="modalContainerRef"
                 :class="
                     m(
-                        'absolute mx-auto left-0 right-0 w-full max-w-lg max-h-[90vh] overflow-hidden rounded-lg bg-card shadow-lg border border-border',
-                        size === 'sm' && 'max-w-md',
-                        size === 'lg' && 'max-w-2xl',
-                        size === 'xl' && 'max-w-4xl',
-                        size === 'full' && 'max-w-[95vw] max-h-[95vh]',
-                        theme.container
+                        'fixed inset-0 z-50 flex items-center justify-center',
+                        theme.backdrop
                     )
                 "
-                :style="{ zIndex: 'var(--z-modal)' }"
-                @click.stop
+                :style="{ zIndex: 'var(--z-modal-backdrop)' }"
+                @keydown="handleKeydown"
+                tabindex="-1"
+                role="dialog"
+                :aria-modal="true"
+                :aria-labelledby="titleId"
+                :aria-describedby="descriptionId"
             >
-                <!-- Header -->
+                <!-- Modal Content -->
                 <div
-                    v-if="$slots.header || $slots.title"
+                    ref="modalRef"
                     :class="
                         m(
-                            'flex items-center justify-between p-6 border-b border-border',
-                            theme.header
+                            'relative w-full max-w-lg max-h-[90vh] overflow-hidden rounded-lg bg-card shadow-lg border border-border',
+                            size === 'sm' && 'max-w-md',
+                            size === 'lg' && 'max-w-2xl',
+                            size === 'xl' && 'max-w-4xl',
+                            size === 'full' && 'max-w-[95vw] max-h-[95vh]',
+                            theme.container
                         )
                     "
+                    :style="{ zIndex: 'var(--z-modal)' }"
+                    @click.stop
                 >
-                    <div class="flex-1 min-w-0">
-                        <slot name="header">
-                            <h2
-                                v-if="$slots.title"
-                                :id="titleId"
-                                class="text-lg font-semibold text-foreground"
-                            >
-                                <slot name="title" />
-                            </h2>
-                        </slot>
-                    </div>
-                    <button
-                        v-if="showCloseButton"
-                        @click="handleClose"
-                        :class="
-                            m(
-                                'ml-4 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors',
-                                theme.closeButton
-                            )
-                        "
-                        type="button"
-                        :aria-label="closeButtonLabel"
-                    >
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12"
-                            />
-                        </svg>
-                    </button>
-                </div>
-
-                <!-- Content -->
-                <div :class="m('flex-1 overflow-auto', theme.content)">
+                    <!-- Header -->
                     <div
+                        v-if="$slots.header || $slots.title"
                         :class="
                             m(
-                                'p-6',
-                                !$slots.header && !$slots.title && 'pt-6',
-                                !$slots.footer && 'pb-6'
+                                'flex items-center justify-between p-6 border-b border-border',
+                                theme.header
                             )
                         "
                     >
-                        <slot />
+                        <div class="flex-1 min-w-0">
+                            <slot name="header">
+                                <h2
+                                    v-if="$slots.title"
+                                    :id="titleId"
+                                    class="text-lg font-semibold text-foreground"
+                                >
+                                    <slot name="title" />
+                                </h2>
+                            </slot>
+                        </div>
+                        <button
+                            v-if="showCloseButton"
+                            @click="handleClose"
+                            :class="
+                                m(
+                                    'ml-4 p-1 rounded-md text-muted-foreground hover:text-foreground hover:bg-accent transition-colors',
+                                    theme.closeButton
+                                )
+                            "
+                            type="button"
+                            :aria-label="closeButtonLabel"
+                        >
+                            <svg
+                                class="w-5 h-5"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
                     </div>
-                </div>
 
-                <!-- Footer -->
-                <div
-                    v-if="$slots.footer"
-                    :class="
-                        m(
-                            'flex items-center justify-end gap-3 p-6 border-t border-border bg-muted/30',
-                            theme.footer
-                        )
-                    "
-                >
-                    <slot name="footer" />
+                    <!-- Content -->
+                    <div :class="m('flex-1 overflow-auto', theme.content)">
+                        <div
+                            :class="
+                                m(
+                                    'p-6',
+                                    !$slots.header && !$slots.title && 'pt-6',
+                                    !$slots.footer && 'pb-6'
+                                )
+                            "
+                        >
+                            <slot />
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div
+                        v-if="$slots.footer"
+                        :class="
+                            m(
+                                'flex items-center justify-end gap-3 p-6 border-t border-border bg-muted/30',
+                                theme.footer
+                            )
+                        "
+                    >
+                        <slot name="footer" />
+                    </div>
                 </div>
             </div>
         </Transition>
@@ -239,8 +254,9 @@ const props = withDefaults(
     }
 )
 
-const backdropRef = ref<HTMLElement>()
 const modalRef = ref<HTMLElement>()
+const modalContainerRef = ref<HTMLElement>()
+const backdropRef = ref<HTMLElement>()
 const isOpen = computed(() => props.open)
 
 // Generate unique IDs for accessibility
