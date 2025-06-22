@@ -21,7 +21,7 @@
         "src/styles/globals.css"
     ],
     "scripts": {
-        "storybook": "concurrently \"storybook dev -p 6006\" \"tailwindcss --cwd ./ -i ./.storybook/theme.css -o ./.storybook/storybook.css --watch\"",
+        "storybook": "concurrently \"storybook dev -p 6006\" \"tailwindcss --cwd ./ -i ../core/src/styles/pickle-jar-src.css -o ./.storybook/storybook.css --watch\"",
         "build-storybook": "storybook build",
         "build": "vite build && pnpm run tailwind:build",
         "prepublishOnly": "npm run build",
