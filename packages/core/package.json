@@ -28,6 +28,7 @@
         "tailwind:build": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./dist/pickle-jar.css",
         "tailwind:watch": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./src/styles/pickle-jar.css --watch",
         "build:all": "npm run tailwind:build && npm run build",
+        "prepare": "npm run build:all",
         "prepublishOnly": "npm run build:all"
     },
     "dependencies": {
