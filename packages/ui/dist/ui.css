@@ -1,0 +1,226 @@
+/*! tailwindcss v4.1.10 | MIT License | https://tailwindcss.com */
+:root, :host {
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+@layer base {
+  :root {
+    --background: var(--colors-neutral-50);
+    --foreground: var(--colors-neutral-900);
+    --card: var(--colors-neutral-50);
+    --card-foreground: var(--colors-neutral-900);
+    --popover: var(--colors-neutral-50);
+    --popover-foreground: var(--colors-neutral-900);
+    --primary: var(--colors-neutral-900);
+    --primary-foreground: var(--colors-neutral-50);
+    --secondary: var(--colors-neutral-100);
+    --secondary-foreground: var(--colors-neutral-700);
+    --muted: var(--colors-neutral-100);
+    --muted-foreground: var(--colors-neutral-500);
+    --accent: var(--colors-neutral-200 / 0.8);
+    --accent-foreground: var(--colors-neutral-900);
+    --destructive: var(--colors-red-500);
+    --destructive-foreground: var(--colors-neutral-50);
+    --border: var(--colors-neutral-300 / 0.9);
+    --input: var(--colors-neutral-200);
+    --ring: var(--colors-neutral-200);
+    --radius: 0.625rem;
+  }
+  .dark {
+    --background: var(--colors-neutral-900);
+    --foreground: var(--colors-neutral-50);
+    --card: var(--colors-neutral-800);
+    --card-foreground: var(--colors-neutral-50);
+    --popover: var(--colors-neutral-800);
+    --popover-foreground: var(--colors-neutral-50);
+    --primary: var(--colors-neutral-50);
+    --primary-foreground: var(--colors-neutral-900);
+    --secondary: var(--colors-neutral-700);
+    --secondary-foreground: var(--colors-neutral-50);
+    --muted: var(--colors-neutral-700);
+    --muted-foreground: var(--colors-neutral-300);
+    --accent: var(--colors-neutral-700);
+    --accent-foreground: var(--colors-neutral-50);
+    --destructive: var(--colors-red-600);
+    --destructive-foreground: var(--colors-neutral-50);
+    --border: var(--colors-neutral-700);
+    --input: var(--colors-neutral-700);
+    --ring: var(--colors-neutral-700);
+  }
+  .theme-neo-brutalist {
+    --background: oklch(0.98 0 0);
+    --foreground: oklch(0.1 0 0);
+    --card: oklch(0.98 0 0);
+    --card-foreground: oklch(0.1 0 0);
+    --popover: oklch(0.98 0 0);
+    --popover-foreground: oklch(0.1 0 0);
+    --primary: oklch(0.1 0 0);
+    --primary-foreground: oklch(0.98 0 0);
+    --secondary: oklch(0.6 0.2 250);
+    --secondary-foreground: oklch(0.98 0 0);
+    --muted: oklch(0.95 0.01 30);
+    --muted-foreground: oklch(0.4 0.01 30);
+    --accent: oklch(0.85 0.15 90);
+    --accent-foreground: oklch(0.1 0 0);
+    --destructive: oklch(0.7 0.25 25);
+    --destructive-foreground: oklch(0.98 0 0);
+    --border: oklch(0.1 0 0);
+    --input: oklch(0.1 0 0);
+    --ring: oklch(0.1 0 0);
+    --radius: 0.75rem;
+    --radius-sm: 0.25rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+  }
+  .theme-neo-brutalist.dark {
+    --background: oklch(0.1 0 0);
+    --foreground: oklch(0.98 0 0);
+    --card: oklch(0.1 0 0);
+    --card-foreground: oklch(0.98 0 0);
+    --popover: oklch(0.1 0 0);
+    --popover-foreground: oklch(0.98 0 0);
+    --primary: oklch(0.98 0 0);
+    --primary-foreground: oklch(0.1 0 0);
+    --secondary: oklch(0.7 0.25 250);
+    --secondary-foreground: oklch(0.1 0 0);
+    --muted: oklch(0.2 0.01 250);
+    --muted-foreground: oklch(0.7 0.01 250);
+    --accent: oklch(0.9 0.2 90);
+    --accent-foreground: oklch(0.1 0 0);
+    --destructive: oklch(0.8 0.3 25);
+    --destructive-foreground: oklch(0.1 0 0);
+    --border: oklch(0.98 0 0);
+    --input: oklch(0.98 0 0);
+    --ring: oklch(0.98 0 0);
+  }
+}
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
+}
+@keyframes dropdown-enter-bottom {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(-8px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+@keyframes dropdown-leave-bottom {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96) translateY(-8px);
+    filter: blur(4px);
+  }
+}
+@keyframes dropdown-enter-top {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+}
+@keyframes dropdown-leave-top {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+    filter: blur(4px);
+  }
+}
+@keyframes dropdown-enter-left {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateX(8px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    filter: blur(0px);
+  }
+}
+@keyframes dropdown-leave-left {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96) translateX(8px);
+    filter: blur(4px);
+  }
+}
+@keyframes dropdown-enter-right {
+  0% {
+    opacity: 0;
+    transform: scale(0.96) translateX(-8px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    filter: blur(0px);
+  }
+}
+@keyframes dropdown-leave-right {
+  0% {
+    opacity: 1;
+    transform: scale(1) translateX(0);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.96) translateX(-8px);
+    filter: blur(4px);
+  }
+}
+[data-side='bottom'] .animate-dropdown-enter {
+  animation: dropdown-enter-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='bottom'] .animate-dropdown-leave {
+  animation: dropdown-leave-bottom 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='top'] .animate-dropdown-enter {
+  animation: dropdown-enter-top 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='top'] .animate-dropdown-leave {
+  animation: dropdown-leave-top 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='left'] .animate-dropdown-enter {
+  animation: dropdown-enter-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='left'] .animate-dropdown-leave {
+  animation: dropdown-leave-left 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='right'] .animate-dropdown-enter {
+  animation: dropdown-enter-right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-side='right'] .animate-dropdown-leave {
+  animation: dropdown-leave-right 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
