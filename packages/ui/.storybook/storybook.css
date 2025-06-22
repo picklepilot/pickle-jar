@@ -441,9 +441,6 @@
   .m-0\.5 {
     margin: calc(var(--spacing) * 0.5);
   }
-  .m-auto {
-    margin: auto;
-  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }

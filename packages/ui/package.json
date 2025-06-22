@@ -1,6 +1,6 @@
 {
     "name": "@picklepilot/pickle-jar-ui",
-    "version": "0.1.0",
+    "version": "0.1.0-alpha.3",
     "type": "module",
     "main": "./dist/pickle-jar-ui.umd.js",
     "module": "./dist/pickle-jar-ui.es.js",
@@ -73,6 +73,17 @@
         "directory": "packages/ui"
     },
     "publishConfig": {
-        "access": "public"
-    }
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "keywords": [
+        "pickle-jar",
+        "ui",
+        "components",
+        "vue",
+        "vue3",
+        "design-system"
+    ],
+    "author": "PicklePilot",
+    "license": "MIT"
 }

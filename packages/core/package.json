@@ -1,6 +1,6 @@
 {
     "name": "@picklepilot/pickle-jar-core",
-    "version": "0.1.0",
+    "version": "0.1.0-alpha.3",
     "type": "module",
     "main": "./dist/pickle-jar-core.umd.js",
     "module": "./dist/pickle-jar-core.es.js",
@@ -48,6 +48,16 @@
         "directory": "packages/core"
     },
     "publishConfig": {
-        "access": "public"
-    }
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "keywords": [
+        "pickle-jar",
+        "core",
+        "design-system",
+        "tailwind",
+        "css"
+    ],
+    "author": "PicklePilot",
+    "license": "MIT"
 }
