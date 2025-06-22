@@ -1,5 +1,5 @@
 {
-    "name": "@pickle-jar/core",
+    "name": "@picklepilot/pickle-jar-core",
     "version": "0.1.0",
     "type": "module",
     "main": "./dist/pickle-jar-core.umd.js",
@@ -40,5 +40,13 @@
         "typescript": "~5.6.2",
         "vite": "^6.0.5",
         "vite-plugin-dts": "^4.4.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/picklepilot/pickle-jar.git",
+        "directory": "packages/core"
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }
