@@ -9,7 +9,21 @@
             "cache": false
         },
         "lint": {},
-        "test": {},
+        "test": {
+            "dependsOn": ["^build"],
+            "outputs": ["coverage/**"]
+        },
+        "test:ui": {
+            "cache": false
+        },
+        "test:coverage": {
+            "dependsOn": ["^build"],
+            "outputs": ["coverage/**"]
+        },
+        "test-storybook": {
+            "dependsOn": ["build-storybook"],
+            "outputs": ["storybook-static/**"]
+        },
         "storybook": {
             "cache": false
         },

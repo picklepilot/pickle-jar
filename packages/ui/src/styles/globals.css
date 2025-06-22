@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@tailwind utilities;
+/* @import 'tailwindcss'; */
+/* @tailwind utilities; */
 
 @theme inline {
     --breakpoint-3xl: 1600px;
@@ -57,65 +57,65 @@
 
 @layer base {
     :root {
-        --background: theme('colors.neutral.50');
-        --foreground: theme('colors.neutral.900');
+        --background: var(--colors-neutral-50);
+        --foreground: var(--colors-neutral-900);
 
-        --card: theme('colors.neutral.50');
-        --card-foreground: theme('colors.neutral.900');
+        --card: var(--colors-neutral-50);
+        --card-foreground: var(--colors-neutral-900);
 
-        --popover: theme('colors.neutral.50');
-        --popover-foreground: theme('colors.neutral.900');
+        --popover: var(--colors-neutral-50);
+        --popover-foreground: var(--colors-neutral-900);
 
-        --primary: theme('colors.neutral.900');
-        --primary-foreground: theme('colors.neutral.50');
+        --primary: var(--colors-neutral-900);
+        --primary-foreground: var(--colors-neutral-50);
 
-        --secondary: theme('colors.neutral.100');
-        --secondary-foreground: theme('colors.neutral.700');
+        --secondary: var(--colors-neutral-100);
+        --secondary-foreground: var(--colors-neutral-700);
 
-        --muted: theme('colors.neutral.100');
-        --muted-foreground: theme('colors.neutral.500');
+        --muted: var(--colors-neutral-100);
+        --muted-foreground: var(--colors-neutral-500);
 
-        --accent: theme('colors.neutral.200 / 0.8');
-        --accent-foreground: theme('colors.neutral.900');
+        --accent: var(--colors-neutral-200 / 0.8);
+        --accent-foreground: var(--colors-neutral-900);
 
-        --destructive: theme('colors.red.500');
-        --destructive-foreground: theme('colors.neutral.50');
+        --destructive: var(--colors-red-500);
+        --destructive-foreground: var(--colors-neutral-50);
 
-        --border: theme('colors.neutral.300 / 0.9');
-        --input: theme('colors.neutral.200');
-        --ring: theme('colors.neutral.200');
+        --border: var(--colors-neutral-300 / 0.9);
+        --input: var(--colors-neutral-200);
+        --ring: var(--colors-neutral-200);
 
         --radius: 0.625rem;
     }
 
     .dark {
-        --background: theme('colors.neutral.900');
-        --foreground: theme('colors.neutral.50');
+        --background: var(--colors-neutral-900);
+        --foreground: var(--colors-neutral-50);
 
-        --card: theme('colors.neutral.800');
-        --card-foreground: theme('colors.neutral.50');
+        --card: var(--colors-neutral-800);
+        --card-foreground: var(--colors-neutral-50);
 
-        --popover: theme('colors.neutral.800');
-        --popover-foreground: theme('colors.neutral.50');
+        --popover: var(--colors-neutral-800);
+        --popover-foreground: var(--colors-neutral-50);
 
-        --primary: theme('colors.neutral.50');
-        --primary-foreground: theme('colors.neutral.900');
+        --primary: var(--colors-neutral-50);
+        --primary-foreground: var(--colors-neutral-900);
 
-        --secondary: theme('colors.neutral.700');
-        --secondary-foreground: theme('colors.neutral.50');
+        --secondary: var(--colors-neutral-700);
+        --secondary-foreground: var(--colors-neutral-50);
 
-        --muted: theme('colors.neutral.700');
-        --muted-foreground: theme('colors.neutral.300');
+        --muted: var(--colors-neutral-700);
+        --muted-foreground: var(--colors-neutral-300);
 
-        --accent: theme('colors.neutral.700');
-        --accent-foreground: theme('colors.neutral.50');
+        --accent: var(--colors-neutral-700);
+        --accent-foreground: var(--colors-neutral-50);
 
-        --destructive: theme('colors.red.600');
-        --destructive-foreground: theme('colors.neutral.50');
+        --destructive: var(--colors-red-600);
+        --destructive-foreground: var(--colors-neutral-50);
 
-        --border: theme('colors.neutral.700');
-        --input: theme('colors.neutral.700');
-        --ring: theme('colors.neutral.700');
+        --border: var(--colors-neutral-700);
+        --input: var(--colors-neutral-700);
+        --ring: var(--colors-neutral-700);
     }
 
     /* Neo-brutalist theme */

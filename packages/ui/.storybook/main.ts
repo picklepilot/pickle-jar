@@ -9,6 +9,7 @@ const config: StorybookConfig = {
         '@storybook/addon-docs',
         '@storybook/addon-onboarding',
         '@storybook/addon-a11y',
+        '@storybook/addon-themes',
         {
             name: '@storybook/addon-vitest',
             options: {

@@ -2,6 +2,7 @@
 export { default as Alert } from './components/alert/Alert.vue'
 export { default as Badge } from './components/badge/Badge.vue'
 export { default as Button } from './components/button/Button.vue'
+export { default as CodeBlock } from './components/code-block/CodeBlock.vue'
 export { default as Input } from './components/input/Input.vue'
 export { default as Combobox } from './components/combobox/Combobox.vue'
 export { default as ColorPicker } from './components/color-picker/ColorPicker.vue'
@@ -20,6 +21,7 @@ export { default as Typeahead } from './components/typeahead/Typeahead.vue'
 export { default as Tooltip } from './components/tooltip/Tooltip.vue'
 export { default as TooltipTrigger } from './components/tooltip/TooltipTrigger.vue'
 export { default as TooltipContent } from './components/tooltip/TooltipContent.vue'
+export { default as ThemeToggle } from './components/theme-toggle/ThemeToggle.vue'
 
 // Export modules
 export { default as AnnouncementsDrawer } from './modules/announcements/AnnouncementsDrawer.vue'

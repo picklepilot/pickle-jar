@@ -121,9 +121,7 @@ export const Default: Story = {
         setup() {
             const groupConfig = ref(args.groupConfiguration)
             const editableColumns = ref(args.defaultItems)
-            const columnManager = ref<InstanceType<
-                typeof ColumnManager
-            > | null>(null)
+            const focusedColumn = ref(null)
             const onUpdateGroupConfiguration = (groupConfiguration: any) => {
                 console.log('groupConfiguration', groupConfiguration)
                 groupConfig.value = { ...groupConfiguration }
@@ -134,12 +132,12 @@ export const Default: Story = {
                 editableColumns,
                 groupConfig,
                 onUpdateGroupConfiguration,
-                columnManager,
+                focusedColumn,
             }
         },
         template: `
             <div class="w-full md:w-[960px] md:h-[600px]">
-                <ColumnManager ref="columnManager" v-bind="args" :default-items="editableColumns" :existing-columns="editableColumns" :group-configuration="groupConfig" @update:group-configuration="onUpdateGroupConfiguration">
+                <ColumnManager ref="columnManager" v-bind="args" :default-items="editableColumns" :existing-columns="editableColumns" :group-configuration="groupConfig" @update:group-configuration="onUpdateGroupConfiguration" v-model:focused-column="focusedColumn">
                     <template #column="{ element, index }">
                         <div class="flex-1 min-w-px flex text-sm">
                            {{ element.name }}
@@ -152,7 +150,7 @@ export const Default: Story = {
                     </template>
                     <div class="p-4">
                         <p>
-                            {{ columnManager?.focusedColumn?.name }}
+                            {{ focusedColumn?.name }}
                         </p>
                     </div>
                 </ColumnManager>

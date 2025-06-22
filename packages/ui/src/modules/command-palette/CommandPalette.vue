@@ -25,160 +25,181 @@
   rounded border border-zinc-200 text-zinc-500 size-5 flex items-center justify-center text-xs bg-white
   size-3
   text-xs text-zinc-400
-  sm:w-[500px] w-full
+  sm:w-[500px] sm:w-[400px] w-full
 -->
 <template>
-    <div class="w-full">
-        <Combobox @update:model-value="onSelect">
-            <!-- Search button -->
-            <ComboboxButton as="span" @click="isOpen = true">
-                <Button variant="outline" class="w-full pr-2 pl-3">
-                    <MagnifyingGlassIcon class="size-4 shrink-0" />
-                    <span class="ml-2 grow min-w-px text-left">{{
-                        placeholder
-                    }}</span>
-                    <kbd
-                        class="ml-6 rounded border px-2 py-0.5 text-xs bg-card"
-                        >{{ keyboardShortcut }}</kbd
-                    >
-                </Button>
-            </ComboboxButton>
+    <Combobox @update:model-value="onSelect">
+        <!-- Search button -->
+        <ComboboxButton as="span" @click="openDialog">
+            <Button variant="outline" class="w-full pr-2 pl-3">
+                <MagnifyingGlassIcon class="size-4 shrink-0" />
+                <span class="ml-2 grow min-w-px text-left">{{
+                    placeholder
+                }}</span>
+                <kbd
+                    class="ml-6 rounded border px-2 py-0.5 text-xs bg-card hidden sm:inline-block"
+                    >{{ keyboardShortcut }}</kbd
+                >
+            </Button>
+        </ComboboxButton>
 
-            <!-- Command palette -->
-            <TransitionRoot appear :show="isOpen" as="template">
-                <Dialog as="div" @close="isOpen = false" class="relative z-50">
-                    <TransitionChild
-                        enter="ease-out duration-300"
-                        enter-from="opacity-0"
-                        enter-to="opacity-100"
-                        leave="ease-in duration-200"
-                        leave-from="opacity-100"
-                        leave-to="opacity-0"
-                    >
-                        <div
-                            class="fixed inset-0 bg-background/80 backdrop-blur-sm"
-                        />
-                    </TransitionChild>
+        <!-- Command palette -->
+        <!-- <transition
+                enter-active-class="ease-out duration-300"
+                enter-from-class="opacity-0"
+                enter-to-class="opacity-100"
+                leave-active-class="ease-in duration-200"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0"
+            > -->
 
-                    <div class="fixed inset-0 overflow-y-auto">
-                        <div
-                            class="flex min-h-full items-center justify-center p-4"
+        <!-- Simple Vue Dialog -->
+        <transition
+            enter-active-class="ease-out duration-300"
+            enter-from-class="opacity-0"
+            enter-to-class="opacity-100"
+            leave-active-class="ease-in duration-200"
+            leave-from-class="opacity-100"
+            leave-to-class="opacity-0"
+        >
+            <div
+                v-show="isOpen"
+                class="fixed inset-0 z-50"
+                @click="isOpen = false"
+            >
+                <transition
+                    enter-active-class="ease-out duration-300"
+                    enter-from-class="opacity-0"
+                    enter-to-class="opacity-100"
+                    leave-active-class="ease-in duration-200"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
+                >
+                    <div
+                        v-show="isOpen"
+                        class="fixed inset-0 bg-background/50 backdrop-blur-sm"
+                    />
+                </transition>
+
+                <div class="fixed inset-0 overflow-y-auto">
+                    <div
+                        class="flex min-h-full items-start justify-center p-4 pt-16 sm:items-center sm:pt-4"
+                    >
+                        <transition
+                            enter-active-class="ease-out duration-300"
+                            enter-from-class="opacity-0 scale-95"
+                            enter-to-class="opacity-100 scale-100"
+                            leave-active-class="ease-in duration-200"
+                            leave-from-class="opacity-100 scale-100"
+                            leave-to-class="opacity-0 scale-95"
                         >
-                            <TransitionChild
-                                enter="ease-out duration-300"
-                                enter-from="opacity-0 scale-95"
-                                enter-to="opacity-100 scale-100"
-                                leave="ease-in duration-200"
-                                leave-from="opacity-100 scale-100"
-                                leave-to="opacity-0 scale-95"
+                            <div
+                                v-show="isOpen"
+                                class="w-[calc(100vw-2rem)] sm:w-[400px] transform overflow-hidden rounded-2xl bg-card p-0 shadow-2xl border transition-all max-h-[calc(100vh-8rem)] sm:max-h-[calc(100vh-4rem)] flex flex-col"
                             >
-                                <DialogPanel
-                                    class="w-full sm:w-[500px] transform overflow-hidden rounded-2xl bg-card p-0 shadow-2xl border transition-all"
+                                <!-- Input -->
+                                <div
+                                    class="relative border-b px-2 pt-2 pb-2 flex-shrink-0"
+                                    @click.stop
                                 >
-                                    <!-- Input -->
-                                    <div
-                                        class="relative border-b px-2 pt-2 pb-2"
-                                    >
-                                        <MagnifyingGlassIcon
-                                            class="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
-                                        />
-                                        <ComboboxInput
-                                            v-model="searchQuery"
-                                            :placeholder="inputPlaceholder"
-                                            autofocus
-                                            type="text"
-                                            @change="performSearch"
-                                            class="flex w-full rounded-md border border-border bg-background pr-3 pl-9 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring transition-[box-shadow,color] disabled:cursor-not-allowed disabled:opacity-50"
-                                        />
-                                    </div>
+                                    <MagnifyingGlassIcon
+                                        class="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+                                    />
+                                    <ComboboxInput
+                                        v-model="searchQuery"
+                                        :placeholder="inputPlaceholder"
+                                        autofocus
+                                        type="text"
+                                        @change="performSearch"
+                                        class="flex w-full rounded-md border border-border bg-background pr-3 pl-9 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring transition-[box-shadow,color] disabled:cursor-not-allowed disabled:opacity-50"
+                                    />
+                                </div>
 
-                                    <!-- Results -->
-                                    <ComboboxOptions
-                                        v-if="searchResults.length > 0"
-                                        static
-                                        class="px-2 pt-2 pb-4"
+                                <!-- Results -->
+                                <ComboboxOptions
+                                    v-if="searchResults.length > 0"
+                                    static
+                                    class="px-2 pt-2 pb-4 flex-1 overflow-y-auto"
+                                >
+                                    <div
+                                        class="text-xs font-medium text-muted-foreground my-2 px-3"
                                     >
-                                        <div
-                                            class="text-xs font-medium text-muted-foreground my-2 px-3"
+                                        {{
+                                            searchQuery
+                                                ? resultsLabel
+                                                : defaultResultsLabel
+                                        }}
+                                    </div>
+                                    <div class="space-y-0.5">
+                                        <ComboboxOption
+                                            v-for="result in searchResults"
+                                            :key="result.id"
+                                            :value="result"
+                                            v-slot="{ active, selected }"
                                         >
-                                            {{
-                                                searchQuery
-                                                    ? resultsLabel
-                                                    : defaultResultsLabel
-                                            }}
-                                        </div>
-                                        <div class="space-y-0.5">
-                                            <ComboboxOption
-                                                v-for="result in searchResults"
-                                                :key="result.id"
-                                                :value="result"
-                                                v-slot="{ active, selected }"
+                                            <a
+                                                :href="result.url"
+                                                class="flex items-center gap-3 px-3 py-2 sm:py-1.5 hover:bg-accent/80 transition group rounded-md touch-manipulation"
+                                                :class="{
+                                                    'bg-accent':
+                                                        selected || active,
+                                                }"
                                             >
-                                                <a
-                                                    :href="result.url"
-                                                    class="flex items-center gap-3 px-3 py-1.5 hover:bg-accent/80 transition group rounded-md"
-                                                    :class="{
-                                                        'bg-accent':
-                                                            selected || active,
-                                                    }"
+                                                <span
+                                                    class="text-muted-foreground group-hover:text-primary transition"
                                                 >
-                                                    <span
-                                                        class="text-muted-foreground group-hover:text-primary transition"
+                                                    <ArrowRightIcon
+                                                        class="size-4 shrink-0"
+                                                    />
+                                                </span>
+                                                <div class="flex-1 min-w-0">
+                                                    <div
+                                                        class="text-sm text-foreground truncate"
                                                     >
-                                                        <ArrowRightIcon
-                                                            class="size-4 shrink-0"
-                                                        />
-                                                    </span>
-                                                    <div class="flex-1">
-                                                        <div
-                                                            class="text-sm text-foreground"
-                                                        >
-                                                            {{ result.title }}
-                                                        </div>
-                                                        <!-- <div
+                                                        {{ result.title }}
+                                                    </div>
+                                                    <!-- <div
                                                             class="text-sm text-muted-foreground truncate"
                                                         >
                                                             {{
                                                                 result.description
                                                             }}
                                                         </div> -->
-                                                    </div>
-                                                </a>
-                                            </ComboboxOption>
-                                        </div>
-                                    </ComboboxOptions>
-
-                                    <div
-                                        v-else-if="searchQuery"
-                                        class="mt-4 text-center text-sm text-muted-foreground"
-                                    >
-                                        {{ noResultsText }}
+                                                </div>
+                                            </a>
+                                        </ComboboxOption>
                                     </div>
+                                </ComboboxOptions>
 
-                                    <!-- Footer -->
-                                    <div
-                                        class="border-t border-border/40 px-4 py-3 flex items-center gap-2 bg-card rounded-b-2xl"
+                                <div
+                                    v-else-if="searchQuery"
+                                    class="py-4 text-center text-sm text-muted-foreground flex-1 flex items-center justify-center"
+                                >
+                                    {{ noResultsText }}
+                                </div>
+
+                                <!-- Footer -->
+                                <div
+                                    class="border-t px-4 py-3 flex items-center gap-2 bg-card rounded-b-2xl flex-shrink-0"
+                                >
+                                    <kbd
+                                        class="rounded border text-muted-foreground size-5 flex items-center justify-center text-xs bg-card hidden sm:flex"
                                     >
-                                        <kbd
-                                            class="rounded border border-border/40 text-muted-foreground size-5 flex items-center justify-center text-xs bg-card"
-                                        >
-                                            <ArrowTurnDownLeftIcon
-                                                class="size-3"
-                                            />
-                                        </kbd>
-                                        <span
-                                            class="text-xs text-muted-foreground"
-                                            >{{ footerText }}</span
-                                        >
-                                    </div>
-                                </DialogPanel>
-                            </TransitionChild>
-                        </div>
+                                        <ArrowTurnDownLeftIcon class="size-3" />
+                                    </kbd>
+                                    <span
+                                        class="text-xs text-muted-foreground"
+                                        >{{ footerText }}</span
+                                    >
+                                </div>
+                            </div>
+                        </transition>
                     </div>
-                </Dialog>
-            </TransitionRoot>
-        </Combobox>
-    </div>
+                </div>
+            </div>
+        </transition>
+        <!-- </transition> -->
+    </Combobox>
 </template>
 
 <script setup lang="ts">
@@ -187,10 +208,6 @@ import {
     Combobox,
     ComboboxOptions,
     ComboboxOption,
-    Dialog,
-    DialogPanel,
-    TransitionChild,
-    TransitionRoot,
     ComboboxInput,
     ComboboxButton,
 } from '@headlessui/vue'
@@ -285,6 +302,10 @@ const onSelect = (result: CommandPaletteResult) => {
     searchQuery.value = ''
     // Reset to default results
     searchResults.value = props.defaultResults
+}
+
+const openDialog = () => {
+    isOpen.value = true
 }
 
 onMounted(() => {

@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/vue3'
 import { expect, userEvent, within } from 'storybook/test'
 import Button from './Button.vue'
+import { useStorybookTheme } from '../../composables'
+import { computed } from 'vue'
 
 const meta = {
     title: 'Components/Button',
@@ -126,6 +128,44 @@ export const WithCustomTheme: Story = {
             return { args }
         },
         template: `<span class="${globals.backgrounds.value}"><Button v-bind="args">Custom Theme Button</Button></span>`,
+    }),
+}
+
+export const ThemeAware: Story = {
+    render: () => ({
+        components: { Button },
+        setup() {
+            const { isDark, toggleTheme } = useStorybookTheme()
+
+            return {
+                isDark,
+                toggleTheme,
+                themeAwareClasses: computed(() => ({
+                    button: isDark
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white border-blue-500'
+                        : 'bg-blue-500 hover:bg-blue-600 text-white border-blue-400',
+                })),
+            }
+        },
+        template: `
+            <div class="space-y-4">
+                <div class="flex items-center gap-4">
+                    <Button 
+                        :theme="themeAwareClasses"
+                        @click="toggleTheme"
+                    >
+                        {{ isDark ? '🌙' : '☀️' }} Toggle Theme
+                    </Button>
+                    <span class="text-sm text-muted-foreground">
+                        Current theme: {{ isDark ? 'Dark' : 'Light' }}
+                    </span>
+                </div>
+                <div class="text-xs text-muted-foreground">
+                    <p>This button automatically adapts its styling based on the current theme.</p>
+                    <p>Try changing the background in Storybook's controls panel above!</p>
+                </div>
+            </div>
+        `,
     }),
 }
 

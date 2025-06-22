@@ -26,12 +26,13 @@ export default defineConfig({
             fileName: format => `pickle-jar-ui.${format}.js`,
         },
         rollupOptions: {
-            external: ['vue', 'clsx', 'tailwind-merge'],
+            external: ['vue', 'clsx', 'tailwind-merge', 'shiki'],
             output: {
                 globals: {
                     vue: 'Vue',
                     clsx: 'clsx',
                     'tailwind-merge': 'tailwindMerge',
+                    shiki: 'shiki',
                 },
             },
         },

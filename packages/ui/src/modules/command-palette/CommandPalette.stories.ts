@@ -110,7 +110,7 @@ export const Default: Story = {
             return { args, localSearchStrategy }
         },
         template: `
-            <div class="p-8 w-[500px] mx-auto">
+            <div class="sm:p-8 w-[calc(100vw-2rem)] sm:w-[500px] mx-auto">
                 <CommandPalette 
                     :search-strategy="localSearchStrategy"
                     v-bind="args"

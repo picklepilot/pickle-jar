@@ -285,7 +285,7 @@
 
                                         <Button
                                             @click.prevent.stop="
-                                                focusedColumn =
+                                                focusedColumnComputed.value =
                                                     editableColumns[
                                                         groupElement.id
                                                     ][index]
@@ -381,6 +381,7 @@ import ColumnManagerGroupMetaForm from './ColumnManagerGroupMetaForm.vue'
 const emit = defineEmits([
     'update:existingColumns',
     'update:groupConfiguration',
+    'update:focusedColumn',
 ])
 
 const props = withDefaults(
@@ -445,6 +446,12 @@ const props = withDefaults(
          * @type {Object}
          */
         groupConfiguration?: { [key: string]: ColumnGroupDefinition }
+
+        /**
+         * Currently focused column
+         * @type {ColumnDefinition | null}
+         */
+        focusedColumn?: ColumnDefinition | null
 
         /**
          * Custom menu items for group actions
@@ -551,6 +558,7 @@ const props = withDefaults(
         existingColumns: () => [],
         groupMenuItems: () => [],
         groupConfiguration: () => ({}),
+        focusedColumn: null,
         defaultGroupColor: '#e7e5e4',
         theme: () => ({
             addGroupButton: '',
@@ -601,7 +609,7 @@ const editableGroupConfiguration = ref<{
 }>({})
 const addingNewGroup = ref(false)
 const columnFinderTypeahead = ref<any>()
-const focusedColumn = ref<any>()
+const focusedColumn = ref<any>(props.focusedColumn)
 const newGroupName = ref<string>('')
 const addingColumnToGroups = ref<string[]>([])
 const uniqueId = ref((Math.random() + 1).toString(36).substring(7))
@@ -610,6 +618,24 @@ const groupMeta = ref({
     id: '',
     name: '',
     color: '',
+})
+
+// Watch for prop changes
+watch(
+    () => props.focusedColumn,
+    newValue => {
+        focusedColumn.value = newValue
+    },
+    { immediate: true }
+)
+
+// Computed property that emits changes when focusedColumn changes
+const focusedColumnComputed = computed({
+    get: () => focusedColumn.value,
+    set: value => {
+        focusedColumn.value = value
+        emit('update:focusedColumn', value)
+    },
 })
 
 // Helper function to generate a unique ID
@@ -720,7 +746,7 @@ function removeColumn(groupName: string, idx: number) {
     // Check if the column being removed is the focused one
     const columnToRemove = editableColumns.value[groupName][idx]
     if (focusedColumn.value && focusedColumn.value.id === columnToRemove.id) {
-        focusedColumn.value = null
+        focusedColumnComputed.value = null
     }
 
     editableColumns.value = {
@@ -947,7 +973,6 @@ const defaultGroupDropdownMenuItems = computed(() =>
 
 defineExpose({
     clearAllColumns,
-    focusedColumn,
     onPickedNewColumn,
     removeGroup,
 })
