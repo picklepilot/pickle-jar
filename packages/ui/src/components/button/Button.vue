@@ -1,21 +1,18 @@
-<!-- 
-  Tailwind classes used in this component:
-  inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background outline-none ring-3 ring-ring focus:outline-none focus:ring-3 focus:ring-ring transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50
--->
 <template>
     <button
         ref="buttonRef"
         @click="handleClick"
         :class="
             m(
-                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50',
+                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring/30 transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50',
+
                 // Variant styles
                 variant === 'default' &&
                     'bg-primary text-primary-foreground hover:bg-primary/90',
                 variant === 'destructive' &&
                     'bg-destructive text-destructive-foreground hover:bg-destructive/90',
                 variant === 'outline' &&
-                    'border border-border bg-background hover:bg-accent hover:text-accent-foreground',
+                    'border border-ring bg-background hover:bg-accent hover:text-accent-foreground',
                 variant === 'secondary' &&
                     'bg-secondary text-secondary-foreground hover:bg-secondary/80',
                 variant === 'ghost' &&

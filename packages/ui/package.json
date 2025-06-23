@@ -14,14 +14,17 @@
         "./styles": {
             "import": "./dist/ui.css"
         },
-        "./theme.css": "./src/styles/globals.css"
+        "./theme.css": "./src/styles/globals.css",
+        "./base.css": "./src/styles/base.css"
     },
     "files": [
         "dist",
-        "src/styles/globals.css"
+        "src/styles/globals.css",
+        "src/styles/base.css"
     ],
     "scripts": {
-        "storybook": "concurrently \"storybook dev -p 6006\" \"tailwindcss --cwd ./ -i ../core/src/styles/pickle-jar-src.css -o ./.storybook/storybook.css --watch\"",
+        "storybook": "storybook dev -p 6006",
+        "storybook:all": "concurrently \"storybook dev -p 6006\" \"tailwindcss --cwd ./ -i ../core/src/styles/pickle-jar-src.css -o ./.storybook/storybook.css --watch\"",
         "build-storybook": "storybook build",
         "build": "vite build && pnpm run tailwind:build",
         "prepare": "npm run build",

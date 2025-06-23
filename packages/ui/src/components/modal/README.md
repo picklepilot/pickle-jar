@@ -1,260 +1,249 @@
-# Modal Component
+# Modal Components
 
-A fully-featured modal dialog component with smooth animations, accessibility features, and flexible customization options.
+The Modal components have been refactored into composable parts following the shadcn pattern for maximum flexibility and reusability.
 
-## Features
+## Components
 
-- ✨ Smooth entry/exit animations with Vue transitions
-- 🎯 External state control with v-model support
-- ♿ Full accessibility support (ARIA attributes, focus management, keyboard navigation)
-- 🎨 Themeable with Tailwind CSS v4 classes
-- 📱 Responsive design with multiple size options
-- 🔒 Body scroll prevention when open
-- 🎛️ Flexible slot-based content structure
-- ⌨️ Keyboard support (Escape to close, Tab focus trapping)
+### ModalRoot
 
-## Basic Usage
+The root container that provides the backdrop, teleport functionality, and core modal behavior (backdrop click, escape key, body scroll prevention).
+
+### ModalContent
+
+Provides the modal content container with size variants and focus management.
+
+### ModalHeader
+
+Provides the header styling and structure with optional close button.
+
+### ModalTitle
+
+Provides the title styling and structure with accessibility support.
+
+### ModalBody
+
+Provides the content area styling with proper padding based on header/footer presence.
+
+### ModalFooter
+
+Provides the footer styling and structure.
+
+### ModalClose
+
+Provides the close button functionality with proper styling and accessibility.
+
+### Modal (Legacy)
+
+A composition example showing how to use the individual parts together while maintaining backward compatibility.
+
+## Usage Examples
+
+### Composable Usage (Recommended)
 
 ```vue
 <template>
-    <div>
-        <Button @click="isOpen = true">Open Modal</Button>
+    <ModalRoot :open="isOpen" @update:open="setIsOpen">
+        <ModalContent size="lg">
+            <ModalHeader @close="setIsOpen(false)">
+                <ModalTitle>Edit User</ModalTitle>
+            </ModalHeader>
 
-        <Modal v-model:open="isOpen" @close="isOpen = false">
-            <template #title>My Modal</template>
-            <p>This is the modal content.</p>
-            <template #footer>
-                <Button variant="outline" @click="isOpen = false"
+            <ModalBody>
+                <p>This is the modal content.</p>
+                <form>
+                    <input type="text" placeholder="Name" />
+                    <input type="email" placeholder="Email" />
+                </form>
+            </ModalBody>
+
+            <ModalFooter>
+                <Button variant="outline" @click="setIsOpen(false)"
                     >Cancel</Button
                 >
-                <Button @click="isOpen = false">Confirm</Button>
-            </template>
-        </Modal>
-    </div>
+                <Button @click="saveUser">Save</Button>
+            </ModalFooter>
+        </ModalContent>
+    </ModalRoot>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
-import { Modal, Button } from '@your-package/ui'
 
 const isOpen = ref(false)
+const setIsOpen = (value: boolean) => {
+    isOpen.value = value
+}
+
+const saveUser = () => {
+    // Save logic here
+    setIsOpen(false)
+}
 </script>
 ```
 
-## Props
-
-| Prop                   | Type                                          | Default         | Description                                       |
-| ---------------------- | --------------------------------------------- | --------------- | ------------------------------------------------- |
-| `open`                 | `boolean`                                     | `false`         | Controls whether the modal is open or closed      |
-| `size`                 | `'sm' \| 'default' \| 'lg' \| 'xl' \| 'full'` | `'default'`     | The size of the modal                             |
-| `showCloseButton`      | `boolean`                                     | `true`          | Whether to show the close button in the header    |
-| `closeOnBackdropClick` | `boolean`                                     | `true`          | Whether clicking the backdrop closes the modal    |
-| `closeOnEscape`        | `boolean`                                     | `true`          | Whether pressing the Escape key closes the modal  |
-| `preventBodyScroll`    | `boolean`                                     | `true`          | Whether to prevent body scroll when modal is open |
-| `closeButtonLabel`     | `string`                                      | `'Close modal'` | The aria-label for the close button               |
-| `theme`                | `object`                                      | `{}`            | Custom theme classes for styling                  |
-
-## Events
-
-| Event         | Payload     | Description                                       |
-| ------------- | ----------- | ------------------------------------------------- |
-| `close`       | `[]`        | Emitted when the modal is closed                  |
-| `update:open` | `[boolean]` | Emitted when the open state changes (for v-model) |
-
-## Slots
-
-| Slot      | Description                                  |
-| --------- | -------------------------------------------- |
-| `default` | The main content of the modal                |
-| `header`  | Custom header content (overrides title slot) |
-| `title`   | Modal title (rendered as h2)                 |
-| `footer`  | Footer content with action buttons           |
-
-## Size Variants
-
-| Size      | Max Width      | Max Height     | Use Case                      |
-| --------- | -------------- | -------------- | ----------------------------- |
-| `sm`      | `max-w-md`     | `max-h-[90vh]` | Small confirmations, alerts   |
-| `default` | `max-w-lg`     | `max-h-[90vh]` | Standard dialogs, forms       |
-| `lg`      | `max-w-2xl`    | `max-h-[90vh]` | Large forms, detailed content |
-| `xl`      | `max-w-4xl`    | `max-h-[90vh]` | Complex forms, data tables    |
-| `full`    | `max-w-[95vw]` | `max-h-[95vh]` | Full-screen experiences       |
-
-## Examples
-
-### Basic Modal with Title
+### Simple Modal
 
 ```vue
-<Modal v-model:open="isOpen">
-  <template #title>Welcome</template>
-  <p>This is a simple modal with a title.</p>
-</Modal>
+<template>
+    <ModalRoot :open="isOpen" @update:open="setIsOpen">
+        <ModalContent>
+            <ModalBody>
+                <p>This is a simple modal without header or footer.</p>
+            </ModalBody>
+        </ModalContent>
+    </ModalRoot>
+</template>
 ```
 
 ### Custom Header
 
 ```vue
-<Modal v-model:open="isOpen">
-  <template #header>
-    <div class="flex items-center gap-3">
-      <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-        <Icon class="w-4 h-4 text-primary-foreground" />
-      </div>
-      <div>
-        <h2 class="text-lg font-semibold">Custom Header</h2>
-        <p class="text-sm text-muted-foreground">With icon and subtitle</p>
-      </div>
-    </div>
-  </template>
-  <p>Modal content here...</p>
-</Modal>
+<template>
+    <ModalRoot :open="isOpen" @update:open="setIsOpen">
+        <ModalContent size="xl">
+            <ModalHeader :show-close-button="false">
+                <div class="flex items-center gap-3">
+                    <Icon name="warning" class="text-yellow-500" />
+                    <ModalTitle>Warning</ModalTitle>
+                </div>
+            </ModalHeader>
+
+            <ModalBody>
+                <p>This modal has a custom header with an icon.</p>
+            </ModalBody>
+
+            <ModalFooter>
+                <Button @click="setIsOpen(false)">OK</Button>
+            </ModalFooter>
+        </ModalContent>
+    </ModalRoot>
+</template>
 ```
 
-### Form Modal
+### Full Screen Modal
 
 ```vue
-<Modal v-model:open="isOpen" size="lg">
-  <template #title>Contact Form</template>
-  <form @submit.prevent="handleSubmit" class="space-y-4">
-    <div>
-      <label for="name" class="block text-sm font-medium mb-1">Name</label>
-      <input id="name" v-model="form.name" type="text" class="w-full px-3 py-2 border rounded-md" required />
-    </div>
-    <div>
-      <label for="email" class="block text-sm font-medium mb-1">Email</label>
-      <input id="email" v-model="form.email" type="email" class="w-full px-3 py-2 border rounded-md" required />
-    </div>
-  </form>
-  <template #footer>
-    <Button variant="outline" @click="isOpen = false">Cancel</Button>
-    <Button @click="handleSubmit">Submit</Button>
-  </template>
-</Modal>
+<template>
+    <ModalRoot :open="isOpen" @update:open="setIsOpen">
+        <ModalContent size="full">
+            <ModalHeader>
+                <ModalTitle>Full Screen Modal</ModalTitle>
+            </ModalHeader>
+
+            <ModalBody>
+                <div class="h-full">
+                    <p>This modal takes up the full screen.</p>
+                </div>
+            </ModalBody>
+        </ModalContent>
+    </ModalRoot>
+</template>
 ```
 
-### Modal without Close Button
+### Custom Layout
 
 ```vue
-<Modal v-model:open="isOpen" :show-close-button="false">
-  <template #title>Important Action</template>
-  <p>This modal requires explicit user action to close.</p>
-  <template #footer>
-    <Button @click="isOpen = false">I Understand</Button>
-  </template>
-</Modal>
+<template>
+    <ModalRoot :open="isOpen" @update:open="setIsOpen">
+        <ModalContent>
+            <div class="flex h-full">
+                <div class="w-1/3 border-r border-border p-6">
+                    <h3 class="font-semibold mb-4">Sidebar</h3>
+                    <nav>
+                        <a href="#" class="block py-2">Option 1</a>
+                        <a href="#" class="block py-2">Option 2</a>
+                    </nav>
+                </div>
+
+                <div class="flex-1 p-6">
+                    <ModalTitle>Custom Layout</ModalTitle>
+                    <p class="mt-4">This modal has a custom sidebar layout.</p>
+                </div>
+            </div>
+
+            <ModalClose @close="setIsOpen(false)" />
+        </ModalContent>
+    </ModalRoot>
+</template>
 ```
 
-### Large Content Modal
+### Legacy Usage (Backward Compatible)
 
 ```vue
-<Modal v-model:open="isOpen" size="xl">
-  <template #title>Detailed Information</template>
-  <div class="space-y-4">
-    <p>This modal contains a lot of content and will scroll when needed.</p>
-    <div v-for="i in 20" :key="i" class="p-4 bg-muted rounded-md">
-      <h3 class="font-medium">Section {{ i }}</h3>
-      <p class="text-sm text-muted-foreground">Content for section {{ i }}</p>
-    </div>
-  </div>
-  <template #footer>
-    <Button variant="outline" @click="isOpen = false">Close</Button>
-  </template>
-</Modal>
+<template>
+    <Modal :open="isOpen" @update:open="setIsOpen" size="lg" title="Edit User">
+        <p>This is the modal content.</p>
+        <form>
+            <input type="text" placeholder="Name" />
+            <input type="email" placeholder="Email" />
+        </form>
+
+        <template #footer>
+            <Button variant="outline" @click="setIsOpen(false)">Cancel</Button>
+            <Button @click="saveUser">Save</Button>
+        </template>
+    </Modal>
+</template>
 ```
 
-## Accessibility
+## Props
 
-The Modal component includes comprehensive accessibility features:
+### ModalRoot Props
 
-- **ARIA attributes**: Proper `role="dialog"`, `aria-modal`, `aria-labelledby`, and `aria-describedby`
-- **Focus management**: Automatically focuses the first focusable element when opened
-- **Focus trapping**: Tab navigation is trapped within the modal when open
-- **Keyboard support**: Escape key closes the modal
-- **Screen reader support**: Proper semantic structure and labels
+- `open`: boolean - Controls whether the modal is open
+- `closeOnBackdropClick`: boolean - Whether clicking backdrop closes modal
+- `closeOnEscape`: boolean - Whether pressing Escape closes modal
+- `preventBodyScroll`: boolean - Whether to prevent body scroll
+- `theme`: object - Custom theme properties
 
-## Theme Customization
+### ModalContent Props
 
-You can customize the modal's appearance using the `theme` prop:
+- `size`: 'sm' | 'default' | 'lg' | 'xl' | 'full' - Modal size
+- `theme`: object - Custom theme properties
 
-```vue
-<Modal
-    v-model:open="isOpen"
-    :theme="{
-        backdrop: 'bg-black/75',
-        container: 'border-2 border-primary',
-        header: 'bg-primary text-primary-foreground',
-        content: 'p-8',
-        footer: 'bg-muted',
-        closeButton: 'text-primary hover:bg-primary/10',
-    }"
->
-  <!-- Modal content -->
-</Modal>
-```
+### ModalHeader Props
 
-## Z-Index Customization
+- `showCloseButton`: boolean - Whether to show close button
+- `closeButtonLabel`: string - Aria label for close button
+- `theme`: object - Custom theme properties
 
-The modal component uses CSS custom properties for z-index values, allowing you to control the stacking order of floating elements globally. The modal uses `--z-modal-backdrop` and `--z-modal` variables.
+### ModalTitle Props
 
-### Default Z-Index Values
+- `titleId`: string - ID for accessibility
 
-```css
-:root {
-    --z-index-dropdown: 1000;
-    --z-index-sticky: 1020;
-    --z-index-fixed: 1030;
-    --z-index-modal-backdrop: 1040;
-    --z-index-modal: 1050;
-    --z-index-popover: 1060;
-    --z-index-tooltip: 1070;
-}
-```
+### ModalBody Props
 
-### Customizing Z-Index Values
+- `hasHeader`: boolean - Whether modal has header
+- `hasFooter`: boolean - Whether modal has footer
+- `theme`: object - Custom theme properties
 
-You can customize z-index values using CSS custom properties:
+### ModalFooter Props
 
-```css
-:root {
-    --z-index-modal-backdrop: 2000;
-    --z-index-modal: 2010;
-}
-```
+- `theme`: object - Custom theme properties
 
-Or programmatically using the utility functions:
+## Events
 
-```javascript
-import { setZIndex } from '@pickle-jar/core/utils'
+### ModalRoot Events
 
-// Set modal z-index to a higher value
-setZIndex('modal', 2000)
-setZIndex('modalBackdrop', 1990)
-```
+- `close`: Emitted when modal closes
+- `update:open`: Emitted when open state changes
 
-### Available Z-Index Layers
+### ModalHeader Events
 
-- `dropdown`: 1000 - Dropdown menus
-- `sticky`: 1020 - Sticky positioned elements
-- `fixed`: 1030 - Fixed positioned elements
-- `modalBackdrop`: 1040 - Modal backdrop overlay
-- `modal`: 1050 - Modal content
-- `popover`: 1060 - Popover components
-- `tooltip`: 1070 - Tooltip components
+- `close`: Emitted when close button is clicked
 
-## Best Practices
+### ModalClose Events
 
-1. **Always provide a title**: Use the `title` slot or `header` slot to provide context
-2. **Include action buttons**: Use the `footer` slot for primary actions
-3. **Handle state properly**: Use v-model or manual state management
-4. **Consider mobile**: Test on mobile devices, especially with full-screen modals
-5. **Provide escape routes**: Ensure users can always close the modal
-6. **Use appropriate sizes**: Choose the right size for your content
-7. **Test accessibility**: Verify keyboard navigation and screen reader compatibility
+- `close`: Emitted when close button is clicked
 
-## Technical Details
+## Benefits of the Composable Approach
 
-- Uses Vue 3's `<Teleport>` to render at the document body level
-- Implements Vue transitions for smooth animations
-- Prevents body scroll when open to maintain focus
-- Generates unique IDs for accessibility attributes
-- Supports both controlled and uncontrolled usage patterns
+1. **Flexibility**: Mix and match components to create any modal layout
+2. **Reusability**: Each component can be used independently
+3. **Maintainability**: Easier to test and modify individual parts
+4. **Type Safety**: Full TypeScript support with proper interfaces
+5. **Accessibility**: Built-in accessibility features in each component
+6. **Focus Management**: Automatic focus trapping and management
+7. **Custom Layouts**: Create complex modal layouts without constraints
+8. **Backward Compatibility**: Original Modal component still works
+9. **Design System Consistency**: Each component enforces consistent styling

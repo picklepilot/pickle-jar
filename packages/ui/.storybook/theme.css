@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
 
-@import '../src/styles/globals.css';
+/* @import '../src/styles/globals.css'; */
+@import '../src/styles/base.css';
 @import 'tailwindcss';
-@import 'tailwindcss/utilities';
+/* @tailwind utilities; */
 
 @source './**/*.{js,ts,jsx,tsx,vue}';
-@source '../../../packages/ui/src/**/*.{js,ts,jsx,tsx,vue}';
+@source '../src/**/*.{js,ts,jsx,tsx,vue}';
 
 .cal-sans-regular {
     font-family: 'Cal Sans', sans-serif;
@@ -15,61 +16,8 @@
 }
 
 /*
-  The default border color has changed to `currentColor` in Tailwind CSS v4,
-  so we've added these compatibility styles to make sure everything still
-  looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
-*/
-@layer base {
-    *,
-    ::after,
-    ::before,
-    ::backdrop,
-    ::file-selector-button {
-        border-color: var(--color-neutral-200, currentColor);
-    }
-}
-
-@layer theme {
-    :root {
-        --background: oklch(0.985 0 0);
-        --foreground: oklch(0.145 0 0);
-
-        --card: oklch(0.985 0 0);
-        --card-foreground: oklch(0.145 0 0);
-
-        --popover: oklch(0.985 0 0);
-        --popover-foreground: oklch(0.145 0 0);
-
-        --primary: oklch(0.145 0 0);
-        --primary-foreground: oklch(0.985 0 0);
-
-        --secondary: oklch(0.97 0 0);
-        --secondary-foreground: oklch(0.556 0 0);
-
-        --muted: oklch(0.97 0 0);
-        --muted-foreground: oklch(0.708 0 0);
-
-        --accent: oklch(0.922 0 0);
-        --accent-foreground: oklch(0.145 0 0);
-
-        --destructive: oklch(0.7 0.25 25);
-        --destructive-foreground: oklch(0.985 0 0);
-
-        --border: oklch(0.87 0 0 / 0.9);
-        --input: oklch(0.97 0 0);
-        --ring: oklch(0.97 0 0);
-
-        --radius: 0.625rem;
-    }
-}
-
-/*
 Set the default cursor for buttons.
 */
-
 button,
 [role='button'] {
     cursor: pointer;

@@ -12,8 +12,7 @@
                 v-show="dropdown?.isOpen"
                 role="menu"
                 :class="[
-                    'relative min-w-[8rem] overflow-hidden rounded-md border bg-white p-1 text-gray-900 shadow-lg',
-                    'dark:bg-gray-800 dark:text-gray-100 dark:border-gray-700',
+                    'relative min-w-[8rem] overflow-hidden rounded-md border border-ring bg-popover p-1 text-foreground shadow-lg',
                 ]"
                 @click="handleClick"
                 @keydown="handleKeydown"

@@ -70,3 +70,87 @@ export interface ModalSlots {
 export interface ModalExpose {
     close: () => void
 }
+
+// ModalRoot types
+export interface ModalRootProps {
+    open: boolean
+    closeOnBackdropClick?: boolean
+    closeOnEscape?: boolean
+    preventBodyScroll?: boolean
+    theme?: {
+        backdrop?: string
+    }
+}
+
+export interface ModalRootEmits {
+    close: []
+    'update:open': [value: boolean]
+}
+
+export interface ModalRootExpose {
+    close: () => void
+    modalContainerRef: HTMLElement | undefined
+    backdropRef: HTMLElement | undefined
+    titleId: string
+    descriptionId: string
+}
+
+// ModalContent types
+export interface ModalContentProps {
+    size?: 'sm' | 'default' | 'lg' | 'xl' | 'full'
+    theme?: {
+        container?: string
+    }
+}
+
+export interface ModalContentExpose {
+    modalRef: HTMLElement | undefined
+    focusFirstElement: () => Promise<void>
+}
+
+// ModalHeader types
+export interface ModalHeaderProps {
+    showCloseButton?: boolean
+    closeButtonLabel?: string
+    theme?: {
+        header?: string
+        closeButton?: string
+    }
+}
+
+export interface ModalHeaderEmits {
+    close: []
+}
+
+// ModalTitle types
+export interface ModalTitleProps {
+    titleId?: string
+}
+
+// ModalBody types
+export interface ModalBodyProps {
+    hasHeader?: boolean
+    hasFooter?: boolean
+    theme?: {
+        content?: string
+    }
+}
+
+// ModalFooter types
+export interface ModalFooterProps {
+    theme?: {
+        footer?: string
+    }
+}
+
+// ModalClose types
+export interface ModalCloseProps {
+    closeButtonLabel?: string
+    theme?: {
+        closeButton?: string
+    }
+}
+
+export interface ModalCloseEmits {
+    close: []
+}

@@ -1,12 +1,10 @@
 import type { Preview } from '@storybook/vue3'
-// import '../src/styles/globals.css'
-import './storybook.css'
+import './theme.css'
 import { Renderer } from 'storybook/internal/types'
 import { withThemeByClassName } from '@storybook/addon-themes'
 
 const preview: Preview = {
     parameters: {
-        // actions: { argTypesRegex: '^on[A-Z].*' },
         controls: {
             matchers: {
                 color: /(background|color)$/i,
@@ -38,13 +36,6 @@ const preview: Preview = {
         },
     },
     decorators: [
-        // (story, context) => {
-        //     const background = context.globals.backgrounds?.value
-        //     // Apply the background class to the document element
-        //     document.documentElement.className =
-        //         background === '#0c0a09' ? 'dark' : 'light'
-        //     return story()
-        // },
         withThemeByClassName<Renderer>({
             themes: {
                 light: '',
