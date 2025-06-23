@@ -30,13 +30,13 @@
                 <div
                     v-show="tooltip?.isVisible"
                     role="tooltip"
-                    class="relative max-w-xs rounded-md bg-primary px-3 py-2 text-sm text-primary-foreground shadow-lg pointer-events-auto transform-gpu"
+                    class="relative max-w-xs rounded-md bg-tooltip px-3 py-2 text-sm text-tooltip-foreground shadow-lg pointer-events-auto transform-gpu"
                 >
                     <slot />
                     <!-- Tooltip arrow -->
                     <div
                         ref="arrowRef"
-                        class="absolute w-2 h-2 bg-primary rotate-45"
+                        class="absolute w-2 h-2 bg-tooltip rotate-45"
                         :class="arrowClasses"
                         :style="arrowStyles"
                     />
