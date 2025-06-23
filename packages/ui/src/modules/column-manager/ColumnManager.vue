@@ -285,7 +285,7 @@
 
                                         <Button
                                             @click.prevent.stop="
-                                                focusedColumnComputed.value =
+                                                focusedColumnComputed =
                                                     editableColumns[
                                                         groupElement.id
                                                     ][index]
