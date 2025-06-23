@@ -51,6 +51,9 @@ export { default as ConfirmationDialog } from './modules/confirmation-dialog/Con
 export { default as FluentQueryBuilder } from './modules/fluent-query-builder/FluentQueryBuilder.vue'
 export { default as TabsNav } from './modules/tabs/TabsNav.vue'
 
+// Export composable tabs components
+export { Tabs, TabsList, TabsTrigger, TabsContent } from './modules/tabs'
+
 // Export types
 export * from './types/index.js'
 
