@@ -5579,7 +5579,7 @@ const Su = { class: "relative" }, Ou = { class: "flex items-start flex-wrap gap-
     }, f = () => {
       r("close"), r("update:open", !1);
     }, p = (g) => {
-      a.closeOnBackdropClick && g.target === i.value && f();
+      a.closeOnBackdropClick && g.target === l.value && f();
     }, v = (g) => {
       a.closeOnEscape && g.key === "Escape" && (g.preventDefault(), f());
     };
@@ -5612,7 +5612,6 @@ const Su = { class: "relative" }, Ou = { class: "flex items-start flex-wrap gap-
             key: 0,
             ref_key: "backdropRef",
             ref: i,
-            onClick: p,
             class: j(
               o(
                 "fixed inset-0 bg-primary/20 backdrop-blur-sm",
@@ -5637,6 +5636,7 @@ const Su = { class: "relative" }, Ou = { class: "flex items-start flex-wrap gap-
             key: 0,
             ref_key: "modalContainerRef",
             ref: l,
+            onClick: p,
             class: j(
               o(
                 "fixed inset-0 z-50 flex items-center justify-center",
@@ -5658,7 +5658,7 @@ const Su = { class: "relative" }, Ou = { class: "flex items-start flex-wrap gap-
       })
     ]));
   }
-}), Qu = /* @__PURE__ */ Hn(Ju, [["__scopeId", "data-v-5c2d2b38"]]), Zu = /* @__PURE__ */ H({
+}), Qu = /* @__PURE__ */ Hn(Ju, [["__scopeId", "data-v-248d2adf"]]), Zu = /* @__PURE__ */ H({
   __name: "ModalContent",
   props: {
     size: { default: "default" },
