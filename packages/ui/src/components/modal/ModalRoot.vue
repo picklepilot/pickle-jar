@@ -12,7 +12,6 @@
             <div
                 v-if="open"
                 ref="backdropRef"
-                @click="handleBackdropClick"
                 :class="
                     m(
                         'fixed inset-0 bg-primary/20 backdrop-blur-sm',
@@ -36,6 +35,7 @@
             <div
                 v-if="open"
                 ref="modalContainerRef"
+                @click="handleBackdropClick"
                 :class="
                     m(
                         'fixed inset-0 z-50 flex items-center justify-center',
@@ -152,7 +152,10 @@ const handleClose = () => {
 }
 
 const handleBackdropClick = (event: MouseEvent) => {
-    if (props.closeOnBackdropClick && event.target === backdropRef.value) {
+    if (
+        props.closeOnBackdropClick &&
+        event.target === modalContainerRef.value
+    ) {
         handleClose()
     }
 }
