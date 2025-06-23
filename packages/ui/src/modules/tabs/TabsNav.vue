@@ -1,18 +1,3 @@
-<!--
-Tailwind classes used in this component:
-- relative, z-10, mx-auto (container positioning)
-- flex, space-x-1.5 (flexbox layout with spacing)
-- flex-wrap, space-x-0.5 (sortable container layout)
-- px-6 (classic style padding)
-- cursor-pointer, items-center, rounded-t, border-x, border-t, px-2, py-1.5, text-sm, leading-none, font-medium, transition-all, duration-200, ease-in-out, transform (tab base styles)
-- px-3, py-2 (classic tab padding)
-- data-[active=false]:relative, data-[active=false]:border-transparent, data-[active=false]:hover:bg-primary/5, data-[active=true]:border-border, data-[active=true]:bg-card (classic tab states)
-- rounded-xs, border-0, px-3, py-2.5, hover:no-underline, data-[active=false]:text-foreground/50, data-[active=false]:hover:text-foreground, data-[active=true]:shadow-2xs (modern tab styles)
-- border-t (bottom line) data-[active=false]:border-b-transparent rounded-t-md
-- border-b-3 border-b-primary data-[active=true]:border-b-3 (active tab styles)
-- Responsive classes: sm:px-4, sm:text-base, md:px-6, md:text-lg, lg:space-x-2, xl:space-x-3 (responsive spacing and sizing)
-- Overflow dropdown: hidden, lg:flex, relative, absolute, top-full, left-0, right-0, bg-white, shadow-lg, border, rounded-b, z-50
--->
 <template>
     <div
         ref="containerRef"
