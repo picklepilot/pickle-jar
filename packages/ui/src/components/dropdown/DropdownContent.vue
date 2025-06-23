@@ -129,19 +129,39 @@ const handleKeydown = (event: KeyboardEvent) => {
     switch (event.key) {
         case 'ArrowDown':
             event.preventDefault()
+            event.stopPropagation()
             dropdown.focusNext()
             break
         case 'ArrowUp':
             event.preventDefault()
+            event.stopPropagation()
             dropdown.focusPrevious()
             break
         case 'Home':
             event.preventDefault()
+            event.stopPropagation()
             dropdown.focusFirst()
             break
         case 'End':
             event.preventDefault()
+            event.stopPropagation()
             dropdown.focusLast()
+            break
+        case 'Escape':
+            event.preventDefault()
+            event.stopPropagation()
+            dropdown.close()
+            break
+        case 'Enter':
+        case ' ':
+            // Allow Enter and Space to bubble up for item selection
+            // but prevent them from reaching other page elements
+            event.stopPropagation()
+            break
+        default:
+            // For all other keys, prevent them from bubbling up to other page elements
+            // This prevents other components from responding to key presses while dropdown is open
+            event.stopPropagation()
             break
     }
 }

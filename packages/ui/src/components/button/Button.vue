@@ -4,7 +4,13 @@
         @click="handleClick"
         :class="
             m(
-                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap rounded-md text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring/30 transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50',
+                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring/30 transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50 gap-1.5',
+
+                // Svg styles
+                `[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0`,
+
+                // Border radius - round prop overrides default rounded-md
+                round ? 'rounded-full' : 'rounded-md',
 
                 // Variant styles
                 variant === 'default' &&
@@ -21,12 +27,11 @@
                     'text-primary underline-offset-4 hover:underline',
 
                 // Size styles
-                size === 'default' && 'h-10 px-4 py-2',
-                size === 'sm' && 'rounded-md px-3 py-1.5',
-                size === 'lg' && 'h-11 rounded-md px-8',
-                size === 'xs' && 'h-7 rounded-md px-1',
-
-                icon && 'size-5',
+                size === 'default' && 'px-4 has-[svg]:pl-3 py-2',
+                size === 'lg' && 'px-5 py-2 text-lg has-[svg]:pl-4',
+                size === 'sm' && 'px-3 py-1.5 has-[svg]:pl-2',
+                size === 'xs' && 'px-2 py-1 has-[svg]:pl-1',
+                size === 'icon' && 'size-9',
 
                 isDropdownTrigger && 'outline-none ring-3 ring-ring',
 
@@ -48,13 +53,8 @@
 </template>
 
 <script setup lang="ts">
-import clsx, { type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
 import { inject, computed, ref } from 'vue'
-
-function m(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs))
-}
+import { m } from '../../utils'
 
 const emit = defineEmits(['click'])
 
@@ -106,9 +106,9 @@ withDefaults(
 
         /**
          * The size of the button.
-         * @type {'default' | 'sm' | 'lg' | 'xs'}
+         * @type {'default' | 'sm' | 'lg' | 'xs' | 'icon'}
          */
-        size?: 'default' | 'sm' | 'lg' | 'xs'
+        size?: 'default' | 'sm' | 'lg' | 'xs' | 'icon'
 
         /**
          * Whether the button is disabled.
@@ -125,6 +125,14 @@ withDefaults(
          * @type {boolean}
          */
         processing?: boolean
+
+        /**
+         * Whether the button should have a round/circular shape.
+         * When true, the button will have rounded-full class instead of rounded-md.
+         *
+         * @type {boolean}
+         */
+        round?: boolean
 
         /**
          * Locally customize the component's theme properties.
@@ -149,6 +157,7 @@ withDefaults(
         disabled: false,
         processing: false,
         size: 'default',
+        round: false,
         theme: () => ({
             button: '',
             buttonDisabled: '',
