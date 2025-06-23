@@ -174,6 +174,10 @@ watch(
         if (newValue) {
             preventScroll()
             await nextTick()
+            // Focus the modal container for keyboard events
+            if (modalContainerRef.value) {
+                modalContainerRef.value.focus()
+            }
         } else {
             restoreScroll()
         }
@@ -185,11 +189,23 @@ onMounted(() => {
     if (props.open) {
         preventScroll()
     }
+
+    // Add global escape key listener as fallback
+    document.addEventListener('keydown', handleGlobalKeydown)
 })
 
 onUnmounted(() => {
     restoreScroll()
+    document.removeEventListener('keydown', handleGlobalKeydown)
 })
+
+// Global keydown handler for escape key
+const handleGlobalKeydown = (event: KeyboardEvent) => {
+    if (props.open && props.closeOnEscape && event.key === 'Escape') {
+        event.preventDefault()
+        handleClose()
+    }
+}
 
 // Expose methods and refs
 defineExpose({

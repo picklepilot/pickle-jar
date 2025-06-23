@@ -34,6 +34,15 @@ export { default as TooltipTrigger } from './components/tooltip/TooltipTrigger.v
 export { default as TooltipContent } from './components/tooltip/TooltipContent.vue'
 export { default as ThemeToggle } from './components/theme-toggle/ThemeToggle.vue'
 
+// Export breadcrumb components
+export { default as Breadcrumbs } from './components/breadcrumbs/Breadcrumbs.vue'
+export { default as BreadcrumbList } from './components/breadcrumbs/BreadcrumbList.vue'
+export { default as BreadcrumbItem } from './components/breadcrumbs/BreadcrumbItem.vue'
+export { default as BreadcrumbLink } from './components/breadcrumbs/BreadcrumbLink.vue'
+export { default as BreadcrumbPage } from './components/breadcrumbs/BreadcrumbPage.vue'
+export { default as BreadcrumbSeparator } from './components/breadcrumbs/BreadcrumbSeparator.vue'
+export { default as BreadcrumbEllipsis } from './components/breadcrumbs/BreadcrumbEllipsis.vue'
+
 // Export modules
 export { default as AnnouncementsDrawer } from './modules/announcements/AnnouncementsDrawer.vue'
 export { default as ColumnManager } from './modules/column-manager/ColumnManager.vue'
