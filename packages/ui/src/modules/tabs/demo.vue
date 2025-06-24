@@ -91,7 +91,11 @@
         <!-- Modern Style -->
         <div class="space-y-4">
             <h3 class="text-lg font-semibold">Modern Style</h3>
-            <Tabs v-model="activeTab2" default-value="account" style="modern">
+            <Tabs
+                v-model="activeTab2"
+                default-value="account"
+                :style="tabStyle"
+            >
                 <TabsList>
                     <template #trigger="{ tab }">
                         <TabsTrigger :tab="tab" />
@@ -225,11 +229,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './index'
 
 const activeTab = ref('account')
 const activeTab2 = ref('account')
 const activeTab3 = ref('account')
 const activeTab4 = ref('account')
+
+const tabStyle = computed(() => 'modern' as const)
 </script>

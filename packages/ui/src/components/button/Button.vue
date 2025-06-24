@@ -4,7 +4,7 @@
         @click="handleClick"
         :class="
             m(
-                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring/30 transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50 gap-1.5',
+                'inline-flex items-center cursor-pointer justify-center whitespace-nowrap text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring/40 transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50 gap-1.5',
 
                 // Svg styles
                 `[&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0`,
@@ -27,10 +27,10 @@
                     'text-primary underline-offset-4 hover:underline',
 
                 // Size styles
-                size === 'default' && 'px-4 has-[svg]:pl-3 py-2',
-                size === 'lg' && 'px-5 py-2 text-lg has-[svg]:pl-4',
-                size === 'sm' && 'px-3 py-1.5 has-[svg]:pl-2',
-                size === 'xs' && 'px-2 py-1 has-[svg]:pl-1',
+                size === 'default' && 'px-4 py-2',
+                size === 'lg' && 'px-5 py-2 text-lg',
+                size === 'sm' && 'px-3 py-1.5',
+                size === 'xs' && 'px-2 py-1',
                 size === 'icon' && 'size-9',
 
                 isDropdownTrigger && 'outline-none ring-3 ring-ring',

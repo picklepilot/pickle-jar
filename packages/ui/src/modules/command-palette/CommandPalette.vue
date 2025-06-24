@@ -1,32 +1,3 @@
-<!--
-  Tailwind CSS classes used in this component:
-  flex items-center gap-2 rounded-lg border border-zinc-200 px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-50
-  ml-auto rounded border border-zinc-200 px-2 py-0.5 text-xs
-  relative z-50
-  fixed inset-0 bg-background/80 backdrop-blur-sm
-  fixed inset-0 overflow-y-auto
-  flex min-h-full items-center justify-center p-4
-  w-full max-w-2xl transform overflow-hidden rounded-2xl bg-card p-0 shadow-2xl border transition-all
-  relative border-b px-2 pt-2 pb-2
-  pointer-events-none absolute left-2 left-4 top-1/2 -translate-y-1/2 size-5 text-muted-foreground
-  pl-6 pl-10 pl-8 pl-9
-  px-6 pt-2 pb-0
-  text-xs font-semibold text-zinc-500 mb-2 mt-2
-  divide-y divide-zinc-100 rounded-lg overflow-hidden bg-white
-  flex items-center gap-3 px-4 py-3 hover:bg-zinc-50 transition group
-  bg-zinc-100
-  text-zinc-400 group-hover:text-indigo-500 transition
-  w-5 h-5
-  flex-1
-  font-medium text-zinc-900
-  text-sm text-zinc-500 truncate
-  mt-4 text-center text-sm text-zinc-500
-  border-t border-zinc-100 px-6 py-3 flex items-center gap-2 bg-zinc-50 rounded-b-2xl
-  rounded border border-zinc-200 text-zinc-500 size-5 flex items-center justify-center text-xs bg-white
-  size-3
-  text-xs text-zinc-400
-  sm:w-[500px] sm:w-[400px] w-full
--->
 <template>
     <Combobox @update:model-value="onSelect">
         <!-- Search button -->
@@ -111,7 +82,7 @@
                                         autofocus
                                         type="text"
                                         @change="performSearch"
-                                        class="flex w-full rounded-md border border-border bg-background pr-3 pl-9 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring transition-[box-shadow,color] disabled:cursor-not-allowed disabled:opacity-50"
+                                        class="flex w-full rounded-md border border-border bg-background pr-3 pl-9 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground/70 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/40 transition-[box-shadow,color] disabled:cursor-not-allowed disabled:opacity-50"
                                     />
                                 </div>
 

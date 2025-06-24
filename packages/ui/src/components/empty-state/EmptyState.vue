@@ -2,13 +2,13 @@
     <div
         :class="
             m(
-                'bg-card border border-border border-dashed rounded-lg p-6',
+                'bg-card border border-ring border-dashed rounded-lg p-6',
                 theme.container
             )
         "
     >
         <h3
-            :class="m('text-base font-semibold text-zinc-900', theme.title)"
+            :class="m('text-base font-semibold text-foreground', theme.title)"
             v-html="title"
         />
         <div :class="m('mt-1 text-muted-foreground', theme.description)">

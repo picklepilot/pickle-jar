@@ -28,6 +28,7 @@ export { default as ModalBody } from './components/modal/ModalBody.vue'
 export { default as ModalFooter } from './components/modal/ModalFooter.vue'
 export { default as ModalClose } from './components/modal/ModalClose.vue'
 export { default as Popover } from './components/popover/Popover.vue'
+export { default as Sortable } from './components/sortable/Sortable.vue'
 export { default as Typeahead } from './components/typeahead/Typeahead.vue'
 export { default as Tooltip } from './components/tooltip/Tooltip.vue'
 export { default as TooltipTrigger } from './components/tooltip/TooltipTrigger.vue'
@@ -45,7 +46,7 @@ export { default as BreadcrumbEllipsis } from './components/breadcrumbs/Breadcru
 
 // Export modules
 export { default as AnnouncementsDrawer } from './modules/announcements/AnnouncementsDrawer.vue'
-export { default as ColumnManager } from './modules/column-manager/ColumnManager.vue'
+export { default as ColumnManager } from './modules/column-manager/ColumnManagerRefactored.vue'
 export { default as CommandPalette } from './modules/command-palette/CommandPalette.vue'
 export { default as ConfirmationDialog } from './modules/confirmation-dialog/ConfirmationDialog.vue'
 export { default as FluentQueryBuilder } from './modules/fluent-query-builder/FluentQueryBuilder.vue'
