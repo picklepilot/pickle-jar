@@ -115,6 +115,9 @@ export function useStorybookTheme() {
         themeState,
         isDark: computed(() => themeState.value.isDark),
         themeClass: computed(() => themeState.value.themeClass),
+        background: computed(() =>
+            themeState.value.isDark ? 'dark' : 'light'
+        ),
         toggleTheme,
         setTheme,
         updateThemeState,

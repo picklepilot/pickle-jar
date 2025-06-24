@@ -54,12 +54,12 @@
 </template>
 
 <script setup lang="ts">
-import { type ColumnGroupDefinition } from '@/types/ColumnGroupDefinition'
+import { type ColumnGroupDefinition } from '../../types'
 import { ref, watch } from 'vue'
-import Input from '@/components/input/Input.vue'
-import ColorPicker from '@/components/color-picker/ColorPicker.vue'
-import Popover from '@/components/popover/Popover.vue'
-import Button from '@/components/button/Button.vue'
+import Input from '../../components/input/Input.vue'
+import ColorPicker from '../../components/color-picker/ColorPicker.vue'
+import Popover from '../../components/popover/Popover.vue'
+import Button from '../../components/button/Button.vue'
 
 const props = defineProps<{
     defaultGroupColor: string

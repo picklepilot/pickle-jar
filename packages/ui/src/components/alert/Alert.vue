@@ -1,17 +1,12 @@
 <template>
     <AlertRoot :flush="flush" :variant="variant" :theme="theme">
         <slot />
-        <AlertClose v-if="dismissable" @close="$emit('close', $event)" />
+        <AlertClose v-if="dismissable" @close="emit('close', $event)" />
     </AlertRoot>
 </template>
 
 <script setup lang="ts">
 import AlertRoot from './AlertRoot.vue'
-import AlertContent from './AlertContent.vue'
-import AlertIcon from './AlertIcon.vue'
-import AlertTitle from './AlertTitle.vue'
-import AlertDescription from './AlertDescription.vue'
-import AlertAction from './AlertAction.vue'
 import AlertClose from './AlertClose.vue'
 
 const emit = defineEmits<{
