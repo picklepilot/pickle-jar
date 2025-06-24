@@ -18,6 +18,14 @@ export { default as DropdownSub } from './components/dropdown/DropdownSub.vue'
 export { default as DropdownSubContent } from './components/dropdown/DropdownSubContent.vue'
 export { default as DropdownSubTrigger } from './components/dropdown/DropdownSubTrigger.vue'
 export { default as DropdownTrigger } from './components/dropdown/DropdownTrigger.vue'
+export { default as Drawer } from './components/drawer/Drawer.vue'
+export { default as DrawerBody } from './components/drawer/DrawerBody.vue'
+export { default as DrawerClose } from './components/drawer/DrawerClose.vue'
+export { default as DrawerContent } from './components/drawer/DrawerContent.vue'
+export { default as DrawerFooter } from './components/drawer/DrawerFooter.vue'
+export { default as DrawerHandle } from './components/drawer/DrawerHandle.vue'
+export { default as DrawerHeader } from './components/drawer/DrawerHeader.vue'
+export { default as DrawerTitle } from './components/drawer/DrawerTitle.vue'
 export { default as EmptyState } from './components/empty-state/EmptyState.vue'
 export { default as Input } from './components/input/Input.vue'
 export { default as Modal } from './components/modal/Modal.vue'
@@ -61,6 +69,7 @@ export * from './types/index.js'
 
 // Export composables
 export * from './modules/confirmation-dialog/useConfirmationDialog'
+export * from './components/drawer/useDrawer'
 
 // Export strategies
 export * from './modules/command-palette/strategies/AlgoliaSearchStrategy'
