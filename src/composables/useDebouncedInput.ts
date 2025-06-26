@@ -1,33 +1,44 @@
 import { ref, watch } from 'vue'
 
-export function useDebouncedInput(
-    props: { debounce: number; modelValue: string },
-    emit: any
-) {
-    const timeoutId = ref<number>()
+interface DebouncedInputOptions {
+    debounce: number
+    modelValue: string
+    onUpdate: (value: string) => void
+}
 
-    const effectiveValue = ref(props.modelValue)
+export function useDebouncedInput(options: DebouncedInputOptions) {
+    const timeoutId = ref<number>()
+    const effectiveValue = ref(options.modelValue)
 
     watch(
-        () => props.modelValue,
+        () => options.modelValue,
         (value) => {
             effectiveValue.value = value
         }
     )
 
     /**
-     * Wait the timeout value before updating the model value.
+     * Handle input with optional debouncing.
+     * If debounce is 0, updates immediately. Otherwise, waits for the debounce timeout.
      *
      * @param event
      */
     function handleInput(event: Event) {
-        if (event.target) {
+        if (!event.target) return
+
+        const targetValue = (event.target as HTMLInputElement).value
+
+        if (options.debounce > 0) {
+            // Apply debouncing
             clearTimeout(timeoutId.value)
             timeoutId.value = setTimeout(() => {
-                // @ts-ignore
-                effectiveValue.value = event.target!.value
-                emit('update:modelValue', effectiveValue.value)
-            }, props.debounce) as unknown as number
+                effectiveValue.value = targetValue
+                options.onUpdate(targetValue)
+            }, options.debounce) as unknown as number
+        } else {
+            // Update immediately without debouncing
+            effectiveValue.value = targetValue
+            options.onUpdate(targetValue)
         }
     }
 

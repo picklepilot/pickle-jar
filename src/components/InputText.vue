@@ -1,7 +1,7 @@
 <template>
     <input
         type="text"
-        v-model="effectiveValue"
+        :value="modelValue"
         :name="name"
         :placeholder="placeholder"
         :class="
@@ -21,12 +21,12 @@
 
 <script setup lang="ts">
 import { m } from '../utils'
-import { useDebouncedInput, useThemeConfigurator } from '../composables'
+import { useThemeConfigurator } from '../composables'
+import { defineModel, ref } from 'vue'
 
 interface Props {
     classes?: string[]
     debounce?: number
-    modelValue: string
     name: string
     placeholder?: string
     theme?: {
@@ -39,7 +39,6 @@ const emit = defineEmits(['blur-xs', 'enter', 'focus', 'update:modelValue'])
 const props = withDefaults(defineProps<Props>(), {
     classes: () => [],
     debounce: 0,
-    modelValue: '',
     name: '',
     placeholder: '',
     theme: () => ({
@@ -49,5 +48,24 @@ const props = withDefaults(defineProps<Props>(), {
 
 const { componentJarTheme } = useThemeConfigurator()
 
-const { effectiveValue, handleInput } = useDebouncedInput(props, emit)
+const modelValue = defineModel<string>({ required: true })
+
+// Simple debouncing logic
+const timeoutId = ref<number>()
+
+function handleInput(event: Event) {
+    const target = event.target as HTMLInputElement
+    const value = target.value
+
+    if (props.debounce > 0) {
+        // Apply debouncing
+        clearTimeout(timeoutId.value)
+        timeoutId.value = setTimeout(() => {
+            modelValue.value = value
+        }, props.debounce) as unknown as number
+    } else {
+        // Update immediately
+        modelValue.value = value
+    }
+}
 </script>
