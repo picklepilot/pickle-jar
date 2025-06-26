@@ -360,10 +360,17 @@
                                         </button>
                                         <button
                                             @click.prevent.stop="
-                                                focusedColumn =
-                                                    editableColumns[
-                                                        groupElement.name
-                                                    ][index]
+                                                () => {
+                                                    focusedColumn =
+                                                        editableColumns[
+                                                            groupElement.name
+                                                        ][index]
+
+                                                    emit(
+                                                        'focus-column',
+                                                        element
+                                                    )
+                                                }
                                             "
                                             class="flex h-6 w-6 items-center justify-center rounded-xs text-xs text-zinc-400 ring-1 ring-transparent transition-all hover:bg-zinc-100 hover:text-zinc-700"
                                         >
@@ -491,6 +498,7 @@ import type { ColumnGroupDefinition } from '../types'
 const emit = defineEmits([
     'update:existingColumns',
     'update:groupConfiguration',
+    'focus-column',
 ])
 
 const props = withDefaults(
