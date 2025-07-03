@@ -75,7 +75,11 @@ const props = withDefaults(defineProps<Props>(), {
     }),
 })
 
-const { effectiveValue, handleInput } = useDebouncedInput(props, emit)
+const { effectiveValue, handleInput } = useDebouncedInput({
+    debounce: props.debounce,
+    modelValue: props.modelValue,
+    onUpdate: (value: string) => emit('update:modelValue', value),
+})
 
 const componentJarTheme = inject<ThemeConfigurator>('componentJarTheme')
 if (!componentJarTheme) {
