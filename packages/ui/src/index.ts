@@ -6,7 +6,18 @@ export { default as AlertIcon } from './components/alert/AlertIcon.vue'
 export { default as AlertTitle } from './components/alert/AlertTitle.vue'
 export { default as Badge } from './components/badge/Badge.vue'
 export { default as Button } from './components/button/Button.vue'
+// Export CodeBlock components
 export { default as CodeBlock } from './components/code-block/CodeBlock.vue'
+export { default as CodeBlockTab } from './components/code-block/CodeBlockTab.vue'
+export { default as CodeBlockTabButton } from './components/code-block/CodeBlockTabButton.vue'
+export {
+    useCodeBlockContext,
+    provideCodeBlockContext,
+} from './components/code-block/useCodeBlockContext'
+export type {
+    CodeBlockTab as ICodeBlockTab,
+    CodeBlockContext as ICodeBlockContext,
+} from './components/code-block/useCodeBlockContext'
 export { default as ColorPicker } from './components/color-picker/ColorPicker.vue'
 export { default as Combobox } from './components/combobox/Combobox.vue'
 export { default as Dropdown } from './components/dropdown/Dropdown.vue'
