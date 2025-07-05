@@ -1,133 +1,108 @@
 <template>
     <div
-        ref="containerRef"
-        :class="m('relative z-10 mx-auto', classes.container, theme.container)"
+        :class="[
+            'tabs',
+            orientation === 'vertical' ? 'tabs-vertical' : 'tabs-horizontal',
+            disabled && 'tabs-disabled',
+        ]"
+        role="tablist"
+        :aria-orientation="orientation"
     >
         <slot />
     </div>
 </template>
 
 <script setup lang="ts">
-import { m } from '../../utils'
-import {
-    ref,
-    provide,
-    computed,
-    watch,
-    onMounted,
-    onUnmounted,
-    nextTick,
-} from 'vue'
-import { type Tab } from '../../types'
+import { provide, ref, watch, computed, readonly } from 'vue'
+import type { TabsProps, TabsEmits } from './types'
 
-interface Props {
-    modelValue?: string | number
-    defaultValue?: string | number
-    orientation?: 'horizontal' | 'vertical'
-    classes?: {
-        container?: string
-        line?: string
-        tab?: string
-    }
-    style?: 'classic' | 'modern'
-    disabled?: string[]
-    tabClasses?: string[]
-    tabs?: Tab[]
-    theme?: {
-        container?: string
-        sortableContainer?: string
-        tabsNavTab?: string
-        tabsNavLine?: string
-    }
-}
+interface Props extends TabsProps {}
+
+interface Emits extends TabsEmits {}
 
 const props = withDefaults(defineProps<Props>(), {
     orientation: 'horizontal',
-    style: 'classic',
-    classes: () => ({
-        container: '',
-        line: '',
-        tab: '',
-    }),
-    disabled: () => [],
-    tabClasses: () => [],
-    theme: () => ({
-        container: '',
-        sortableContainer: '',
-        tabsNavTab: '',
-        tabsNavLine: '',
-    }),
+    disabled: false,
 })
 
-const emit = defineEmits<{
-    'update:modelValue': [value: string | number]
-    clicked: [tabId: string | number]
-    update: [tabs: Tab[]]
-}>()
+const emit = defineEmits<Emits>()
 
 // Internal state
-const activeValue = ref(props.defaultValue || props.modelValue || '')
-const effectiveTabs = ref(props.tabs || [])
-const containerRef = ref<HTMLElement>()
+const selectedValue = ref(props.value || props.defaultValue || '')
+const tabs = ref<Set<string>>(new Set())
 
 // Computed
-const currentValue = computed({
-    get: () => activeValue.value,
-    set: value => {
-        activeValue.value = value
-        emit('update:modelValue', value)
-    },
-})
+const isControlled = computed(() => props.value !== undefined)
 
-// Provide context to child components
-provide('tabs', {
-    value: currentValue,
-    orientation: computed(() => props.orientation),
-    style: computed(() => props.style),
-    classes: computed(() => props.classes),
-    disabled: computed(() => props.disabled),
-    tabClasses: computed(() => props.tabClasses),
-    theme: computed(() => props.theme),
-    tabs: effectiveTabs,
-    onValueChange: (value: string | number) => {
-        currentValue.value = value
-        emit('clicked', value)
-    },
-    onTabsUpdate: (tabs: Tab[]) => {
-        effectiveTabs.value = tabs
-        emit('update', tabs)
-    },
-})
-
-// Watch for external changes
+// Watch for external value changes
 watch(
-    () => props.modelValue,
+    () => props.value,
     newValue => {
-        if (newValue !== undefined) {
-            activeValue.value = newValue
+        if (newValue !== undefined && newValue !== selectedValue.value) {
+            selectedValue.value = newValue
         }
     }
 )
 
-watch(
-    () => props.tabs,
-    newTabs => {
-        if (newTabs) {
-            effectiveTabs.value = newTabs
-        }
-    },
-    { deep: true }
-)
+// Methods
+const selectTab = (value: string) => {
+    if (props.disabled || !tabs.value.has(value)) return
 
-// Expose methods for parent components
-defineExpose({
-    setValue: (value: string | number) => {
-        currentValue.value = value
-    },
-    getValue: () => currentValue.value,
-    getTabs: () => effectiveTabs.value,
-    setTabs: (tabs: Tab[]) => {
-        effectiveTabs.value = tabs
-    },
+    selectedValue.value = value
+
+    if (!isControlled.value) {
+        emit('update:value', value)
+    }
+
+    emit('valueChange', value)
+}
+
+const registerTab = (value: string) => {
+    tabs.value.add(value)
+
+    // If no tab is selected and this is the first tab, select it
+    if (!selectedValue.value) {
+        selectedValue.value = value
+    }
+}
+
+const unregisterTab = (value: string) => {
+    tabs.value.delete(value)
+
+    // If the selected tab is removed, select the first available tab
+    if (selectedValue.value === value && tabs.value.size > 0) {
+        const firstTab = Array.from(tabs.value)[0]
+        selectTab(firstTab)
+    }
+}
+
+// Provide context to child components
+provide('tabs', {
+    selectedValue: readonly(selectedValue),
+    orientation: readonly(computed(() => props.orientation)),
+    disabled: readonly(computed(() => props.disabled)),
+    selectTab,
+    registerTab,
+    unregisterTab,
 })
 </script>
+
+<style scoped>
+.tabs {
+    display: flex;
+    width: 100%;
+}
+
+.tabs-horizontal {
+    flex-direction: column;
+}
+
+.tabs-vertical {
+    flex-direction: row;
+}
+
+.tabs-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+</style>

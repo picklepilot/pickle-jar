@@ -2,7 +2,7 @@ export type Tab = {
     active: boolean
     classes?: string[]
     disabled: boolean
-    id: number
+    id: number | string
     idx?: number
     label: string
 }
