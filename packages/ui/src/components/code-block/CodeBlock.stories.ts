@@ -2,8 +2,11 @@ import type { Meta, StoryObj } from '@storybook/vue3'
 import { bundledThemes } from 'shiki'
 import { ref } from 'vue'
 import CodeBlock from './CodeBlock.vue'
+import CodeBlockTab from './CodeBlockTab.vue'
+import CodeBlockTabButton from './CodeBlockTabButton.vue'
 import { useStorybookTheme } from '../../composables'
 import Button from '../button/Button.vue'
+import { Play, Code, Book, Settings, Eye } from 'lucide-vue-next'
 
 const meta = {
     title: 'Components/CodeBlock',
@@ -403,7 +406,7 @@ export const WithDemoSlot: Story = {
         template: `
             <CodeBlock v-bind="args">
                 <template #demo>
-                    <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
                         <Button variant="default">Click me</Button>
                     </div>
                 </template>
@@ -427,8 +430,8 @@ export const ButtonVariantsDemo: Story = {
         template: `
             <CodeBlock v-bind="args">
                 <template #demo>
-                    <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
-                        <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
+                        <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
                             <div class="flex gap-4">
                                 <Button variant="default">Default</Button>
                                 <Button variant="secondary">Secondary</Button>
@@ -458,7 +461,7 @@ export const ButtonSizesDemo: Story = {
         template: `
             <CodeBlock v-bind="args">
                 <template #demo>
-                    <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
                         <div class="flex items-center gap-4">
                             <Button size="sm">Small</Button>
                             <Button size="default">Default</Button>
@@ -486,7 +489,7 @@ export const ButtonIconDemo: Story = {
         template: `
             <CodeBlock v-bind="args">
                 <template #demo>
-                    <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
                         <Button>
                             <template #icon>
                                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -533,7 +536,7 @@ const count = ref(0)
         template: `
             <CodeBlock v-bind="args" class="h-[450px]">
                 <template #demo>
-                    <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                    <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
                         <div class="space-y-4">
                             <div class="flex gap-2">
                                 <Button @click="count++">Increment</Button>
@@ -571,7 +574,7 @@ export const Comparison: Story = {
                     <h3 class="text-lg font-semibold mb-4">With Demo Slot (Tabbed Navigation)</h3>
                     <CodeBlock v-bind="args">
                         <template #demo>
-                            <div class="flex items-center justify-center p-8 bg-gray-50 rounded-lg">
+                            <div class="flex items-center justify-center p-8 bg-neutral-50 rounded-lg">
                                 <Button variant="default">Click me</Button>
                             </div>
                         </template>
@@ -680,4 +683,140 @@ function createUser(userData: Partial<User>): User {
             // For example, custom CSS classes, line numbers, etc.
         },
     },
+}
+
+export const WithCustomTabs: Story = {
+    name: 'With Custom Tabs',
+    args: {
+        code: `interface User {
+    id: number
+    name: string
+    email: string
+}
+
+function createUser(userData: Partial<User>): User {
+    return {
+        id: Math.random(),
+        name: userData.name || 'Anonymous',
+        email: userData.email || '',
+    }
+}
+
+const user = createUser({ name: 'John Doe', email: 'john@example.com' })
+console.log(user)`,
+        language: 'typescript',
+        shikiTheme: 'monokai',
+    },
+    render: args => ({
+        components: { CodeBlock, CodeBlockTab, CodeBlockTabButton, Button },
+        setup() {
+            const count = ref(0)
+            return { args, count, Play, Code, Book, Settings, Eye }
+        },
+        template: `
+            <CodeBlock v-bind="args">
+                <!-- Custom tab buttons -->
+                <template #tabs>
+                    <CodeBlockTabButton
+                        id="demo"
+                        label="Demo"
+                        :icon="Play"
+                    />
+                    <CodeBlockTabButton
+                        id="code"
+                        label="Code"
+                        :icon="Code"
+                    />
+                    <CodeBlockTabButton
+                        id="docs"
+                        label="Documentation"
+                        :icon="Book"
+                    />
+                    <CodeBlockTabButton
+                        id="settings"
+                        label="Settings"
+                        :icon="Settings"
+                    />
+                    <CodeBlockTabButton
+                        id="preview"
+                        label="Preview"
+                        :icon="Eye"
+                    />
+                </template>
+
+                <!-- Tab content -->
+                <CodeBlockTab id="demo" label="Demo">
+                    <div class="p-4 bg-neutral-50 rounded">
+                        <h3 class="text-lg font-semibold mb-2">Live Demo</h3>
+                        <p class="text-sm text-neutral-600 mb-4">
+                            This is a live demonstration of the User creation functionality.
+                        </p>
+                        <div class="space-y-4">
+                            <div class="flex gap-2">
+                                <Button @click="count++">Create User</Button>
+                                <Button @click="count = 0" variant="outline">Reset</Button>
+                            </div>
+                            <p class="text-sm">Users created: {{ count }}</p>
+                        </div>
+                    </div>
+                </CodeBlockTab>
+
+                <CodeBlockTab id="code" label="Code">
+                    <!-- Code content is automatically shown here -->
+                </CodeBlockTab>
+
+                <CodeBlockTab id="docs" label="Documentation">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Usage</h3>
+                        <p class="text-sm text-neutral-600 mb-4">
+                            This component provides user creation functionality with TypeScript support.
+                        </p>
+                        <h4 class="font-medium mb-2">Props:</h4>
+                        <ul class="text-sm text-neutral-600 space-y-1">
+                            <li><code>userData</code> - Partial user data object</li>
+                            <li><code>name</code> - User's display name</li>
+                            <li><code>email</code> - User's email address</li>
+                        </ul>
+                        <h4 class="font-medium mb-2 mt-4">Returns:</h4>
+                        <p class="text-sm text-neutral-600">
+                            A complete User object with generated ID and default values.
+                        </p>
+                    </div>
+                </CodeBlockTab>
+
+                <CodeBlockTab id="settings" label="Settings">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Configuration</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Auto-generate ID</span>
+                                <input type="checkbox" checked class="rounded" />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Default name</span>
+                                <input type="text" value="Anonymous" class="border rounded px-2 py-1 text-sm" />
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm">Email validation</span>
+                                <input type="checkbox" checked class="rounded" />
+                            </div>
+                        </div>
+                    </div>
+                </CodeBlockTab>
+
+                <CodeBlockTab id="preview" label="Preview">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Output Preview</h3>
+                        <div class="bg-neutral-100 p-3 rounded text-sm font-mono">
+                            <div>User {</div>
+                            <div class="ml-4">id: 0.123456789,</div>
+                            <div class="ml-4">name: "John Doe",</div>
+                            <div class="ml-4">email: "john@example.com"</div>
+                            <div>}</div>
+                        </div>
+                    </div>
+                </CodeBlockTab>
+            </CodeBlock>
+        `,
+    }),
 }

@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import CodeBlock from './CodeBlock.vue'
+import CodeBlockTab from './CodeBlockTab.vue'
+import CodeBlockTabButton from './CodeBlockTabButton.vue'
 
 // Mock Shiki
 vi.mock('shiki', () => ({
@@ -123,5 +125,80 @@ describe('CodeBlock', () => {
         })
 
         expect(useStorybookTheme).toHaveBeenCalled()
+    })
+
+    describe('Custom Tabs System', () => {
+        it('renders custom tabs when provided', () => {
+            const wrapper = mount(CodeBlock, {
+                props: {
+                    code: 'const x = 1',
+                },
+                slots: {
+                    tabs: `
+                        <CodeBlockTabButton id="demo" label="Demo" />
+                        <CodeBlockTabButton id="code" label="Code" />
+                    `,
+                    default: `
+                        <CodeBlockTab id="demo" label="Demo">
+                            <div>Demo content</div>
+                        </CodeBlockTab>
+                        <CodeBlockTab id="code" label="Code">
+                            <div>Code content</div>
+                        </CodeBlockTab>
+                    `,
+                },
+                global: {
+                    components: {
+                        CodeBlockTab,
+                        CodeBlockTabButton,
+                    },
+                },
+            })
+
+            expect(wrapper.find('.flex.border-b').exists()).toBe(true)
+            expect(wrapper.text()).toContain('Demo')
+            expect(wrapper.text()).toContain('Code')
+        })
+
+        it('shows tab content when tab is active', () => {
+            const wrapper = mount(CodeBlock, {
+                props: {
+                    code: 'const x = 1',
+                },
+                slots: {
+                    tabs: `
+                        <CodeBlockTabButton id="demo" label="Demo" />
+                    `,
+                    default: `
+                        <CodeBlockTab id="demo" label="Demo">
+                            <div>Demo content</div>
+                        </CodeBlockTab>
+                    `,
+                },
+                global: {
+                    components: {
+                        CodeBlockTab,
+                        CodeBlockTabButton,
+                    },
+                },
+            })
+
+            expect(wrapper.text()).toContain('Demo content')
+        })
+
+        it('maintains backward compatibility with demo slot', () => {
+            const wrapper = mount(CodeBlock, {
+                props: {
+                    code: 'const x = 1',
+                },
+                slots: {
+                    demo: '<div>Legacy demo content</div>',
+                },
+            })
+
+            expect(wrapper.text()).toContain('Demo')
+            expect(wrapper.text()).toContain('Code')
+            expect(wrapper.text()).toContain('Legacy demo content')
+        })
     })
 })

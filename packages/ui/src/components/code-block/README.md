@@ -66,6 +66,131 @@ import { CodeBlock } from '@pickle-jar/ui'
 </template>
 ```
 
+### With Custom Tabs
+
+The CodeBlock component now supports a flexible tab system that allows you to create multiple tabs with custom content:
+
+```vue
+<template>
+    <CodeBlock code="const message = 'Hello, World!'" language="javascript">
+        <!-- Custom tab buttons -->
+        <template #tabs>
+            <CodeBlockTabButton id="demo" label="Demo" :icon="PlayIcon" />
+            <CodeBlockTabButton id="code" label="Code" :icon="CodeIcon" />
+            <CodeBlockTabButton
+                id="docs"
+                label="Documentation"
+                :icon="BookIcon"
+            />
+        </template>
+
+        <!-- Tab content -->
+        <CodeBlockTab id="demo" label="Demo">
+            <div class="p-4 bg-gray-50 rounded">
+                <h3 class="text-lg font-semibold mb-2">Live Demo</h3>
+                <p>This is a live demonstration of the component.</p>
+                <button class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">
+                    Click me!
+                </button>
+            </div>
+        </CodeBlockTab>
+
+        <CodeBlockTab id="code" label="Code">
+            <!-- Code content is automatically shown here -->
+        </CodeBlockTab>
+
+        <CodeBlockTab id="docs" label="Documentation">
+            <div class="p-4">
+                <h3 class="text-lg font-semibold mb-2">Usage</h3>
+                <p class="text-sm text-gray-600 mb-4">
+                    This component provides syntax highlighting for code blocks.
+                </p>
+                <h4 class="font-medium mb-2">Props:</h4>
+                <ul class="text-sm text-gray-600 space-y-1">
+                    <li><code>code</code> - The code content to highlight</li>
+                    <li><code>language</code> - Programming language</li>
+                    <li><code>theme</code> - Syntax highlighting theme</li>
+                </ul>
+            </div>
+        </CodeBlockTab>
+    </CodeBlock>
+</template>
+
+<script setup>
+import { CodeBlock, CodeBlockTab, CodeBlockTabButton } from '@pickle-jar/ui'
+import { Play, Code, Book } from 'lucide-vue-next'
+
+const PlayIcon = Play
+const CodeIcon = Code
+const BookIcon = Book
+</script>
+```
+
+### Tab Components
+
+#### CodeBlockTabButton
+
+The `CodeBlockTabButton` component creates tab navigation buttons:
+
+```vue
+<template>
+    <CodeBlockTabButton
+        id="unique-tab-id"
+        label="Tab Label"
+        :icon="SomeIcon"
+        :disabled="false"
+        custom-theme="custom-button-styles"
+    />
+</template>
+```
+
+**Props:**
+
+- `id` (string, required) - Unique identifier for the tab
+- `label` (string, required) - Display text for the tab
+- `icon` (Component, optional) - Icon component to display
+- `disabled` (boolean, optional) - Whether the tab is disabled
+- `customTheme` (string, optional) - Custom CSS classes
+
+#### CodeBlockTab
+
+The `CodeBlockTab` component defines tab content:
+
+```vue
+<template>
+    <CodeBlockTab
+        id="unique-tab-id"
+        label="Tab Label"
+        :disabled="false"
+        custom-theme="custom-content-styles"
+    >
+        <!-- Tab content goes here -->
+        <div>Your custom content</div>
+    </CodeBlockTab>
+</template>
+```
+
+**Props:**
+
+- `id` (string, required) - Must match the corresponding tab button ID
+- `label` (string, required) - Display text for the tab
+- `disabled` (boolean, optional) - Whether the tab is disabled
+- `customTheme` (string, optional) - Custom CSS classes for the content area
+
+### Backward Compatibility
+
+The original demo/code tab system is still supported for backward compatibility:
+
+```vue
+<template>
+    <CodeBlock code="const message = 'Hello, World!'" language="javascript">
+        <template #demo>
+            <div>Your demo content here</div>
+        </template>
+    </CodeBlock>
+</template>
+```
+
 ## Props
 
 | Prop                | Type      | Default        | Description                                                     |

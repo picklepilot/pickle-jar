@@ -7,9 +7,9 @@
             )
         "
     >
-        <!-- Tab Navigation (only shown when demo slot is used) -->
+        <!-- Tab Navigation -->
         <div
-            v-if="showHeader"
+            v-if="showHeader && (hasTabs || hasDemoSlot)"
             :class="
                 m(
                     'flex border-b border-border bg-muted/30 h-10 pr-4',
@@ -17,7 +17,13 @@
                 )
             "
         >
-            <template v-if="hasDemoSlot">
+            <!-- Custom tabs -->
+            <template v-if="hasTabs">
+                <slot name="tabs" />
+            </template>
+
+            <!-- Legacy demo/code tabs (for backward compatibility) -->
+            <template v-else-if="hasDemoSlot">
                 <button
                     @click="activeTab = 'demo'"
                     :class="
@@ -58,79 +64,91 @@
             </span>
         </div>
 
-        <!-- Demo Content -->
-        <div
-            v-if="hasDemoSlot && activeTab === 'demo'"
-            :class="m('p-4', customTheme.demo)"
-        >
-            <slot name="demo" />
-        </div>
+        <!-- Custom tab content -->
+        <template v-if="hasTabs">
+            <slot />
+        </template>
 
-        <!-- Code Content -->
-        <div v-if="!hasDemoSlot || activeTab === 'code'">
-            <!-- Code content -->
-            <div :class="m('relative', customTheme.content)">
-                <Button
-                    v-if="showCopyButton"
-                    @click="copyToClipboard"
-                    :class="
-                        m(
-                            'absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded bg-transparent size-9 px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-accent-foreground',
-                            customTheme.copyButton
-                        )
-                    "
-                    :aria-label="copyButtonLabel"
-                    variant="ghost"
-                    size="sm"
-                >
-                    <Check
-                        v-if="copied"
-                        class="size-4 text-green-500 shrink-0"
-                    />
-                    <Clipboard v-else class="size-4 shrink-0" />
-                </Button>
-                <div :class="m('overflow-auto max-h-96', customTheme.content)">
-                    <div
-                        v-if="!isLoading"
+        <!-- Legacy demo/code content (for backward compatibility) -->
+        <template v-else>
+            <!-- Demo Content -->
+            <div
+                v-if="hasDemoSlot && activeTab === 'demo'"
+                :class="m('p-4', customTheme.demo)"
+            >
+                <slot name="demo" />
+            </div>
+
+            <!-- Code Content -->
+            <div v-if="!hasDemoSlot || activeTab === 'code'">
+                <!-- Code content -->
+                <div :class="m('relative', customTheme.content)">
+                    <Button
+                        v-if="showCopyButton"
+                        @click="copyToClipboard"
                         :class="
                             m(
-                                'font-mono text-sm leading-relaxed [&>pre]:p-4',
-                                customTheme.pre
+                                'absolute right-2 top-2 z-10 inline-flex items-center gap-1 rounded bg-transparent size-9 px-2 py-1 text-xs font-medium text-muted-foreground transition-colors hover:bg-transparent hover:text-accent-foreground',
+                                customTheme.copyButton
                             )
                         "
-                        v-html="highlightedCode"
-                    ></div>
-
-                    <!-- Loading state -->
+                        :aria-label="copyButtonLabel"
+                        variant="ghost"
+                        size="sm"
+                    >
+                        <Check
+                            v-if="copied"
+                            class="size-4 text-green-500 shrink-0"
+                        />
+                        <Clipboard v-else class="size-4 shrink-0" />
+                    </Button>
                     <div
-                        v-else
                         :class="
-                            m(
-                                'flex items-center justify-center py-8 text-muted-foreground',
-                                customTheme.loading
-                            )
+                            m('overflow-auto max-h-96', customTheme.content)
                         "
                     >
-                        <span class="text-sm"
-                            >Loading syntax highlighting...</span
+                        <div
+                            v-if="!isLoading"
+                            :class="
+                                m(
+                                    'font-mono text-sm leading-relaxed [&>pre]:p-4',
+                                    customTheme.pre
+                                )
+                            "
+                            v-html="highlightedCode"
+                        ></div>
+
+                        <!-- Loading state -->
+                        <div
+                            v-else
+                            :class="
+                                m(
+                                    'flex items-center justify-center py-8 text-muted-foreground',
+                                    customTheme.loading
+                                )
+                            "
                         >
-                    </div>
+                            <span class="text-sm"
+                                >Loading syntax highlighting...</span
+                            >
+                        </div>
 
-                    <!-- Error state -->
-                    <div
-                        v-if="error"
-                        :class="
-                            m(
-                                'flex items-center justify-center py-8 text-destructive',
-                                customTheme.error
-                            )
-                        "
-                    >
-                        <span class="text-sm">{{ error }}</span>
+                        <!-- Error state -->
+                        <div
+                            v-if="error"
+                            :class="
+                                m(
+                                    'flex items-center justify-center py-8 text-destructive',
+                                    customTheme.error
+                                )
+                            "
+                        >
+                            <span class="text-sm">{{ error }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
 </template>
 
@@ -141,6 +159,7 @@ import { ref, onMounted, watch, computed, useSlots } from 'vue'
 import Button from '../button/Button.vue'
 import { Check, Clipboard } from 'lucide-vue-next'
 import { useStorybookTheme } from '../../composables/useStorybookTheme'
+import { provideCodeBlockContext } from './useCodeBlockContext'
 
 // Define only the languages we actually use
 const SUPPORTED_LANGUAGES = [
@@ -246,7 +265,10 @@ const copied = ref<boolean>(false)
 const highlighter = ref<any>(null)
 
 // Check if demo slot is provided
-const hasDemoSlot = computed(() => !!slots.demo)
+// const hasDemoSlot = computed(() => !!slots.demo)
+
+// Provide context for tab system
+const { hasTabs, hasDemoSlot } = provideCodeBlockContext()
 
 // Use the Storybook theme composable
 const { isDark } = useStorybookTheme()
