@@ -3,8 +3,6 @@ import { computed, ref } from 'vue'
 import {
     Input,
     CodeBlock,
-    Card,
-    CardContent,
     Tabs,
     TabsList,
     TabsTrigger,
@@ -356,7 +354,7 @@ const inputValue = ref('Hello World')
             </div>
         </div>
 
-        <div class="mt-10 space-y-4">
+        <!-- <div class="mt-10 space-y-4">
             <h2>Slots</h2>
             <div class="overflow-x-auto border rounded-lg shadow-sm">
                 <Table>
@@ -381,6 +379,6 @@ const inputValue = ref('Hello World')
                     </TableBody>
                 </Table>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>

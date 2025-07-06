@@ -1,53 +1,12 @@
 <script setup lang="ts">
 import DocsLayout from '@/components/docs/DocsLayout.vue'
-// Import the logos metadata from local utility
 import { getLogoUrl } from '@/utils/logos'
-import { CodeBlock } from '@picklepilot/pickle-jar-ui'
 import {
     FileCode,
     MonitorSmartphone,
     Moon,
     PersonStanding,
 } from 'lucide-vue-next'
-
-// Example code snippets for testing
-const vueExample =
-    '<template>\n' +
-    '  <div class="container">\n' +
-    '    <h1>Hello World</h1>\n' +
-    '    <p>Welcome to Vue 3</p>\n' +
-    '    <button @click="increment">\n' +
-    '      Count: {{ count }}\n' +
-    '    </button>\n' +
-    '  </div>\n' +
-    '</template>'
-
-const typescriptExample =
-    'interface User {\n' +
-    '  id: string\n' +
-    '  name: string\n' +
-    '  email: string\n' +
-    '}\n' +
-    '\n' +
-    'function createUser(name: string, email: string): User {\n' +
-    '  return {\n' +
-    '    id: crypto.randomUUID(),\n' +
-    '    name,\n' +
-    '    email\n' +
-    '  }\n' +
-    '}'
-
-const bashExample =
-    '#!/bin/bash\n' +
-    '\n' +
-    '# Install dependencies\n' +
-    'pnpm install\n' +
-    '\n' +
-    '# Build the project\n' +
-    'pnpm build\n' +
-    '\n' +
-    '# Start development server\n' +
-    'pnpm dev'
 </script>
 
 <template>

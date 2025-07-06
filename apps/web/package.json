@@ -1,21 +1,7 @@
 {
     "name": "web",
-    "version": "0.0.17",
+    "version": "0.1.0-alpha.1",
     "type": "module",
-    "main": "./dist/component-jar.umd.cjs",
-    "module": "./dist/component-jar.js",
-    "exports": {
-        ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/component-jar.js",
-            "require": "./dist/component-jar.umd.cjs"
-        }
-    },
-    "types": "./dist/index.d.ts",
-    "files": [
-        "dist",
-        "public"
-    ],
     "scripts": {
         "dev:all": "concurrently \"vite\" \"tailwindcss --cwd ./ -i ./src/style.css -o ./src/output.css --watch\"",
         "dev": "vite",

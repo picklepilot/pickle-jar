@@ -225,7 +225,7 @@ const groups = ref([
                                 @update:columns="columns = $event"
                                 @update:groups="groups = $event"
                             >
-                                <template #option="{ item, selected, active }">
+                                <template #option="{ item }">
                                     <div class="flex-1">
                                         <span class="font-medium">{{
                                             item.name
@@ -238,7 +238,7 @@ const groups = ref([
 
                                 <template
                                     #dropdown-content="{
-                                        group,
+                                        // group,
                                         groupData,
                                         emit,
                                     }"

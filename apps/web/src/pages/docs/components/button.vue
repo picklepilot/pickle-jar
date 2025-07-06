@@ -3,8 +3,6 @@ import { computed } from 'vue'
 import {
     Button,
     CodeBlock,
-    Card,
-    CardContent,
     Tabs,
     TabsList,
     TabsTrigger,
@@ -17,7 +15,7 @@ import {
     TableHead,
     TableRow,
 } from '@picklepilot/pickle-jar-ui'
-import { PlusIcon, TrashIcon } from 'lucide-vue-next'
+import { PlusIcon } from 'lucide-vue-next'
 
 const componentData = computed(() => ({
     title: 'Button',
@@ -210,9 +208,9 @@ import { Button } from '@picklepilot/pickle-jar-ui'
     },
 }))
 
-const handleClick = () => {
-    alert('clicked')
-}
+// const handleClick = () => {
+//     alert('clicked')
+// }
 </script>
 
 <template>

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import DocsLayout from '@/components/docs/DocsLayout.vue'
-import { Button } from '@picklepilot/pickle-jar-ui'
+// import { Button } from '@picklepilot/pickle-jar-ui'
 import {
     MousePointer,
     Type,
-    Palette,
+    //  Palette,
     Search,
     Settings,
     Layers,
