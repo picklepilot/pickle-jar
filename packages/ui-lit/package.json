@@ -23,7 +23,7 @@
         "prepublishOnly": "npm run build"
     },
     "dependencies": {
-        "@pickle-jar/core": "workspace:*",
+        "@picklepilot/pickle-jar-core": "workspace:*",
         "lit": "^3.1.0"
     },
     "devDependencies": {

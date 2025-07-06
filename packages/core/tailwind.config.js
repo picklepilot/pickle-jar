@@ -16,7 +16,7 @@ export default {
 
         // Apps
         resolve(__dirname, '../../apps/web/src/**/*.{js,ts,jsx,tsx,vue}'),
-        resolve(__dirname, '../../apps/web-lit/src/**/*.{js,ts,jsx,tsx}'),
+        // resolve(__dirname, '../../apps/web-lit/src/**/*.{js,ts,jsx,tsx}'),
     ],
     safelist: [
         // Only essential classes that can't be detected by content scanner

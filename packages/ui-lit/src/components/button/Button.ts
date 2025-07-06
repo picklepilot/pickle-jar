@@ -1,13 +1,13 @@
-import { LitElement, html, unsafeCSS } from 'lit'
+import { LitElement, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
-import { classNames } from '@pickle-jar/core'
+import { classNames } from '@picklepilot/pickle-jar-core'
 // Import the built Tailwind CSS as a string
-import tailwindStyles from '@pickle-jar/core/dist/styles.css?inline'
+// import tailwindStyles from '@picklepilot/pickle-jar-ui/dist/styles.css?inline'
 
 @customElement('pj-button')
 export class Button extends LitElement {
     // Inject Tailwind styles into the shadow DOM
-    static styles = unsafeCSS(tailwindStyles)
+    // static styles = unsafeCSS(tailwindStyles)
 
     @property({ type: String })
     variant:

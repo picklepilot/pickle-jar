@@ -24,11 +24,11 @@ export default defineConfig({
             fileName: format => `pickle-jar-ui-lit.${format}.js`,
         },
         rollupOptions: {
-            external: ['lit', '@pickle-jar/core'],
+            external: ['lit', '@picklepilot/pickle-jar-core'],
             output: {
                 globals: {
                     lit: 'Lit',
-                    '@pickle-jar/core': 'PickleJarCore',
+                    '@picklepilot/pickle-jar-core': 'PickleJarCore',
                 },
             },
         },

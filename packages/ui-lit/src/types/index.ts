@@ -1,5 +1,5 @@
 // Re-export core types
-export * from '@pickle-jar/core'
+export * from '@picklepilot/pickle-jar-core'
 
 // Lit-specific types
 export interface LitComponentProps {
