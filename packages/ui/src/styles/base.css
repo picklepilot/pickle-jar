@@ -190,8 +190,13 @@
 @layer base {
     * {
         outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
-        @apply border-border;
     }
+
+    /* Target elements with border classes */
+    [class*='border'] {
+        border-color: var(--border);
+    }
+
     body {
         @apply bg-background text-foreground;
     }
