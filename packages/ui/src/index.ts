@@ -61,6 +61,16 @@ export { default as TooltipContent } from './components/tooltip/TooltipContent.v
 export { default as TooltipTrigger } from './components/tooltip/TooltipTrigger.vue'
 export { default as Typeahead } from './components/typeahead/Typeahead.vue'
 
+// Export table components
+export { default as Table } from './components/table/Table.vue'
+export { default as TableBody } from './components/table/TableBody.vue'
+export { default as TableCaption } from './components/table/TableCaption.vue'
+export { default as TableCell } from './components/table/TableCell.vue'
+export { default as TableFooter } from './components/table/TableFooter.vue'
+export { default as TableHead } from './components/table/TableHead.vue'
+export { default as TableHeader } from './components/table/TableHeader.vue'
+export { default as TableRow } from './components/table/TableRow.vue'
+
 // Export breadcrumb components
 export { default as Breadcrumbs } from './components/breadcrumbs/Breadcrumbs.vue'
 export { default as BreadcrumbList } from './components/breadcrumbs/BreadcrumbList.vue'
