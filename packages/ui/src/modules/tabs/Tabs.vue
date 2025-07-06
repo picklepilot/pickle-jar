@@ -1,10 +1,13 @@
 <template>
     <div
-        :class="[
-            'tabs',
-            orientation === 'vertical' ? 'tabs-vertical' : 'tabs-horizontal',
-            disabled && 'tabs-disabled',
-        ]"
+        :class="
+            m(
+                'flex',
+                orientation === 'vertical' ? 'flex-col' : 'flex-row',
+                disabled && 'opacity-50 pointer-events-none',
+                props.class
+            )
+        "
         role="tablist"
         :aria-orientation="orientation"
     >
@@ -15,6 +18,7 @@
 <script setup lang="ts">
 import { provide, ref, watch, computed, readonly } from 'vue'
 import type { TabsProps, TabsEmits } from './types'
+import { m } from '../../utils'
 
 interface Props extends TabsProps {}
 
@@ -23,6 +27,7 @@ interface Emits extends TabsEmits {}
 const props = withDefaults(defineProps<Props>(), {
     orientation: 'horizontal',
     disabled: false,
+    class: '',
 })
 
 const emit = defineEmits<Emits>()
@@ -86,23 +91,3 @@ provide('tabs', {
     unregisterTab,
 })
 </script>
-
-<style scoped>
-.tabs {
-    display: flex;
-    width: 100%;
-}
-
-.tabs-horizontal {
-    flex-direction: column;
-}
-
-.tabs-vertical {
-    flex-direction: row;
-}
-
-.tabs-disabled {
-    opacity: 0.5;
-    pointer-events: none;
-}
-</style>

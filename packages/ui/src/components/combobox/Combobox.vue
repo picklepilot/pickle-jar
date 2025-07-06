@@ -11,7 +11,7 @@
                     ref="reference"
                     :class="
                         m(
-                            'border border-ring rounded-md hover:bg-accent/50 shadow-xs focus-within:outline-none focus-within:ring-3 focus-within:ring-ring/40 transition-[box-shadow,color]',
+                            'border rounded-md hover:bg-accent/50 shadow-xs focus-within:outline-none focus-within:ring-3 focus-within:ring-ring/40 transition-[box-shadow,color]',
                             theme.baseDropdownInputContainer
                         )
                     "
@@ -81,7 +81,7 @@
                         ref="floating"
                         :class="
                             m(
-                                'fixed left-0 z-10 overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-3 text-base shadow-lg border border-ring focus:outline-hidden sm:text-sm',
+                                'fixed left-0 z-10 overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1.5 text-base shadow-lg border border-ring focus:outline-hidden sm:text-sm',
                                 theme.generalFloatingPanelContainer
                             )
                         "
