@@ -1,7 +1,9 @@
 <template>
-    <button
+    <component
+        :is="isRouterLink ? 'RouterLink' : 'button'"
         ref="buttonRef"
         @click="handleClick"
+        :to="isRouterLink ? to : undefined"
         :class="
             m(
                 'inline-flex items-center cursor-pointer justify-center whitespace-nowrap text-sm ring-offset-background focus:outline-none focus:ring-3 focus:ring-ring/40 transition-[box-shadow,color] disabled:pointer-events-none disabled:opacity-50 gap-1.5',
@@ -49,11 +51,12 @@
                 <slot name="processing" />
             </span>
         </span>
-    </button>
+    </component>
 </template>
 
 <script setup lang="ts">
 import { inject, computed, ref } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
 import { m } from '../../utils'
 
 const emit = defineEmits(['click'])
@@ -90,7 +93,7 @@ const isDropdownTrigger = computed(() => {
     )
 })
 
-withDefaults(
+const props = withDefaults(
     defineProps<{
         /**
          * The variant of the button.
@@ -135,6 +138,14 @@ withDefaults(
         round?: boolean
 
         /**
+         * The route to navigate to when clicked.
+         * When provided, the button will render as a RouterLink instead of a button.
+         *
+         * @type {string | RouteLocationRaw}
+         */
+        to?: string | RouteLocationRaw
+
+        /**
          * Locally customize the component's theme properties.
          *
          * @type {Partial<ThemeParams>}
@@ -167,9 +178,17 @@ withDefaults(
     }
 )
 
+// Determine if this should render as a RouterLink
+const isRouterLink = computed(() => {
+    return !!props.to && !props.disabled
+})
+
 function handleClick(evt: MouseEvent) {
-    evt.preventDefault()
-    emit('click', evt)
+    // Only prevent default and emit click for button elements, not RouterLink
+    if (!isRouterLink.value) {
+        evt.preventDefault()
+        emit('click', evt)
+    }
 }
 </script>
 
