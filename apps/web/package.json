@@ -17,7 +17,8 @@
         "public"
     ],
     "scripts": {
-        "dev": "concurrently \"vite\" \"tailwindcss --cwd ./ -i ./src/style.css -o ./src/output.css --watch\"",
+        "dev:all": "concurrently \"vite\" \"tailwindcss --cwd ./ -i ./src/style.css -o ./src/output.css --watch\"",
+        "dev": "vite",
         "build": "vue-tsc -b && vite build",
         "preview": "vite preview",
         "format": "prettier --write \"**/*.{js,jsx,ts,tsx,vue,json,css,scss,md}\"",
@@ -30,7 +31,7 @@
         "@floating-ui/vue": "^1.1.5",
         "@headlessui/vue": "insiders",
         "@heroicons/vue": "^2.1.1",
-        "@pickle-jar/ui": "workspace:*",
+        "@picklepilot/pickle-jar-ui": "workspace:*",
         "@tailwindcss/postcss": "^4.0.0",
         "@tailwindcss/vite": "^4.0.0",
         "@wdns/vue-code-block": "^2.3.5",
