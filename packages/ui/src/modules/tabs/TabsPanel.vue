@@ -1,7 +1,7 @@
 <template>
     <div
         v-show="selected"
-        :class="['tabs-panel', selected && 'tabs-panel-selected']"
+        :class="m('tabs-panel', selected && 'tabs-panel-selected', props.class)"
         :id="`panel-${value}`"
         role="tabpanel"
         :aria-labelledby="`tab-${value}`"
@@ -13,12 +13,15 @@
 <script setup lang="ts">
 import { inject, computed, type Ref } from 'vue'
 import type { TabsPanelProps, TabsPanelEmits } from './types'
+import { m } from '../../utils'
 
 interface Props extends TabsPanelProps {}
 
 interface Emits extends TabsPanelEmits {}
 
-const props = defineProps<Props>()
+const props = withDefaults(defineProps<Props>(), {
+    class: '',
+})
 
 const emit = defineEmits<Emits>()
 

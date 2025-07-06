@@ -1,11 +1,14 @@
 <template>
     <div
         ref="tabsListRef"
-        :class="[
-            'relative flex rounded-md text-muted-foreground',
-            orientation === 'vertical' ? 'flex-col' : 'flex-row',
-            disabled && 'opacity-50 pointer-events-none',
-        ]"
+        :class="
+            m(
+                'relative flex rounded-md text-muted-foreground',
+                orientation === 'vertical' ? 'flex-col' : 'flex-row',
+                disabled && 'opacity-50 pointer-events-none',
+                props.class
+            )
+        "
         role="tablist"
         :aria-orientation="orientation"
     >
@@ -19,7 +22,7 @@
         <!-- Animated underline -->
         <div
             ref="underlineRef"
-            class="absolute bg-primary h-[2px] transition-all duration-200 ease-out pointer-events-none z-0 -bottom-2"
+            class="absolute bg-primary h-[2px] transition-all duration-200 ease-out pointer-events-none z-0 -bottom-1.5"
             :style="underlineStyle"
         />
 
@@ -30,6 +33,7 @@
 <script setup lang="ts">
 import { inject, computed, ref, onMounted, nextTick, provide } from 'vue'
 import type { TabsListProps, TabsListEmits, TabsContext } from './types'
+import { m } from '../../utils'
 
 interface Props extends TabsListProps {}
 
@@ -38,6 +42,7 @@ interface Emits extends TabsListEmits {}
 const props = withDefaults(defineProps<Props>(), {
     orientation: 'horizontal',
     disabled: false,
+    class: '',
 })
 
 const emit = defineEmits<Emits>()

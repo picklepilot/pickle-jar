@@ -3,7 +3,7 @@
         :class="
             m(
                 'flex',
-                orientation === 'vertical' ? 'flex-col' : 'flex-row',
+                orientation === 'vertical' ? 'flex-row' : 'flex-col',
                 disabled && 'opacity-50 pointer-events-none',
                 props.class
             )
