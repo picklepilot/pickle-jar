@@ -59,7 +59,7 @@ export interface TabsTriggerEmits {
 
 export interface TabsContentProps {
     /** The value of this tab content */
-    value: string
+    value?: string
     /** Whether this tab content is selected */
     selected?: boolean
     /** CSS class to apply to the content element */
