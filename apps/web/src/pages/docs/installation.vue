@@ -1,5 +1,11 @@
 <script setup lang="ts">
 import DocsLayout from '@/components/docs/DocsLayout.vue'
+import {
+    CodeBlock,
+    CodeBlockTabButton,
+    CodeBlockTab,
+} from '@picklepilot/pickle-jar-ui'
+import { Play } from 'lucide-vue-next'
 </script>
 
 <template>
@@ -14,9 +20,11 @@ import DocsLayout from '@/components/docs/DocsLayout.vue'
             <h2>Prerequisites</h2>
             <p>Before you begin, make sure you have the following installed:</p>
             <ul>
-                <li>Node.js 16.x or later</li>
-                <li>Vue 3.x</li>
-                <li>Tailwind CSS 3.x</li>
+                <li>Node.js 18.x or later</li>
+                <li>Vue 3.5.x or later</li>
+                <li>Tailwind CSS 4.x</li>
+                <li>TypeScript 5.x</li>
+                <li>pnpm (recommended) or npm/yarn</li>
             </ul>
 
             <h2>Installation Steps</h2>
@@ -24,19 +32,44 @@ import DocsLayout from '@/components/docs/DocsLayout.vue'
                 You can install Pickle UI using your preferred package manager:
             </p>
 
-            <div class="rounded-lg bg-gray-50 p-4">
+            <div>
                 <h3 class="mt-0">Using pnpm</h3>
-                <pre><code>pnpm add @pickle-jar/ui</code></pre>
+                <CodeBlock
+                    code="pnpm add @picklepilot/pickle-jar-ui"
+                    language="bash"
+                    shiki-theme="github-light"
+                >
+                    <template #tabs>
+                        <CodeBlockTabButton
+                            id="demo"
+                            label="Demo"
+                            :icon="Play"
+                        />
+                    </template>
+
+                    <CodeBlockTab id="demo" label="Demo">
+                        <p>
+                            This is a live demonstration of the User creation
+                            functionality.
+                        </p>
+                    </CodeBlockTab>
+                </CodeBlock>
             </div>
 
             <div class="rounded-lg bg-gray-50 p-4 mt-4">
                 <h3 class="mt-0">Using npm</h3>
-                <pre><code>npm install @pickle-jar/ui</code></pre>
+                <CodeBlock
+                    code="npm install @picklepilot/pickle-jar-ui"
+                    language="bash"
+                />
             </div>
 
             <div class="rounded-lg bg-gray-50 p-4 mt-4">
                 <h3 class="mt-0">Using yarn</h3>
-                <pre><code>yarn add @pickle-jar/ui</code></pre>
+                <CodeBlock
+                    code="yarn add @picklepilot/pickle-jar-ui"
+                    language="bash"
+                />
             </div>
 
             <h2>Configuration</h2>
@@ -47,32 +80,55 @@ import DocsLayout from '@/components/docs/DocsLayout.vue'
 
             <div class="rounded-lg bg-gray-50 p-4">
                 <h3 class="mt-0">1. Import Components</h3>
-                <pre class="language-vue"><code>&lt;script setup&gt;
-import { Button, Input } from '@pickle-jar/ui'
-&lt;/script&gt;</code></pre>
+                <CodeBlock
+                    code="<script setup>
+import { Button, Input } from '@picklepilot/pickle-jar-ui'
+</script>"
+                    language="vue"
+                />
             </div>
 
             <div class="rounded-lg bg-gray-50 p-4 mt-4">
-                <h3 class="mt-0">2. Configure Tailwind CSS</h3>
+                <h3 class="mt-0">2. Configure Tailwind CSS 4.x</h3>
                 <p>
-                    Add the following to your <code>tailwind.config.js</code>:
+                    Create or update your main CSS file (e.g.,
+                    <code>src/style.css</code>):
                 </p>
-                <pre
-                    class="language-js"
-                ><code>/** @type {import('tailwindcss').Config} */
-export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-    "./node_modules/@pickle-jar/ui/**/*.{vue,js,ts,jsx,tsx}"
-  ],
-  theme: {
-    extend: {},
-  },
+                <CodeBlock
+                    code="@import 'tailwindcss';
+
+@source './src/**/*.{js,ts,jsx,tsx,vue}';
+@source './node_modules/@picklepilot/pickle-jar-ui/**/*.{vue,js,ts,jsx,tsx}';
+
+/* Your custom styles here */"
+                    language="css"
+                />
+                <p class="mt-2 text-sm text-gray-600">
+                    <strong>Note:</strong> Tailwind CSS 4.x uses a new
+                    configuration approach with <code>@source</code> directives
+                    instead of a <code>tailwind.config.js</code> file.
+                </p>
+            </div>
+
+            <div class="rounded-lg bg-gray-50 p-4 mt-4">
+                <h3 class="mt-0">3. Configure Vite (Optional)</h3>
+                <p>
+                    If you're using Vite, you can add the Tailwind CSS plugin to
+                    your <code>vite.config.ts</code>:
+                </p>
+                <CodeBlock
+                    code="import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+import tailwindcss from '@tailwindcss/vite'
+
+export default defineConfig({
   plugins: [
-    require('@tailwindcss/forms'),
+    vue(),
+    tailwindcss(),
   ],
-}</code></pre>
+})"
+                    language="typescript"
+                />
             </div>
 
             <h2>Next Steps</h2>

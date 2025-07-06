@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+
+@import '@picklepilot/pickle-jar-ui/theme.css';
 @import 'tailwindcss';
-@plugin '@tailwindcss/forms';
+@import 'tailwindcss/utilities';
+
+@source './**/*.{js,ts,jsx,tsx,vue}';
+@source '../../../packages/ui/src/**/*.{js,ts,jsx,tsx,vue}';
 
 .cal-sans-regular {
     font-family: 'Cal Sans', sans-serif;
@@ -23,7 +28,41 @@
     ::before,
     ::backdrop,
     ::file-selector-button {
-        border-color: var(--color-zinc-200, currentColor);
+        border-color: var(--color-neutral-200, currentColor);
+    }
+}
+
+@layer theme {
+    :root {
+        --background: oklch(0.98 0 0);
+        --foreground: oklch(0.145 0 0);
+
+        --card: oklch(0.985 0 0);
+        --card-foreground: oklch(0.145 0 0);
+
+        --popover: oklch(0.98 0 0);
+        --popover-foreground: oklch(0.1 0 0);
+
+        --primary: oklch(0.1 0 0);
+        --primary-foreground: oklch(0.98 0 0);
+
+        --secondary: oklch(0.95 0.01 30);
+        --secondary-foreground: oklch(0.3 0.01 30);
+
+        --muted: oklch(0.97 0 0);
+        --muted-foreground: oklch(0.708 0 0);
+
+        --accent: oklch(0.922 0 0);
+        --accent-foreground: oklch(0.145 0 0);
+
+        --destructive: oklch(0.7 0.25 25);
+        --destructive-foreground: oklch(0.98 0 0);
+
+        --border: oklch(0.8 0.01 30 / 0.9);
+        --input: oklch(0.9 0.01 30);
+        --ring: oklch(0.9 0.01 30);
+
+        --radius: 0.625rem;
     }
 }
 
@@ -69,19 +108,19 @@ Make sure disabled buttons don't get the pointer cursor.
 }
 
 .prose {
-    @apply text-zinc-600;
+    @apply text-neutral-600;
 }
 
 .prose h1 {
-    @apply text-4xl font-bold text-zinc-900;
+    @apply text-4xl font-semibold text-neutral-900;
 }
 
 .prose h2 {
-    @apply mt-8 text-2xl font-semibold text-zinc-900;
+    @apply mt-8 text-2xl font-medium text-neutral-900;
 }
 
 .prose h3 {
-    @apply mt-6 text-xl font-semibold text-zinc-900;
+    @apply mt-6 text-xl font-medium text-neutral-900;
 }
 
 .prose p {
@@ -89,21 +128,9 @@ Make sure disabled buttons don't get the pointer cursor.
 }
 
 .prose .lead {
-    @apply text-xl text-zinc-500 font-normal;
+    @apply text-xl text-neutral-500 font-normal;
 }
 
 .prose ul {
     @apply mt-4 list-disc pl-6;
-}
-
-.prose pre {
-    @apply mt-4 overflow-x-auto rounded-lg bg-zinc-900 p-4 text-sm text-zinc-100;
-}
-
-.prose code {
-    @apply rounded bg-zinc-100 px-1.5 py-0.5 text-sm text-zinc-900;
-}
-
-.prose pre code {
-    @apply bg-transparent p-0 text-zinc-100;
 }

@@ -60,7 +60,7 @@ const componentData = computed(() => ({
 <template>
     <DocsLayout>
         <div class="prose prose-gray max-w-none">
-            <h1>{{ componentData.title }}</h1>
+            <h1>{{ componentData.title }} PICKLE</h1>
             <p class="lead">{{ componentData.description }}</p>
 
             <h2>Usage</h2>
@@ -75,7 +75,7 @@ const componentData = computed(() => ({
 &lt;/template&gt;
 
 &lt;script setup&gt;
-import { {{ componentName }} } from '@pickle-jar/ui'
+import { {{ componentName }} } from '@picklepilot/pickle-jar-ui'
 &lt;/script&gt;</code></pre>
             </div>
 

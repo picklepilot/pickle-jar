@@ -33,7 +33,7 @@ import DocsLayout from '@/components/docs/DocsLayout.vue'
 
 &lt;script setup&gt;
 import { ref } from 'vue'
-import { Button, Input } from '@pickle-jar/ui'
+import { Button, Input } from '@picklepilot/pickle-jar-ui'
 
 const name = ref('')
 &lt;/script&gt;</code></pre>
@@ -90,7 +90,7 @@ const name = ref('')
 
 &lt;script setup&gt;
 import { ref } from 'vue'
-import { Input, Select, Checkbox, Button } from '@pickle-jar/ui'
+import { Input, Select, Checkbox, Button } from '@picklepilot/pickle-jar-ui'
 
 const form = ref({
   name: '',
