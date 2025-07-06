@@ -11,11 +11,11 @@
         --popover: oklch(0.98 0 0);
         --popover-foreground: oklch(0.1 0 0);
 
-        --primary: oklch(0.1 0 0);
-        --primary-foreground: oklch(0.98 0 0);
+        --primary: oklch(0.14 0 0);
+        --primary-foreground: oklch(0.99 0 0);
 
-        --secondary: oklch(0.95 0.01 30);
-        --secondary-foreground: oklch(0.3 0.01 30);
+        --secondary: oklch(0.97 0 0);
+        --secondary-foreground: oklch(0.14 0 0);
 
         --muted: oklch(0.97 0 0);
         --muted-foreground: oklch(0.708 0 0);
