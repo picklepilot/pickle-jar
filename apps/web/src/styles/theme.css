@@ -1,0 +1,90 @@
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+
+/* @import '../src/styles/globals.css'; */
+@import '@picklepilot/pickle-jar-ui/base.css';
+@import 'tailwindcss';
+/* @tailwind utilities; */
+
+@source '../**/*.{js,ts,jsx,tsx,vue}';
+@source '../../node_modules/@picklepilot/pickle-jar-ui/**/*.{js,ts,jsx,tsx,vue}';
+
+.cal-sans-regular {
+    font-family: 'Cal Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.02em;
+}
+
+/* Design System Base Tokens */
+
+/*
+Set the default cursor for buttons.
+*/
+button,
+[role='button'] {
+    cursor: pointer;
+}
+
+/*
+Make sure disabled buttons don't get the pointer cursor.
+*/
+:disabled {
+    cursor: default;
+}
+
+.tip-highlight {
+    position: relative;
+}
+
+.tip-highlight::after {
+    opacity: 0;
+    content: '';
+    display: block;
+    position: absolute;
+    border-radius: inherit;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    border: 2px solid #fde047; /* TW: text-yellow-300 */
+    background-color: rgba(255, 252, 127, 0.35); /* TW: text-yellow-300 */
+    z-index: 2;
+    transition: opacity 0.3s ease-in-out;
+    pointer-events: none;
+}
+
+.tip-highlight.active::after {
+    opacity: 1;
+}
+
+.prose {
+    @apply text-neutral-600;
+}
+
+.prose h1 {
+    @apply text-4xl font-semibold text-neutral-900;
+}
+
+.prose h2 {
+    @apply mt-8 text-2xl font-medium text-neutral-900;
+}
+
+.prose h3 {
+    @apply mt-6 text-xl font-medium text-neutral-900;
+}
+
+.prose p {
+    @apply mt-4;
+}
+
+.prose .lead {
+    @apply text-xl text-neutral-500 font-normal;
+}
+
+.prose ul {
+    @apply mt-4 list-disc pl-6;
+}
+
+code {
+    @apply bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] outline-none;
+}

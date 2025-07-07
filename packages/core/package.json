@@ -1,0 +1,63 @@
+{
+    "name": "@picklepilot/pickle-jar-core",
+    "version": "0.1.0-alpha.3",
+    "type": "module",
+    "main": "./dist/pickle-jar-core.umd.js",
+    "module": "./dist/pickle-jar-core.es.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        },
+        "./styles/tailwind.css": "./src/styles/tailwind.css",
+        "./dist/styles.css": "./dist/styles.css",
+        "./utils": "./src/utils/index.ts",
+        "./styles": {
+            "import": "./dist/pickle-jar.css"
+        },
+        "./pickle-jar-src.css": "./src/styles/pickle-jar-src.css"
+    },
+    "files": [
+        "dist",
+        "src/styles/pickle-jar-src.css"
+    ],
+    "scripts": {
+        "build": "vite build && tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./dist/pickle-jar.css",
+        "dev": "vite build --watch",
+        "tailwind:build": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./dist/pickle-jar.css",
+        "tailwind:watch": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./src/styles/pickle-jar.css --watch",
+        "build:all": "npm run tailwind:build && npm run build",
+        "prepare": "npm run build:all",
+        "prepublishOnly": "npm run build:all"
+    },
+    "dependencies": {
+        "tailwindcss": "^4.1.10"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.1.10",
+        "autoprefixer": "^10.4.21",
+        "postcss": "^8.5.6",
+        "typescript": "~5.6.2",
+        "vite": "^6.0.5",
+        "vite-plugin-dts": "^4.4.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/picklepilot/pickle-jar.git",
+        "directory": "packages/core"
+    },
+    "publishConfig": {
+        "access": "public",
+        "registry": "https://registry.npmjs.org/"
+    },
+    "keywords": [
+        "pickle-jar",
+        "core",
+        "design-system",
+        "tailwind",
+        "css"
+    ],
+    "author": "PicklePilot",
+    "license": "MIT"
+}

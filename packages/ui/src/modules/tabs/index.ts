@@ -1,0 +1,11 @@
+export { default as Tabs } from './Tabs.vue'
+export { default as TabsList } from './TabsList.vue'
+export { default as TabsTrigger } from './TabsTrigger.vue'
+export { default as TabsContent } from './TabsContent.vue'
+export { default as TabsPanel } from './TabsPanel.vue'
+
+export type { TabsProps, TabsEmits } from './types'
+export type { TabsListProps, TabsListEmits } from './types'
+export type { TabsTriggerProps, TabsTriggerEmits } from './types'
+export type { TabsContentProps, TabsContentEmits } from './types'
+export type { TabsPanelProps, TabsPanelEmits } from './types'
