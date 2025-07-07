@@ -8,13 +8,15 @@ const componentName = computed(() => route.params.component as string)
 
 // Use shallowRef to hold the async component
 const AsyncComp = shallowRef(
-    defineAsyncComponent(() => import(`./${componentName.value}.vue`))
+    defineAsyncComponent(
+        () => import(`./components/${componentName.value}.vue`)
+    )
 )
 
 watch(componentName, () => {
     console.log('componentName', componentName.value)
     AsyncComp.value = defineAsyncComponent(
-        () => import(`./${componentName.value}.vue`)
+        () => import(`./components/${componentName.value}.vue`)
     )
 })
 </script>

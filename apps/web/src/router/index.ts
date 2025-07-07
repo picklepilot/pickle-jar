@@ -30,7 +30,7 @@ const router = createRouter({
         },
         {
             path: '/docs/components/:component',
-            component: () => import('../pages/docs/components/component.vue'),
+            component: () => import('../pages/docs/component.vue'),
         },
         {
             path: '/docs/components',
