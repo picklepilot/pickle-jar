@@ -12,6 +12,7 @@ export { default as CardDescription } from './components/card/CardDescription.vu
 export { default as CardFooter } from './components/card/CardFooter.vue'
 export { default as CardHeader } from './components/card/CardHeader.vue'
 export { default as CardTitle } from './components/card/CardTitle.vue'
+export { default as Checkbox } from './components/checkbox/Checkbox.vue'
 // Export CodeBlock components
 export { default as CodeBlock } from './components/code-block/CodeBlock.vue'
 export { default as CodeBlockTab } from './components/code-block/CodeBlockTab.vue'
@@ -45,6 +46,7 @@ export { default as DrawerHeader } from './components/drawer/DrawerHeader.vue'
 export { default as DrawerTitle } from './components/drawer/DrawerTitle.vue'
 export { default as EmptyState } from './components/empty-state/EmptyState.vue'
 export { default as Input } from './components/input/Input.vue'
+export { default as Label } from './components/label/Label.vue'
 export { default as Modal } from './components/modal/Modal.vue'
 export { default as ModalBody } from './components/modal/ModalBody.vue'
 export { default as ModalClose } from './components/modal/ModalClose.vue'
@@ -98,6 +100,13 @@ export {
 
 // Export types
 export * from './types/index.js'
+export type {
+    CheckboxProps,
+    CheckboxEmits,
+    CheckboxTheme,
+    CheckboxExpose,
+    CheckboxInstance,
+} from './components/checkbox/Checkbox'
 
 // Export composables
 export * from './modules/confirmation-dialog/useConfirmationDialog'
