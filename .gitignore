@@ -13,7 +13,7 @@ pids
 *.pid.lock
 
 # Directory for built artifacts
-# dist
+dist
 # Directory for turbo artifacts
 .turbo
 
