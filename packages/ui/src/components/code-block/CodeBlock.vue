@@ -111,7 +111,7 @@
                             v-if="!isLoading"
                             :class="
                                 m(
-                                    'font-mono text-sm leading-relaxed [&>pre]:p-4',
+                                    'font-mono text-sm leading-relaxed',
                                     customTheme.pre
                                 )
                             "
@@ -160,6 +160,7 @@ import Button from '../button/Button.vue'
 import { Check, Clipboard } from 'lucide-vue-next'
 import { useStorybookTheme } from '../../composables/useStorybookTheme'
 import { provideCodeBlockContext } from './useCodeBlockContext'
+import { transformerNotationHighlight } from '@shikijs/transformers'
 
 // Define only the languages we actually use
 const SUPPORTED_LANGUAGES = [
@@ -280,6 +281,13 @@ const shikiThemeComputed = computed(() => {
     return props.shikiTheme
 })
 
+const shikiThemesComputed = computed(() => {
+    if (props.autoTheme) {
+        return [props.lightTheme, props.darkTheme]
+    }
+    return [props.shikiTheme]
+})
+
 const initializeHighlighter = async () => {
     try {
         isLoading.value = true
@@ -300,7 +308,7 @@ const initializeHighlighter = async () => {
         const { getSingletonHighlighter } = await import('shiki')
 
         highlighter.value = await getSingletonHighlighter({
-            themes: [shikiThemeComputed.value],
+            themes: shikiThemesComputed.value,
             langs: [normalizedLanguage],
         })
 
@@ -347,6 +355,8 @@ const highlightCode = async () => {
                 ...defaultOptions.colorReplacements,
                 ...props.codeToHtmlOptions?.colorReplacements,
             },
+            // Add transformers
+            transformers: [transformerNotationHighlight()],
         }
 
         highlightedCode.value = highlighter.value.codeToHtml(

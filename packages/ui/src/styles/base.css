@@ -200,4 +200,37 @@
     body {
         @apply bg-background text-foreground;
     }
+
+    pre:not(.shiki) code,
+    p:not(.shiki) code {
+        font-family: 'Geist Mono', monospace;
+        @apply bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] text-[0.8rem] outline-none;
+    }
+
+    pre.shiki {
+        @apply p-0;
+    }
+
+    .shiki {
+        .line {
+            @apply py-0.5 pl-4;
+        }
+
+        .line.highlighted {
+            @apply bg-muted-foreground/10 border-l-2 border-primary;
+        }
+
+        code {
+            /* font-family: monospace, sans-serif; */
+            counter-reset: step;
+            counter-increment: step 0;
+            @apply grid font-mono text-[0.8rem] font-normal;
+
+            .line::before {
+                content: counter(step);
+                counter-increment: step;
+                @apply text-neutral-400/70 text-right inline-block mr-5 w-4;
+            }
+        }
+    }
 }

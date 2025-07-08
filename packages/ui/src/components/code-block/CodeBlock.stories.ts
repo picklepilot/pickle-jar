@@ -71,8 +71,8 @@ const sampleVueCode = `<template>
 import { ref } from 'vue'
 
 const title = ref('Hello Vue!')
-const message = ref('Welcome to your Vue.js app')
-const count = ref(0)
+const message = ref('Welcome to your Vue.js app') // [\!code highlight]
+const count = ref(0) // [\!code highlight]
 
 const incrementCount = () => {
     count.value++
@@ -333,7 +333,7 @@ export const VueCode: Story = {
     args: {
         code: sampleVueCode,
         language: 'vue',
-        shikiTheme: 'monokai',
+        shikiTheme: 'github-light',
     },
 }
 
