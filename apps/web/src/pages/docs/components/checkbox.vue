@@ -29,6 +29,7 @@ const componentData = computed(() => ({
             type: 'boolean',
             default: 'false',
             description: 'The current checked state of the checkbox',
+            options: ['true', 'false'],
         },
         {
             name: 'disabled',
@@ -36,6 +37,7 @@ const componentData = computed(() => ({
             default: 'false',
             description:
                 'Whether the checkbox is disabled. When true, the checkbox cannot be interacted with and shows a disabled state.',
+            options: ['true', 'false'],
         },
         {
             name: 'indeterminate',
@@ -43,6 +45,7 @@ const componentData = computed(() => ({
             default: 'false',
             description:
                 'Whether the checkbox is in an indeterminate state. When true, shows a different visual state (typically a dash instead of a check).',
+            options: ['true', 'false'],
         },
         {
             name: 'id',
@@ -70,6 +73,7 @@ const componentData = computed(() => ({
             type: 'boolean',
             default: 'false',
             description: 'Whether the checkbox is required in a form.',
+            options: ['true', 'false'],
         },
         {
             name: 'theme',

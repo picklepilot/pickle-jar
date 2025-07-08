@@ -2,19 +2,12 @@
 import DocsLayout from '@/components/docs/DocsLayout.vue'
 import {
     CodeBlock,
-    CodeBlockTabButton,
-    CodeBlockTab,
-    Drawer,
-    DrawerContent,
-    DrawerTrigger,
-    Button,
     Tabs,
     TabsList,
     TabsTrigger,
     TabsContent,
     TabsPanel,
 } from '@picklepilot/pickle-jar-ui'
-import { Play } from 'lucide-vue-next'
 </script>
 
 <template>
