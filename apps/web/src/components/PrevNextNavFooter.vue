@@ -8,7 +8,7 @@ const context = useNavigationContext()
 <template>
     <div
         v-if="context.previousPage?.value || context.nextPage?.value"
-        class="mt-16 pt-8 border-t border-neutral-200"
+        class="mt-16 pt-8 border-t border-border"
     >
         <div class="flex items-center justify-between">
             <!-- Previous Page -->

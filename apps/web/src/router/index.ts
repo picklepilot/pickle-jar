@@ -20,8 +20,8 @@ const router = createRouter({
             component: () => import('../pages/docs/installation.vue'),
         },
         {
-            path: '/docs/quick-start',
-            component: () => import('../pages/docs/quick-start.vue'),
+            path: '/docs/theming',
+            component: () => import('../pages/docs/theming.vue'),
         },
         {
             path: '/docs/components/column-manager',

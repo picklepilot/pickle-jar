@@ -33,9 +33,9 @@ export function provideNavigationContext() {
                     active: route.path === '/docs/installation',
                 },
                 {
-                    title: 'Quick Start',
-                    href: '/docs/quick-start',
-                    active: route.path === '/docs/quick-start',
+                    title: 'Theming',
+                    href: '/docs/theming',
+                    active: route.path === '/docs/theming',
                 },
             ],
         },
@@ -53,42 +53,57 @@ export function provideNavigationContext() {
                     active: route.path === '/docs/components/input',
                 },
                 {
-                    title: 'Select',
-                    href: '/docs/components/select',
-                    active: route.path === '/docs/components/select',
+                    title: 'Dropdown',
+                    href: '/docs/components/dropdown',
+                    active: route.path === '/docs/components/dropdown',
                 },
                 {
                     title: 'Label',
                     href: '/docs/components/label',
                     active: route.path === '/docs/components/label',
                 },
-            ],
-        },
-        {
-            title: 'Modules',
-            items: [
                 {
-                    title: 'Column Manager',
-                    href: '/docs/components/column-manager',
-                    active: route.path === '/docs/components/column-manager',
+                    title: 'Table',
+                    href: '/docs/components/table',
+                    active: route.path === '/docs/components/table',
                 },
                 {
-                    title: 'Command Palette',
-                    href: '/docs/modules/command-palette',
-                    active: route.path === '/docs/modules/command-palette',
+                    title: 'Checkbox',
+                    href: '/docs/components/checkbox',
+                    active: route.path === '/docs/components/checkbox',
                 },
                 {
-                    title: 'Fluent Query Builder',
-                    href: '/docs/modules/fluent-query-builder',
-                    active: route.path === '/docs/modules/fluent-query-builder',
-                },
-                {
-                    title: 'Tabs',
-                    href: '/docs/modules/tabs',
-                    active: route.path === '/docs/modules/tabs',
+                    title: 'Drawer',
+                    href: '/docs/components/drawer',
+                    active: route.path === '/docs/components/drawer',
                 },
             ],
         },
+        // {
+        //     title: 'Modules',
+        //     items: [
+        //         {
+        //             title: 'Column Manager',
+        //             href: '/docs/components/column-manager',
+        //             active: route.path === '/docs/components/column-manager',
+        //         },
+        //         {
+        //             title: 'Command Palette',
+        //             href: '/docs/modules/command-palette',
+        //             active: route.path === '/docs/modules/command-palette',
+        //         },
+        //         {
+        //             title: 'Fluent Query Builder',
+        //             href: '/docs/modules/fluent-query-builder',
+        //             active: route.path === '/docs/modules/fluent-query-builder',
+        //         },
+        //         {
+        //             title: 'Tabs',
+        //             href: '/docs/modules/tabs',
+        //             active: route.path === '/docs/modules/tabs',
+        //         },
+        //     ],
+        // },
     ])
 
     // Flatten all navigation items for easier traversal

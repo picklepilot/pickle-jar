@@ -1,90 +1,17 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useNavigationContext } from '@/composables/useNavigationContext'
 
-const route = useRoute()
+const context = useNavigationContext()
+
 const isSidebarOpen = defineModel<boolean>('isSidebarOpen', {
     required: true,
 })
-
-const navigation = computed(() => [
-    {
-        title: 'Getting Started',
-        items: [
-            {
-                title: 'Introduction',
-                href: '/docs/introduction',
-                active: route.path === '/docs/introduction',
-            },
-            {
-                title: 'Installation',
-                href: '/docs/installation',
-                active: route.path === '/docs/installation',
-            },
-            {
-                title: 'Quick Start',
-                href: '/docs/quick-start',
-                active: route.path === '/docs/quick-start',
-            },
-        ],
-    },
-    {
-        title: 'Components',
-        items: [
-            {
-                title: 'Button',
-                href: '/docs/components/button',
-                active: route.path === '/docs/components/button',
-            },
-            {
-                title: 'Input',
-                href: '/docs/components/input',
-                active: route.path === '/docs/components/input',
-            },
-            {
-                title: 'Select',
-                href: '/docs/components/select',
-                active: route.path === '/docs/components/select',
-            },
-            {
-                title: 'Label',
-                href: '/docs/components/label',
-                active: route.path === '/docs/components/label',
-            },
-        ],
-    },
-    {
-        title: 'Modules',
-        items: [
-            {
-                title: 'Column Manager',
-                href: '/docs/components/column-manager',
-                active: route.path === '/docs/components/column-manager',
-            },
-            {
-                title: 'Command Palette',
-                href: '/docs/modules/command-palette',
-                active: route.path === '/docs/modules/command-palette',
-            },
-            {
-                title: 'Fluent Query Builder',
-                href: '/docs/modules/fluent-query-builder',
-                active: route.path === '/docs/modules/fluent-query-builder',
-            },
-            {
-                title: 'Tabs',
-                href: '/docs/modules/tabs',
-                active: route.path === '/docs/modules/tabs',
-            },
-        ],
-    },
-])
 </script>
 
 <template>
     <aside
         :class="[
-            'fixed inset-y-0 left-0 z-30 w-64 transform border-r border-neutral-200 bg-white pt-16 transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-auto lg:pt-0',
+            'fixed inset-y-0 left-0 z-30 w-64 transform border-r bg-background pt-16 transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-auto lg:pt-0 lg:h-full lg:flex-shrink-0 lg:overflow-hidden',
             isSidebarOpen ? 'translate-x-0' : '-translate-x-full',
         ]"
     >
@@ -95,16 +22,19 @@ const navigation = computed(() => [
             ></div>
         </div>
 
-        <nav class="h-full overflow-y-auto px-6 py-6">
+        <nav class="h-full overflow-y-auto px-6 py-6 lg:min-h-0">
             <div class="space-y-6 sticky top-0">
-                <div v-for="section in navigation" :key="section.title">
+                <div
+                    v-for="section in context.navigation.value"
+                    :key="section.title"
+                >
                     <h3 class="font-medium text-sm text-muted-foreground">
                         {{ section.title }}
                     </h3>
                     <ul class="mt-2 space-y-1">
                         <li v-for="item in section.items" :key="item.href">
                             <RouterLink
-                                :to="item.href"
+                                :to="item.href as string"
                                 class="block rounded-lg py-1 sm:px-3 sm:py-2 text-xl sm:text-lg text-foreground font-medium hover:bg-accent hover:text-primary"
                                 :class="{
                                     'bg-accent/50 text-primary': item.active,
