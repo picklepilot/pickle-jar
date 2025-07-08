@@ -28,11 +28,12 @@
         "dev": "vite build --watch",
         "tailwind:build": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./dist/pickle-jar.css",
         "tailwind:watch": "tailwindcss --cwd ./ -i ./src/styles/pickle-jar-src.css -o ./src/styles/pickle-jar.css --watch",
-        "build:all": "npm run tailwind:build && npm run build",
-        "prepare": "npm run build:all",
-        "prepublishOnly": "npm run build:all"
+        "build:all": "pnpm run tailwind:build && pnpm run build",
+        "prepare": "pnpm run build:all",
+        "prepublishOnly": "pnpm run build:all"
     },
     "dependencies": {
+        "@tailwindcss/cli": "^4.1.11",
         "markdown-it": "^14.1.0",
         "tailwindcss": "^4.1.10"
     },
