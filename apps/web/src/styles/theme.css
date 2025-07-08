@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Geist+Mono:wght@100..900&display=swap');
 
 /* @import '../src/styles/globals.css'; */
 @import '@picklepilot/pickle-jar-ui/base.css';
@@ -6,7 +6,24 @@
 /* @tailwind utilities; */
 
 @source '../**/*.{js,ts,jsx,tsx,vue}';
-@source '../../node_modules/@picklepilot/pickle-jar-ui/**/*.{js,ts,jsx,tsx,vue}';
+
+@layer theme {
+    :root {
+        --font-mono: 'Geist Mono', monospace;
+        --background: #ffffff;
+        --z-modal-backdrop: 1007;
+        --z-popover: 1002;
+        --z-tooltip: 1003;
+        --z-dropdown: 1004;
+        --z-sticky: 1005;
+        --z-fixed: 1006;
+        --z-modal: 1008;
+    }
+
+    .dark {
+        --background: oklch(0.14 0 0);
+    }
+}
 
 .cal-sans-regular {
     font-family: 'Cal Sans', sans-serif;
@@ -62,29 +79,31 @@ Make sure disabled buttons don't get the pointer cursor.
 }
 
 .prose h1 {
-    @apply text-4xl font-semibold text-neutral-900;
+    @apply text-4xl font-semibold text-foreground;
 }
 
 .prose h2 {
-    @apply mt-8 text-2xl font-medium text-neutral-900;
+    @apply mt-8 text-2xl font-medium text-foreground;
 }
 
 .prose h3 {
-    @apply mt-6 text-xl font-medium text-neutral-900;
+    @apply mt-6 text-xl font-medium text-foreground;
 }
 
 .prose p {
-    @apply mt-4;
+    @apply mt-4 font-light text-foreground;
 }
 
 .prose .lead {
-    @apply text-xl text-neutral-500 font-normal;
+    @apply text-lg font-light text-muted-foreground;
 }
 
 .prose ul {
     @apply mt-4 list-disc pl-6;
 }
 
-code {
-    @apply bg-muted relative rounded-md px-[0.3rem] py-[0.2rem] font-mono text-[0.8rem] outline-none;
+.markdown-it-content {
+    a {
+        @apply text-primary underline hover:text-primary/80;
+    }
 }
