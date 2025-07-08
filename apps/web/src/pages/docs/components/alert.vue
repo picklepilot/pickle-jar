@@ -5,8 +5,6 @@ import {
     AlertIcon,
     AlertTitle,
     AlertDescription,
-    AlertAction,
-    Button,
     CodeBlock,
     Tabs,
     TabsList,
@@ -25,7 +23,6 @@ import {
     CheckIcon,
     AlertTriangleIcon,
     XCircleIcon,
-    LoaderIcon,
 } from 'lucide-vue-next'
 
 const componentData = computed(() => ({
