@@ -3,7 +3,10 @@
         :class="
             m(
                 flush ? 'rounded-0' : 'rounded-md',
-                'relative w-full rounded-lg border border-ring px-4 py-3 text-sm grid has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>svg]:gap-x-3 gap-y-0.5 items-start [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current bg-card text-card-foreground',
+                'relative w-full rounded-lg border border-ring px-4 py-3 text-sm grid has-[>.alert-icon]:grid-cols-[calc(var(--spacing)*4)_1fr] grid-cols-[0_1fr] has-[>.alert-icon>svg]:gap-x-3 gap-y-0.5 items-start [&>.alert-icon>svg]:size-4 [&>.alert-icon>svg]:translate-y-0.5 [&>.alert-icon>svg]:text-current bg-card text-card-foreground',
+                bgClasses,
+                borderClasses,
+                colorClass,
                 theme.alert
             )
         "
@@ -59,13 +62,24 @@ const props = withDefaults(
     }
 )
 
-const bgClasses = computed(() => ({
-    'bg-sky-50': props.variant === 'info' || props.variant === 'processing',
-    'bg-yellow-50': props.variant === 'warning',
-    'bg-red-50': props.variant === 'error',
-    'bg-green-50': props.variant === 'success',
-    'bg-zinc-50': props.variant === 'muted',
-}))
+const bgClasses = computed(() => {
+    if (props.variant === 'info' || props.variant === 'processing') {
+        return ['bg-sky-50']
+    }
+    if (props.variant === 'warning') {
+        return ['bg-yellow-50']
+    }
+    if (props.variant === 'error') {
+        return ['bg-red-50']
+    }
+    if (props.variant === 'success') {
+        return ['bg-green-50']
+    }
+    if (props.variant === 'muted') {
+        return ['bg-zinc-50']
+    }
+    return []
+})
 
 const borderClasses = computed(() => ({
     'border-sky-200':

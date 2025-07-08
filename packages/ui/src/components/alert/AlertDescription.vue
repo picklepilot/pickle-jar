@@ -1,6 +1,6 @@
 <template>
     <div
-        class="text-muted-foreground col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
+        class="text-current/60 col-start-2 grid justify-items-start gap-1 text-sm [&_p]:leading-relaxed"
     >
         <slot />
     </div>

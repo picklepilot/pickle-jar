@@ -43,6 +43,11 @@ export function provideNavigationContext() {
             title: 'Components',
             items: [
                 {
+                    title: 'Alert',
+                    href: '/docs/components/alert',
+                    active: route.path === '/docs/components/alert',
+                },
+                {
                     title: 'Breadcrumbs',
                     href: '/docs/components/breadcrumbs',
                     active: route.path === '/docs/components/breadcrumbs',

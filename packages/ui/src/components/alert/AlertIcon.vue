@@ -1,5 +1,5 @@
 <template>
-    <div class="shrink-0">
+    <div class="alert-icon shrink-0">
         <slot />
     </div>
 </template>
