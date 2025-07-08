@@ -13,24 +13,30 @@ import {
     <DocsLayout>
         <div class="prose prose-gray max-w-none">
             <h1 class="font-medium">Introduction</h1>
-            <p class="lead max-w-2xl">
-                <span class="font-bold">pickle jar</span> is a collection of
-                advanced reusable Vue components that you can copy and paste
-                into your apps. Accessible. Customizable. Open Source.
-            </p>
 
-            <h2>Why pickle jar?</h2>
+            <p class="lead">Before we even get started, the answer is "yes".</p>
+
             <p class="max-w-2xl">
-                There are tons of great UI libraries out there, but they're
-                sometimes missing components and modules that have probably been
-                build time and time again. I'm trying to fill those gaps a bit
-                with this library.
+                <span class="font-light">pickle jar</span> is essentially a Vue
+                (and eventually, web component) based port of the heavily-loved
+                <a
+                    href="https://ui.shadcn.com/"
+                    target="_blank"
+                    class="underline hover:text-primary/80"
+                    >shadcn/ui</a
+                >
+                project. So then, why roll another "shadcn-like" when I could
+                just leverage one of the others based on the same source? I have
+                always wanted to create and maintain my own collection of the
+                components that I find myself needing in just about every
+                project. I also have a cache of more advanced components that
+                I'd like to share with the community.
             </p>
 
             <h2>Features</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 my-8">
                 <div
-                    class="group relative bg-card rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
+                    class="group relative bg-muted rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
                 >
                     <img
                         :src="getLogoUrl('vuedotjs')"
@@ -45,7 +51,7 @@ import {
                 </div>
 
                 <div
-                    class="group relative bg-card rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
+                    class="group relative bg-muted rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
                 >
                     <img
                         :src="getLogoUrl('tailwindcss')"
@@ -60,7 +66,7 @@ import {
                 </div>
 
                 <div
-                    class="group relative bg-card rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
+                    class="group relative bg-muted rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
                 >
                     <FileCode class="w-12 h-12" stroke-width="1" />
 
@@ -75,7 +81,7 @@ import {
                 </div>
 
                 <div
-                    class="group relative bg-card rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
+                    class="group relative bg-muted rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
                 >
                     <MonitorSmartphone class="w-12 h-12" stroke-width="1" />
 
@@ -87,7 +93,7 @@ import {
                 </div>
 
                 <div
-                    class="group relative bg-card rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
+                    class="group relative bg-muted rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
                 >
                     <PersonStanding class="w-12 h-12" stroke-width="1" />
 
@@ -99,7 +105,7 @@ import {
                 </div>
 
                 <div
-                    class="group relative bg-card rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
+                    class="group relative bg-muted rounded-xl p-6 py-8 flex flex-col items-center justify-center gap-3"
                 >
                     <Moon class="w-12 h-12" stroke-width="1" />
 

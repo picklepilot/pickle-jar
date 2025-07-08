@@ -13,9 +13,19 @@ const algoliaSearchStrategy = new AlgoliaSearchStrategy({
 
 const defaultResults = [
     {
+        title: 'Introduction',
+        url: '/docs/introduction',
+        id: 'introduction',
+    },
+    {
         title: 'Installation',
         url: '/docs/installation',
         id: 'installation',
+    },
+    {
+        title: 'Theming',
+        url: '/docs/theming',
+        id: 'theming',
     },
     {
         title: 'Components',

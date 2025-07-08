@@ -4,6 +4,15 @@ import {
     CodeBlock,
     CodeBlockTabButton,
     CodeBlockTab,
+    Drawer,
+    DrawerContent,
+    DrawerTrigger,
+    Button,
+    Tabs,
+    TabsList,
+    TabsTrigger,
+    TabsContent,
+    TabsPanel,
 } from '@picklepilot/pickle-jar-ui'
 import { Play } from 'lucide-vue-next'
 </script>
@@ -12,14 +21,11 @@ import { Play } from 'lucide-vue-next'
     <DocsLayout>
         <div class="prose prose-gray max-w-none">
             <h1>Installation</h1>
-            <p class="lead">
-                Get started with Pickle UI by installing it in your Vue 3
-                project.
-            </p>
+            <p class="lead">Install and configure pickle jar using Vite.</p>
 
             <h2>Prerequisites</h2>
             <p>Before you begin, make sure you have the following installed:</p>
-            <ul>
+            <ul class="text-foreground font-light space-y-1">
                 <li>Node.js 18.x or later</li>
                 <li>Vue 3.5.x or later</li>
                 <li>Tailwind CSS 4.x</li>
@@ -27,125 +33,156 @@ import { Play } from 'lucide-vue-next'
                 <li>pnpm (recommended) or npm/yarn</li>
             </ul>
 
-            <h2>Installation Steps</h2>
-            <p>
-                You can install Pickle UI using your preferred package manager:
-            </p>
+            <div>
+                <h2>Installation Steps</h2>
+                <p>
+                    You can install pickle jar using your preferred package
+                    manager:
+                </p>
+
+                <Tabs class="mt-4 px-2 pt-2 rounded-lg bg-muted">
+                    <TabsList class="relative z-2">
+                        <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+                        <TabsTrigger value="npm">npm</TabsTrigger>
+                        <TabsTrigger value="yarn">yarn</TabsTrigger>
+                    </TabsList>
+                    <TabsContent class="-mx-2 grow min-h-px border-none">
+                        <TabsPanel
+                            value="pnpm"
+                            class="h-full border-t border-background"
+                        >
+                            <CodeBlock
+                                language="bash"
+                                code="pnpm add @picklepilot/pickle-jar-ui"
+                                auto-theme
+                                light-theme="github-light"
+                                dark-theme="github-dark"
+                                class="border-none rounded-t-none shadow-none"
+                            />
+                        </TabsPanel>
+                        <TabsPanel
+                            value="npm"
+                            class="grow min-h-px border-t border-background"
+                        >
+                            <CodeBlock
+                                language="bash"
+                                code="npm install @picklepilot/pickle-jar-ui"
+                                auto-theme
+                                light-theme="github-light"
+                                dark-theme="github-dark"
+                                class="border-none rounded-t-none shadow-none"
+                            />
+                        </TabsPanel>
+                        <TabsPanel
+                            value="yarn"
+                            class="grow min-h-px border-t border-background"
+                        >
+                            <CodeBlock
+                                language="bash"
+                                code="yarn add @picklepilot/pickle-jar-ui"
+                                auto-theme
+                                light-theme="github-light"
+                                dark-theme="github-dark"
+                                class="border-none rounded-t-none shadow-none"
+                            />
+                        </TabsPanel>
+                    </TabsContent>
+                </Tabs>
+            </div>
 
             <div>
-                <h3 class="mt-0">Using pnpm</h3>
-                <CodeBlock
-                    code="pnpm add @picklepilot/pickle-jar-ui"
-                    language="bash"
-                    shiki-theme="github-light"
-                >
-                    <template #tabs>
-                        <CodeBlockTabButton
-                            id="demo"
-                            label="Demo"
-                            :icon="Play"
-                        />
-                    </template>
+                <h2>Configuring Tailwind</h2>
+                <p>This project assumes that you're using Tailwind CSS 4.x.</p>
+                <Tabs class="mt-4 px-2 pt-2 bg-muted rounded-lg">
+                    <TabsList class="relative z-2">
+                        <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+                        <TabsTrigger value="npm">npm</TabsTrigger>
+                        <TabsTrigger value="yarn">yarn</TabsTrigger>
+                    </TabsList>
+                    <TabsContent class="-mx-2 grow min-h-px border-none">
+                        <TabsPanel
+                            value="pnpm"
+                            class="h-full border-t border-background"
+                        >
+                            <CodeBlock
+                                language="bash"
+                                code="pnpm add tailwindcss @tailwindcss/vite"
+                                auto-theme
+                                light-theme="github-light"
+                                dark-theme="github-dark"
+                                class="border-none rounded-t-none shadow-none"
+                            />
+                        </TabsPanel>
+                        <TabsPanel
+                            value="npm"
+                            class="grow min-h-px border-t border-background"
+                        >
+                            <CodeBlock
+                                language="bash"
+                                code="npm install tailwindcss @tailwindcss/vite"
+                                auto-theme
+                                light-theme="github-light"
+                                dark-theme="github-dark"
+                                class="border-none rounded-t-none shadow-none"
+                            />
+                        </TabsPanel>
+                        <TabsPanel
+                            value="yarn"
+                            class="grow min-h-px border-t border-background"
+                        >
+                            <CodeBlock
+                                language="bash"
+                                code="yarn add tailwindcss @tailwindcss/vite"
+                                auto-theme
+                                light-theme="github-light"
+                                dark-theme="github-dark"
+                                class="border-none rounded-t-none shadow-none"
+                            />
+                        </TabsPanel>
+                    </TabsContent>
+                </Tabs>
 
-                    <CodeBlockTab id="demo" label="Demo">
-                        <p>
-                            This is a live demonstration of the User creation
-                            functionality.
-                        </p>
-                    </CodeBlockTab>
-                </CodeBlock>
+                <div class="mt-6">
+                    <p>
+                        Then make sure the top of your
+                        <code>style.css</code> file looks something like this:
+                    </p>
+                    <CodeBlock
+                        code="@import '@picklepilot/pickle-jar-ui/base.css';
+@import 'tailwindcss';"
+                        language="css"
+                        auto-theme
+                        light-theme="github-light"
+                        dark-theme="github-dark"
+                        class="border-none shadow-none mt-4"
+                    />
+                </div>
             </div>
 
-            <div class="rounded-lg bg-gray-50 p-4 mt-4">
-                <h3 class="mt-0">Using npm</h3>
-                <CodeBlock
-                    code="npm install @picklepilot/pickle-jar-ui"
-                    language="bash"
-                />
-            </div>
-
-            <div class="rounded-lg bg-gray-50 p-4 mt-4">
-                <h3 class="mt-0">Using yarn</h3>
-                <CodeBlock
-                    code="yarn add @picklepilot/pickle-jar-ui"
-                    language="bash"
-                />
-            </div>
-
-            <h2>Configuration</h2>
-            <p>
-                After installation, you'll need to configure your project to use
-                Pickle UI components.
-            </p>
-
-            <div class="rounded-lg bg-gray-50 p-4">
-                <h3 class="mt-0">1. Import Components</h3>
-                <CodeBlock
-                    code="<script setup>
-import { Button, Input } from '@picklepilot/pickle-jar-ui'
-</script>"
-                    language="vue"
-                />
-            </div>
-
-            <div class="rounded-lg bg-gray-50 p-4 mt-4">
-                <h3 class="mt-0">2. Configure Tailwind CSS 4.x</h3>
+            <div>
+                <h2>Configuring Vite</h2>
                 <p>
-                    Create or update your main CSS file (e.g.,
-                    <code>src/style.css</code>):
-                </p>
-                <CodeBlock
-                    code="@import 'tailwindcss';
-
-@source './src/**/*.{js,ts,jsx,tsx,vue}';
-@source './node_modules/@picklepilot/pickle-jar-ui/**/*.{vue,js,ts,jsx,tsx}';
-
-/* Your custom styles here */"
-                    language="css"
-                />
-                <p class="mt-2 text-sm text-gray-600">
-                    <strong>Note:</strong> Tailwind CSS 4.x uses a new
-                    configuration approach with <code>@source</code> directives
-                    instead of a <code>tailwind.config.js</code> file.
-                </p>
-            </div>
-
-            <div class="rounded-lg bg-gray-50 p-4 mt-4">
-                <h3 class="mt-0">3. Configure Vite (Optional)</h3>
-                <p>
-                    If you're using Vite, you can add the Tailwind CSS plugin to
-                    your <code>vite.config.ts</code>:
+                    This project assumes that you're using Vite. If not already
+                    done, you'll need to configure Vite to use Tailwind CSS 4.x.
                 </p>
                 <CodeBlock
                     code="import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite' // [!code highlight]
 
 export default defineConfig({
   plugins: [
     vue(),
-    tailwindcss(),
+    tailwindcss(), // [!code highlight]
   ],
 })"
                     language="typescript"
+                    auto-theme
+                    light-theme="github-light"
+                    dark-theme="github-dark"
+                    class="border-none shadow-none mt-4"
                 />
             </div>
-
-            <h2>Next Steps</h2>
-            <p>Now that you have Pickle UI installed, you can:</p>
-            <ul>
-                <li>
-                    Check out the
-                    <a href="/docs/quick-start">Quick Start</a> guide
-                </li>
-                <li>
-                    Browse the <a href="/docs/components">Components</a> section
-                </li>
-                <li>
-                    Learn about <a href="/docs/theming">Theming</a> and
-                    customization
-                </li>
-            </ul>
         </div>
     </DocsLayout>
 </template>

@@ -269,15 +269,15 @@ import { Button } from '@picklepilot/pickle-jar-ui'
         <!-- Variants Example -->
         <div class="space-y-4 mt-8">
             <h3>With Variants</h3>
-            <Tabs class="px-2 pt-2 border rounded-lg">
+            <Tabs class="px-2 pt-2 bg-background border rounded-lg">
                 <TabsList class="relative z-2">
                     <TabsTrigger value="preview">Preview</TabsTrigger>
                     <TabsTrigger value="code">Code</TabsTrigger>
                 </TabsList>
-                <TabsContent class="-mx-2 grow min-h-px border-none">
+                <TabsContent class="-mx-2 grow min-h-px">
                     <TabsPanel value="preview" class="h-full border-t">
                         <div
-                            class="flex items-center justify-center gap-2 p-8 h-full min-h-72 bg-white rounded-lg"
+                            class="flex items-center justify-center gap-2 p-8 h-full min-h-72 rounded-lg"
                         >
                             <Button variant="default">Default</Button>
                             <Button variant="secondary">Secondary</Button>
