@@ -61,8 +61,8 @@
         --code-number: oklch(0.6 0.1 250);
 
         /* Selection Colors */
-        --selection: oklch(0.8 0.1 250 / 0.3);
-        --selection-foreground: oklch(0.145 0 0);
+        --selection: oklch(0.14 0 0);
+        --selection-foreground: oklch(0.99 0 0);
 
         /* Border Radius */
         --radius: 0.625rem;
@@ -128,8 +128,8 @@
         --code-number: oklch(0.7 0.1 250);
 
         /* Selection Colors */
-        --selection: oklch(0.3 0.1 250 / 0.3);
-        --selection-foreground: oklch(0.985 0 0);
+        --selection: oklch(0.99 0 0);
+        --selection-foreground: oklch(0.14 0 0);
     }
 }
 
@@ -192,6 +192,10 @@
         outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
     }
 
+    *::selection {
+        @apply bg-selection text-selection-foreground;
+    }
+
     /* Target elements with border classes */
     [class*='border'] {
         border-color: var(--border);
@@ -208,7 +212,7 @@
     }
 
     pre.shiki {
-        @apply p-0;
+        @apply px-0 py-4;
     }
 
     .shiki {
