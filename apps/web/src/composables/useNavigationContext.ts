@@ -43,29 +43,14 @@ export function provideNavigationContext() {
             title: 'Components',
             items: [
                 {
+                    title: 'Breadcrumbs',
+                    href: '/docs/components/breadcrumbs',
+                    active: route.path === '/docs/components/breadcrumbs',
+                },
+                {
                     title: 'Button',
                     href: '/docs/components/button',
                     active: route.path === '/docs/components/button',
-                },
-                {
-                    title: 'Input',
-                    href: '/docs/components/input',
-                    active: route.path === '/docs/components/input',
-                },
-                {
-                    title: 'Dropdown',
-                    href: '/docs/components/dropdown',
-                    active: route.path === '/docs/components/dropdown',
-                },
-                {
-                    title: 'Label',
-                    href: '/docs/components/label',
-                    active: route.path === '/docs/components/label',
-                },
-                {
-                    title: 'Table',
-                    href: '/docs/components/table',
-                    active: route.path === '/docs/components/table',
                 },
                 {
                     title: 'Checkbox',
@@ -76,6 +61,26 @@ export function provideNavigationContext() {
                     title: 'Drawer',
                     href: '/docs/components/drawer',
                     active: route.path === '/docs/components/drawer',
+                },
+                {
+                    title: 'Dropdown',
+                    href: '/docs/components/dropdown',
+                    active: route.path === '/docs/components/dropdown',
+                },
+                {
+                    title: 'Input',
+                    href: '/docs/components/input',
+                    active: route.path === '/docs/components/input',
+                },
+                {
+                    title: 'Label',
+                    href: '/docs/components/label',
+                    active: route.path === '/docs/components/label',
+                },
+                {
+                    title: 'Table',
+                    href: '/docs/components/table',
+                    active: route.path === '/docs/components/table',
                 },
             ],
         },
