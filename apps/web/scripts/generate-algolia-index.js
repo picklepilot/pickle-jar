@@ -6,6 +6,68 @@ import { fileURLToPath } from 'url'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+// Maximum size for each entry in bytes (10KB)
+const MAX_ENTRY_SIZE = 10000
+
+/**
+ * Truncates content to fit within the maximum entry size
+ * @param {Object} entry - The entry object to truncate
+ * @returns {Object} - The truncated entry
+ */
+function truncateEntry(entry) {
+    const entryStr = JSON.stringify(entry)
+
+    if (entryStr.length <= MAX_ENTRY_SIZE) {
+        return entry
+    }
+
+    console.log(
+        `⚠️  Entry ${entry.objectID} is too large (${entryStr.length} bytes), truncating...`
+    )
+
+    // Calculate how much we need to reduce the content
+    const currentSize = entryStr.length
+    const excessSize = currentSize - MAX_ENTRY_SIZE
+
+    // If content is the largest field, truncate it
+    if (entry.content && entry.content.length > excessSize) {
+        const newContentLength = entry.content.length - excessSize - 100 // Leave some buffer
+        entry.content =
+            entry.content.substring(0, newContentLength) + '... [truncated]'
+    }
+
+    // If still too large, remove optional fields
+    const optionalFields = [
+        'description',
+        'codeBlocks',
+        'props',
+        'events',
+        'slots',
+    ]
+    for (const field of optionalFields) {
+        if (entry[field] && JSON.stringify(entry).length > MAX_ENTRY_SIZE) {
+            console.log(`  Removing field: ${field}`)
+            delete entry[field]
+        }
+    }
+
+    // Final check - if still too large, truncate content more aggressively
+    let finalEntryStr = JSON.stringify(entry)
+    if (finalEntryStr.length > MAX_ENTRY_SIZE) {
+        const maxContentSize = MAX_ENTRY_SIZE - 500 // Reserve space for other fields
+        entry.content =
+            entry.content.substring(0, maxContentSize) + '... [truncated]'
+        console.log(
+            `  Aggressively truncating content to ${maxContentSize} characters`
+        )
+    }
+
+    const finalSize = JSON.stringify(entry).length
+    console.log(`  ✅ Final size: ${finalSize} bytes`)
+
+    return entry
+}
+
 // Configuration for different data sources
 const SOURCES = [
     {
@@ -25,7 +87,7 @@ const SOURCES = [
 
             const url = `${SOURCES[0].urlPrefix}/${path.basename(filePath, '.vue')}`
 
-            return {
+            const entry = {
                 objectID: url,
                 title,
                 content: markdown,
@@ -33,6 +95,8 @@ const SOURCES = [
                 source: 'docs',
                 ...frontmatter,
             }
+
+            return truncateEntry(entry)
         },
     },
     {
@@ -57,7 +121,7 @@ const SOURCES = [
             )
             const url = `${SOURCES[1].urlPrefix}/${relativePath ? relativePath + '/' : ''}${path.basename(filePath, '.vue')}`
 
-            return {
+            const entry = {
                 objectID: url,
                 title,
                 content: markdown,
@@ -65,6 +129,8 @@ const SOURCES = [
                 source: 'components',
                 ...frontmatter,
             }
+
+            return truncateEntry(entry)
         },
     },
 ]
