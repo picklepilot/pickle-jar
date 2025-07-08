@@ -268,7 +268,7 @@ describe('Checkbox', () => {
         })
 
         const button = wrapper.find('button')
-        expect(button.attributes('data-state')).toBe('unchecked')
+        expect(button.attributes('data-state')).toBe('indeterminate')
         // Note: The indeterminate state is handled via CSS and JavaScript
         // This test verifies the prop is passed correctly
     })
@@ -284,10 +284,9 @@ describe('Checkbox', () => {
         })
 
         const label = wrapper.find('label')
-        const clickEvent = new Event('click')
-        const preventDefaultSpy = vi.spyOn(clickEvent, 'preventDefault')
+        const preventDefaultSpy = vi.spyOn(Event.prototype, 'preventDefault')
 
-        await label.trigger('click', clickEvent)
+        await label.trigger('click')
         await nextTick()
 
         expect(preventDefaultSpy).toHaveBeenCalled()

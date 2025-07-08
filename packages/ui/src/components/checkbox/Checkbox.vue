@@ -2,6 +2,7 @@
     <div class="flex items-center space-x-2" :class="[theme?.container || '']">
         <button
             ref="checkboxRef"
+            :id="id"
             type="button"
             role="checkbox"
             :aria-checked="indeterminate ? 'mixed' : modelValue"
@@ -36,6 +37,7 @@
                 )
             "
             @click="handleLabelClick"
+            :id="`${id}-label`"
         >
             <slot></slot>
         </Label>
