@@ -8,7 +8,8 @@
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
-            "import": "./dist/index.js"
+            "import": "./dist/pickle-jar-core.es.js",
+            "require": "./dist/pickle-jar-core.umd.js"
         },
         "./styles/tailwind.css": "./src/styles/tailwind.css",
         "./dist/styles.css": "./dist/styles.css",
@@ -32,6 +33,7 @@
         "prepublishOnly": "npm run build:all"
     },
     "dependencies": {
+        "markdown-it": "^14.1.0",
         "tailwindcss": "^4.1.10"
     },
     "devDependencies": {

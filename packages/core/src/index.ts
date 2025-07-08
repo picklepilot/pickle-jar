@@ -1,8 +1,8 @@
 // Export shared types
-export * from './types/index.js'
+export * from './types/index'
 
 // Export shared utilities
-export * from './utils/index.js'
+export * from './utils/index'
 
 // Export shared constants
-export * from './constants/index.js'
+export * from './constants/index'
